@@ -226,7 +226,9 @@ public struct AIAgentSidePanel: View {
                     }
 
                     ForEach([
+                        ("/antigravity", preferences.tr("Trợ lý DeepMind Antigravity (/antigravity)", "Antigravity Agentic Pair Programmer (/antigravity)")),
                         ("/fix", preferences.tr("Sửa lỗi file đang mở với /fix", "/fix active file bugs")),
+                        ("/plan", preferences.tr("Lập kế hoạch kiến trúc với /plan", "/plan architecture")),
                         ("/ui", preferences.tr("Thiết kế / sửa UI với /ui", "/ui design & polish")),
                         ("/refactor", preferences.tr("Làm sạch & tối ưu với /refactor", "/refactor cleanly")),
                         ("@problems", nil),
@@ -275,6 +277,38 @@ public struct AIAgentSidePanel: View {
                         ForEach(aiService.messages) { msg in
                             messageBubble(msg, palette: palette)
                                 .id(msg.id)
+                        }
+                        if let active = aiService.activeProfile, active.requiresAPIKey, aiService.apiKey(for: active).isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "sparkles")
+                                        .foregroundColor(.orange)
+                                    Text(preferences.tr("Kích hoạt Antigravity Agent", "Activate Antigravity Agent"))
+                                        .font(.system(size: 13, weight: .bold))
+                                        .foregroundColor(Color(hex: palette.foreground))
+                                }
+                                Text(preferences.tr(
+                                    "Chưa có API Key cho \(active.name). Nhập API Key Google Gemini (tạo miễn phí tại aistudio.google.com) để kích hoạt lập trình tự động ngay trên iPhone.",
+                                    "No API Key set for \(active.name). Enter your Gemini or OpenRouter API key to activate autonomous coding directly on your iPhone."
+                                ))
+                                .font(.system(size: 11))
+                                .foregroundColor(Color(hex: palette.gutterForeground))
+
+                                Button {
+                                    showConfigSheet = true
+                                } label: {
+                                    Label(preferences.tr("Cấu hình API Key ngay", "Configure API Key Now"), systemImage: "key.fill")
+                                        .font(.system(size: 11, weight: .semibold))
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 6)
+                                        .background(Color(hex: palette.accent))
+                                        .foregroundColor(.white)
+                                        .cornerRadius(6)
+                                }
+                            }
+                            .padding(10)
+                            .background(Color(hex: palette.currentLineBackground))
+                            .cornerRadius(8)
                         }
                         if aiService.isThinking && !(aiService.messages.last?.isStreaming ?? false) {
                             HStack(spacing: 8) {

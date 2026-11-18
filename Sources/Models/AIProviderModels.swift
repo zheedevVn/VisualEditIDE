@@ -698,6 +698,10 @@ public struct AIProviderPreset: Identifiable, Hashable {
     public let note: String
 
     public static let all: [AIProviderPreset] = [
+        AIProviderPreset(id: "antigravity", name: "Antigravity (Google DeepMind)", format: .gemini,
+                         baseURL: "https://generativelanguage.googleapis.com/v1beta", requiresAPIKey: true, isLocal: false,
+                         symbol: "sparkles", defaultModelFilter: "gemini",
+                         note: "Siêu trợ lý Agentic Coding tự động sinh Diff & vá lỗi (DeepMind)"),
         AIProviderPreset(id: "openai", name: "OpenAI", format: .openAICompatible,
                          baseURL: "https://api.openai.com/v1", requiresAPIKey: true, isLocal: false,
                          symbol: "cloud", defaultModelFilter: "", note: "GPT / o-series"),

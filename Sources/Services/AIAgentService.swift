@@ -27,6 +27,30 @@ public struct AgentSkill: Identifiable, Codable, Equatable {
 
     public static let builtInSkills: [AgentSkill] = [
         AgentSkill(
+            id: "skill.antigravity",
+            slashCommand: "/antigravity",
+            title: "Antigravity Agentic Pair Programmer",
+            summary: "Siêu trợ lý Google DeepMind: suy luận sâu, quét toàn diện codebase & sinh diff chuẩn.",
+            instruction: "You are operating in Antigravity Agentic mode. Act as an expert senior staff engineer pair programming with the user. Thoroughly explore related project files, reason deeply about root causes and edge cases, and output complete, surgical <file_edit> blocks to solve the request end-to-end.",
+            isBuiltIn: true
+        ),
+        AgentSkill(
+            id: "skill.plan",
+            slashCommand: "/plan",
+            title: "Architectural Planning & Strategy",
+            summary: "Lập kế hoạch kiến trúc từng bước, phân tích rủi ro & lộ trình trước khi code.",
+            instruction: "Provide a structured, step-by-step implementation plan. Detail architecture considerations, dependencies, potential regressions, and verification criteria before proposing concrete code modifications.",
+            isBuiltIn: true
+        ),
+        AgentSkill(
+            id: "skill.goal",
+            slashCommand: "/goal",
+            title: "Autonomous Goal Execution",
+            summary: "Kiên trì thực hiện mục tiêu đến cùng, tự kiểm tra mã nguồn cho đến khi hoàn thành.",
+            instruction: "Pursue the user's objective thoroughly without stopping early. Analyze all interconnected components, handle corner cases, and generate complete code changes until the goal is fully achieved.",
+            isBuiltIn: true
+        ),
+        AgentSkill(
             id: "skill.fix",
             slashCommand: "/fix",
             title: "Fix Compile & Runtime Bugs",
@@ -271,7 +295,7 @@ public final class AIAgentService: ObservableObject {
 
     private static let defaultWelcomeMessage = AIChatMessage(
         role: .assistant,
-        text: "Xin chào! Mình là **Visual IDE Coding Agent**.\n\nGõ `/` để gọi Skill (`/fix`, `/ui`, `/refactor`, `/test`...), `@` để gắn file hoặc context (`@problems`, `@terminal`, `@git`), hoặc đính kèm ảnh chụp giao diện / lỗi để mình sửa trực tiếp."
+        text: "Xin chào! Mình là **Visual IDE Antigravity Agent** (Google DeepMind).\n\nGõ `/` để gọi Skill (`/antigravity`, `/plan`, `/goal`, `/fix`, `/ui`, `/refactor`...), `@` để gắn file hoặc context (`@problems`, `@terminal`, `@git`), hoặc đính kèm ảnh chụp giao diện / lỗi để mình sửa trực tiếp."
     )
 
     @Published public private(set) var profiles: [AIProviderProfile] = []
@@ -436,8 +460,12 @@ public final class AIAgentService: ObservableObject {
 
     public var modelName: String {
         guard let profile = activeProfile else { return "Chưa cấu hình" }
+        let key = apiKey(for: profile)
+        if profile.requiresAPIKey && key.isEmpty {
+            return "\(profile.name) (Cần Key)"
+        }
         let model = profile.resolvedModelID
-        return model.isEmpty ? "Chọn model" : model
+        return model.isEmpty ? profile.name : model
     }
 
     public func profile(id: UUID) -> AIProviderProfile? {
@@ -1303,8 +1331,8 @@ public final class AIAgentService: ObservableObject {
     private func buildSystemPrompt(_ ctx: PromptContext) -> String {
         var sections: [String] = [
             """
-            You are the built-in Coding Agent inside 'Visual IDE', a native iOS / iPadOS code editor (similar to Cursor, VS Code Copilot and Antigravity).
-            Reply in the user's language. Keep explanations concise and mobile-friendly.
+            You are Antigravity Agent, the built-in AI Pair Programmer inside 'Visual IDE' on iOS & iPadOS (Google DeepMind agentic coding architecture).
+            Reply in the user's language. Keep explanations concise, clear, and mobile-friendly.
             Whenever you create a new file or modify an existing file in the user's project, you MUST output the COMPLETE updated file content wrapped in this exact XML block:
             <file_edit path="relative/path/to/file.ext">
             ...full file content...
@@ -1366,6 +1394,13 @@ public final class AIAgentService: ObservableObject {
         } else {
             profiles = migrateLegacyConfiguration()
             persistProfiles()
+        }
+        if profiles.isEmpty {
+            if let antigravityPreset = AIProviderPreset.preset(id: "antigravity") {
+                let defaultProfile = AIProviderProfile(preset: antigravityPreset)
+                profiles = [defaultProfile]
+                persistProfiles()
+            }
         }
         if let raw = defaults.string(forKey: Self.activeProfileKey),
            let id = UUID(uuidString: raw),
