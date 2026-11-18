@@ -167,7 +167,7 @@ public final class WorkspaceManager: ObservableObject {
         try? FileManager.default.createDirectory(at: target, withIntermediateDirectories: true)
         let readme = target.appendingPathComponent("README.md")
         if !FileManager.default.fileExists(atPath: readme.path) {
-            try? "# \(folderName)\n\nCreated in NexusKing Mobile IDE.\n".write(to: readme, atomically: true, encoding: .utf8)
+            try? "# \(folderName)\n\nCreated in Visual IDE.\n".write(to: readme, atomically: true, encoding: .utf8)
         }
         switchWorkspaceFolder(to: target)
     }
@@ -222,14 +222,14 @@ public final class WorkspaceManager: ObservableObject {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>NexusKing Live Server</title>
+          <title>Visual IDE Live Server</title>
           <link rel="stylesheet" href="style.css" />
         </head>
         <body>
           <div class="container">
             <span class="badge">LIVE SERVER :5500</span>
-            <h1>NexusKing Mobile IDE</h1>
-            <p>Sửa code trong <b>NexusKing</b> và mở <code>localhost:5500</code> trên <b>Safari</b> để xem tự động Hot-Reload!</p>
+            <h1>Visual IDE</h1>
+            <p>Sửa code trong <b>Visual IDE</b> và mở <code>localhost:5500</code> trên <b>Safari</b> để xem tự động Hot-Reload!</p>
             <button id="counterBtn">Bấm thử: 0</button>
           </div>
           <script src="app.js"></script>
@@ -301,7 +301,7 @@ public final class WorkspaceManager: ObservableObject {
         int main() {
             std::vector<int> nums = {42, 7, 19, 88, 3};
             std::sort(nums.begin(), nums.end());
-            std::cout << "NexusKing Zero-Config C++20 Sorted: ";
+            std::cout << "Visual IDE Zero-Config C++20 Sorted: ";
             for (int n : nums) std::cout << n << " ";
             std::cout << "\\n";
             return 0;
@@ -317,19 +317,19 @@ public final class WorkspaceManager: ObservableObject {
                 a, b = b, a + b
             return res
 
-        print("NexusKing Zero-Config Python:", fib(10))
+        print("Visual IDE Zero-Config Python:", fib(10))
         """
 
         let swiftSample = CodeLanguage.swift.starterTemplate
         let readmeSample = """
-        # NexusKing Mobile IDE Workspace
+        # Visual IDE Workspace
 
-        Chào mừng bạn đến với **NexusKing** — AI-Native Mobile IDE trên iOS.
+        Chào mừng bạn đến với **Visual IDE** — AI-Native Mobile IDE trên iOS.
 
         ## Kiến trúc thực thi nhanh
         ```mermaid
         flowchart LR
-            Editor["NexusKing Code Editor"] --> Live["Live Server :5500"]
+            Editor["Visual IDE Code Editor"] --> Live["Live Server :5500"]
             Editor --> Runner["Zero-Config Runner / SSH VPS"]
             Editor --> Agent["Coding Agent + Diff Review"]
         ```
@@ -360,8 +360,8 @@ public final class WorkspaceManager: ObservableObject {
         )) ?? []
 
         let ignoredNames: Set<String> = [
-            ".git", ".DS_Store", "__MACOSX", ".NexusKingmeta", ".ExternalMirror",
-            ".NexusKingbaseline.json", ".NexusKingdeleted.json"
+            ".git", ".DS_Store", "__MACOSX", ".VisualIDEmeta", ".ExternalMirror",
+            ".VisualIDEbaseline.json", ".VisualIDEdeleted.json"
         ]
 
         var dirs: [FileNode] = []
@@ -914,7 +914,7 @@ public final class WorkspaceManager: ObservableObject {
             if isCaseOnlyRename && FileManager.default.fileExists(atPath: dest.path) {
                 // Case-insensitive APFS requires a two-step move for case-only renames (e.g. test.c -> Test.c)
                 let tempURL = url.deletingLastPathComponent()
-                    .appendingPathComponent(".NexusKing_rename_\(UUID().uuidString)_\(trimmed)")
+                    .appendingPathComponent(".VisualIDE_rename_\(UUID().uuidString)_\(trimmed)")
                 try FileManager.default.moveItem(at: url, to: tempURL)
                 try FileManager.default.moveItem(at: tempURL, to: dest)
             } else {
@@ -1022,7 +1022,7 @@ public final class WorkspaceManager: ObservableObject {
                 let extDst = externalRoot.appendingPathComponent(newRel)
                 if isCaseOnlyRename && FileManager.default.fileExists(atPath: extDst.path) {
                     let extTmp = extSrc.deletingLastPathComponent()
-                        .appendingPathComponent(".NexusKing_rename_\(UUID().uuidString)_\(trimmed)")
+                        .appendingPathComponent(".VisualIDE_rename_\(UUID().uuidString)_\(trimmed)")
                     try? FileManager.default.moveItem(at: extSrc, to: extTmp)
                     try? FileManager.default.moveItem(at: extTmp, to: extDst)
                 } else {
@@ -1085,7 +1085,7 @@ public final class WorkspaceManager: ObservableObject {
             // External folder picked from Files.app / iCloud Drive / Downloads:
             let acquiredScope = hasSecurityScope ? true : externalURL.startAccessingSecurityScopedResource()
             if let bookmark = try? externalURL.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil) {
-                UserDefaults.standard.set(bookmark, forKey: "NexusKing.lastExternalFolderBookmark")
+                UserDefaults.standard.set(bookmark, forKey: "VisualIDE.lastExternalFolderBookmark")
             }
 
             let mirrorContainer = documentsDirectory.appendingPathComponent("_ExternalFolders", isDirectory: true)
@@ -1472,7 +1472,7 @@ public final class WorkspaceManager: ObservableObject {
         let digest = SHA256.hash(data: Data(canonical.utf8))
         let safeKey = digest.map { String(format: "%02x", $0) }.joined()
         let dir = appSupport
-            .appendingPathComponent("NexusKingWorkspaceMeta", isDirectory: true)
+            .appendingPathComponent("VisualIDEWorkspaceMeta", isDirectory: true)
             .appendingPathComponent(safeKey, isDirectory: true)
         if !FileManager.default.fileExists(atPath: dir.path) {
             // Migrate legacy suffix(64) base64 folder if present
@@ -1483,7 +1483,7 @@ public final class WorkspaceManager: ObservableObject {
             let legacyKey = String(rawLegacy.suffix(64))
             if !legacyKey.isEmpty {
                 let legacyDir = appSupport
-                    .appendingPathComponent("NexusKingWorkspaceMeta", isDirectory: true)
+                    .appendingPathComponent("VisualIDEWorkspaceMeta", isDirectory: true)
                     .appendingPathComponent(legacyKey, isDirectory: true)
                 if FileManager.default.fileExists(atPath: legacyDir.path) {
                     try? FileManager.default.createDirectory(at: dir.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -1511,7 +1511,7 @@ public final class WorkspaceManager: ObservableObject {
         deletedGhostContents = [:]
         let metaDir = workspaceMetaDirectory(for: root)
         let newGhostURL = metaDir.appendingPathComponent("deleted.json")
-        let legacyGhostURL = root.appendingPathComponent(".NexusKingdeleted.json")
+        let legacyGhostURL = root.appendingPathComponent(".VisualIDEdeleted.json")
 
         if let ghostData = (try? Data(contentsOf: newGhostURL)) ?? (try? Data(contentsOf: legacyGhostURL)),
            let decodedGhosts = try? JSONDecoder().decode([String: String].self, from: ghostData) {
@@ -1519,7 +1519,7 @@ public final class WorkspaceManager: ObservableObject {
         }
 
         let newBaselineURL = metaDir.appendingPathComponent("baseline.json")
-        let legacyBaselineURL = root.appendingPathComponent(".NexusKingbaseline.json")
+        let legacyBaselineURL = root.appendingPathComponent(".VisualIDEbaseline.json")
 
         if let data = (try? Data(contentsOf: newBaselineURL)) ?? (try? Data(contentsOf: legacyBaselineURL)),
            let decoded = try? JSONDecoder().decode([String: String].self, from: data) {
@@ -1562,7 +1562,7 @@ public final class WorkspaceManager: ObservableObject {
             options: []
         ) else { return map }
 
-        let ignoredNames: Set<String> = [".git", ".DS_Store", "__MACOSX", ".NexusKingmeta", ".ExternalMirror"]
+        let ignoredNames: Set<String> = [".git", ".DS_Store", "__MACOSX", ".VisualIDEmeta", ".ExternalMirror"]
         let rootPrefix = canonicalPath(root)
         for case let fileURL as URL in enumerator {
             let name = fileURL.lastPathComponent
@@ -1976,14 +1976,14 @@ public final class WorkspaceManager: ObservableObject {
                 <head>
                   <meta charset="UTF-8" />
                   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                  <title>\(folderName) - NexusKing Live Web</title>
+                  <title>\(folderName) - Visual IDE Live Web</title>
                   <link rel="stylesheet" href="styles.css" />
                 </head>
                 <body>
                   <main class="card">
                     <span class="tag">LIVE :5500</span>
                     <h1>\(folderName)</h1>
-                    <p>Chỉnh sửa HTML/CSS/JS trong NexusKing Mobile IDE và chia sẻ link ngay lập tức.</p>
+                    <p>Chỉnh sửa HTML/CSS/JS trong Visual IDE và chia sẻ link ngay lập tức.</p>
                     <button id="actionBtn">Bấm thử tương tác</button>
                     <p id="statusText" class="muted"></p>
                   </main>
@@ -2069,8 +2069,8 @@ public final class WorkspaceManager: ObservableObject {
                 ```mermaid
                 sequenceDiagram
                     participant PC as VS Code / PC Folder
-                    participant Relay as NexusKing-pc-sync (Wi-Fi / 4G)
-                    participant App as NexusKing iOS IDE
+                    participant Relay as VisualIDE-pc-sync (Wi-Fi / 4G)
+                    participant App as Visual IDE iOS
                     PC->>Relay: Save file (fs.watch)
                     Relay->>App: WebSocket JSON upsert
                     App-->>PC: Auto-Save Patch (2-Way)

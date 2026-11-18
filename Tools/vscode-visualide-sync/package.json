@@ -1,7 +1,7 @@
 {
-  "name": "vscode-nexusking-sync",
-  "displayName": "NexusKing Mobile IDE Sync",
-  "description": "Dong bo code 2 chieu theo thoi gian thuc giua VS Code (PC) va NexusKing iOS Mobile IDE qua 4G/5G (E2EE AES-256-GCM Relay) va Wi-Fi LAN.",
+  "name": "vscode-visualide-sync",
+  "displayName": "Visual IDE Mobile Sync",
+  "description": "Dong bo code 2 chieu theo thoi gian thuc giua VS Code (PC) va Visual IDE iOS Mobile IDE qua 4G/5G (E2EE AES-256-GCM Relay) va Wi-Fi LAN.",
   "version": "5.1.0",
   "publisher": "zheedevVN",
   "author": {
@@ -27,48 +27,48 @@
   "contributes": {
     "commands": [
       {
-        "command": "nexusking.menu",
-        "title": "NexusKing Sync: Bảng điều khiển & Trạng thái"
+        "command": "visualide.menu",
+        "title": "Visual IDE Sync: Bảng điều khiển & Trạng thái"
       },
       {
-        "command": "nexusking.quickPairPin",
-        "title": "NexusKing Sync: Hiện mã PIN 6 số ghép nối nhanh"
+        "command": "visualide.quickPairPin",
+        "title": "Visual IDE Sync: Hiện mã PIN 6 số ghép nối nhanh"
       },
       {
-        "command": "nexusking.setPermanentKey",
-        "title": "NexusKing Sync: Nhập / Tạo Khóa Đồng Bộ Vĩnh Viễn"
+        "command": "visualide.setPermanentKey",
+        "title": "Visual IDE Sync: Nhập / Tạo Khóa Đồng Bộ Vĩnh Viễn"
       },
       {
-        "command": "nexusking.pushSnapshot",
-        "title": "NexusKing Sync: Đẩy toàn bộ Workspace sang Điện thoại"
+        "command": "visualide.pushSnapshot",
+        "title": "Visual IDE Sync: Đẩy toàn bộ Workspace sang Điện thoại"
       },
       {
-        "command": "nexusking.disconnect",
-        "title": "NexusKing Sync: Ngắt kết nối"
+        "command": "visualide.disconnect",
+        "title": "Visual IDE Sync: Ngắt kết nối"
       }
     ],
     "configuration": {
-      "title": "NexusKing Mobile Sync",
+      "title": "Visual IDE Mobile Sync",
       "properties": {
-        "nexusking.relayUrl": {
+        "visualide.relayUrl": {
           "type": "string",
           "default": "wss://build.kaydus.xyz/v1/sync",
           "description": "WebSocket Relay E2EE URL (4G/5G & Internet)"
         },
-        "nexusking.lanPort": {
+        "visualide.lanPort": {
           "type": "number",
           "default": 30120,
           "description": "Local Wi-Fi LAN WebSocket port"
         },
-        "nexusking.autoConnectOnStartup": {
+        "visualide.autoConnectOnStartup": {
           "type": "boolean",
           "default": true,
           "description": "Tu dong ket noi khi mo VS Code neu da luu Khoa Vinh Vien"
         },
-        "nexusking.autoSaveIncomingEdits": {
+        "visualide.autoSaveIncomingEdits": {
           "type": "boolean",
           "default": true,
-          "description": "Tu dong luu ra o cung khi nhan thay doi tu NexusKing iOS"
+          "description": "Tu dong luu ra o cung khi nhan thay doi tu Visual IDE iOS"
         }
       }
     }

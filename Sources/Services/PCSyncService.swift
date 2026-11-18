@@ -75,7 +75,7 @@ public final class PCSyncService: NSObject, ObservableObject {
     nonisolated public static let defaultRelayBaseURL = "https://build.kaydus.xyz"
 
     @Published public var relayServerURL: String {
-        didSet { UserDefaults.standard.set(relayServerURL, forKey: "NexusKing.pcsync.relay") }
+        didSet { UserDefaults.standard.set(relayServerURL, forKey: "Visual IDE.pcsync.relay") }
     }
     @Published public var permanentSyncKey: String {
         didSet { KeychainVault.saveString(permanentSyncKey, forKey: "pcsync.permanentKey") }
@@ -83,25 +83,25 @@ public final class PCSyncService: NSObject, ObservableObject {
     @Published public var quickPairPin: String = ""
     @Published public var autoConnectEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(autoConnectEnabled, forKey: "NexusKing.pcsync.autoconnect")
+            UserDefaults.standard.set(autoConnectEnabled, forKey: "Visual IDE.pcsync.autoconnect")
             autoReconnect = autoConnectEnabled
         }
     }
 
     @Published public var lanWebSocketURL: String {
-        didSet { UserDefaults.standard.set(lanWebSocketURL, forKey: "NexusKing.pcsync.lanURL") }
+        didSet { UserDefaults.standard.set(lanWebSocketURL, forKey: "Visual IDE.pcsync.lanURL") }
     }
     @Published public var internetWebSocketURL: String {
-        didSet { UserDefaults.standard.set(internetWebSocketURL, forKey: "NexusKing.pcsync.wanURL") }
+        didSet { UserDefaults.standard.set(internetWebSocketURL, forKey: "Visual IDE.pcsync.wanURL") }
     }
     @Published public var authToken: String {
-        didSet { KeychainVault.saveString(authToken, forKey: "NexusKing.pcsync.token") }
+        didSet { KeychainVault.saveString(authToken, forKey: "Visual IDE.pcsync.token") }
     }
     @Published public var autoReconnect: Bool {
-        didSet { UserDefaults.standard.set(autoReconnect, forKey: "NexusKing.pcsync.autoReconnect") }
+        didSet { UserDefaults.standard.set(autoReconnect, forKey: "Visual IDE.pcsync.autoReconnect") }
     }
     @Published public var autoSyncEdits: Bool {
-        didSet { UserDefaults.standard.set(autoSyncEdits, forKey: "NexusKing.pcsync.autoSync") }
+        didSet { UserDefaults.standard.set(autoSyncEdits, forKey: "Visual IDE.pcsync.autoSync") }
     }
 
     @Published public private(set) var transportMode: PCSyncTransportMode = .disconnected
@@ -144,20 +144,20 @@ public final class PCSyncService: NSObject, ObservableObject {
     private var boundWorkspaceCanonicalPath: String? = nil
 
     public override init() {
-        let savedRelay = UserDefaults.standard.string(forKey: "NexusKing.pcsync.relay") ?? Self.defaultRelayBaseURL
+        let savedRelay = UserDefaults.standard.string(forKey: "Visual IDE.pcsync.relay") ?? Self.defaultRelayBaseURL
         let savedPerm = KeychainVault.loadString(forKey: "pcsync.permanentKey") ?? ""
-        let savedAuto = UserDefaults.standard.object(forKey: "NexusKing.pcsync.autoconnect") as? Bool
-            ?? UserDefaults.standard.object(forKey: "NexusKing.pcsync.autoReconnect") as? Bool
+        let savedAuto = UserDefaults.standard.object(forKey: "Visual IDE.pcsync.autoconnect") as? Bool
+            ?? UserDefaults.standard.object(forKey: "Visual IDE.pcsync.autoReconnect") as? Bool
             ?? true
         self.relayServerURL = savedRelay.isEmpty ? Self.defaultRelayBaseURL : savedRelay
         self.permanentSyncKey = savedPerm
         self.autoConnectEnabled = savedAuto
-        self.lanWebSocketURL = UserDefaults.standard.string(forKey: "NexusKing.pcsync.lanURL") ?? ""
-        self.internetWebSocketURL = UserDefaults.standard.string(forKey: "NexusKing.pcsync.wanURL") ?? ""
-        let legacyTok = KeychainVault.loadString(forKey: "NexusKing.pcsync.token") ?? ""
+        self.lanWebSocketURL = UserDefaults.standard.string(forKey: "Visual IDE.pcsync.lanURL") ?? ""
+        self.internetWebSocketURL = UserDefaults.standard.string(forKey: "Visual IDE.pcsync.wanURL") ?? ""
+        let legacyTok = KeychainVault.loadString(forKey: "Visual IDE.pcsync.token") ?? ""
         self.authToken = legacyTok.isEmpty ? savedPerm : legacyTok
         self.autoReconnect = savedAuto
-        self.autoSyncEdits = UserDefaults.standard.object(forKey: "NexusKing.pcsync.autoSync") as? Bool ?? true
+        self.autoSyncEdits = UserDefaults.standard.object(forKey: "Visual IDE.pcsync.autoSync") as? Bool ?? true
         super.init()
         loadOutboxFromDisk()
         startNetworkMonitor()
@@ -196,13 +196,13 @@ public final class PCSyncService: NSObject, ObservableObject {
 
     // MARK: - E2EE Key Derivation & AES-256-GCM Helpers (Identical to extension.js & sync.mjs)
     public nonisolated static func deriveRoomID(secret: String) -> String {
-        let normalized = "NexusKing-room-v1:" + secret.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalized = "VisualIDE-room-v1:" + secret.trimmingCharacters(in: .whitespacesAndNewlines)
         let digest = SHA256.hash(data: Data(normalized.utf8))
         return digest.map { String(format: "%02x", $0) }.joined()
     }
 
     public nonisolated static func deriveAESKey(secret: String) -> SymmetricKey {
-        let normalized = "NexusKing-e2ee-v1:" + secret.trimmingCharacters(in: .whitespacesAndNewlines)
+        let normalized = "VisualIDE-e2ee-v1:" + secret.trimmingCharacters(in: .whitespacesAndNewlines)
         let digest = SHA256.hash(data: Data(normalized.utf8))
         return SymmetricKey(data: Data(digest))
     }
@@ -234,7 +234,7 @@ public final class PCSyncService: NSObject, ObservableObject {
             let idx = Int.random(in: 0..<alphabet.count)
             suffix.append(alphabet[idx])
         }
-        let generated = "NexusKing-\(suffix)"
+        let generated = "Visual IDE-\(suffix)"
         permanentSyncKey = generated
         authToken = generated
         return generated
@@ -365,7 +365,7 @@ public final class PCSyncService: NSObject, ObservableObject {
             quickPairPin = trimmed
             return true
         }
-        if trimmed.hasPrefix("NexusKing-") && trimmed.count >= 12 {
+        if trimmed.hasPrefix("Visual IDE-") && trimmed.count >= 12 {
             permanentSyncKey = trimmed
             authToken = trimmed
             return true
@@ -614,7 +614,7 @@ public final class PCSyncService: NSObject, ObservableObject {
         let hello: [String: Any] = [
             "type": "hello",
             "token": token,
-            "client": "NexusKing-iOS",
+            "client": "Visual IDE-iOS",
             "version": "5.1.0"
         ]
         guard await sendRawJSON(hello, on: task) else {
@@ -697,7 +697,7 @@ public final class PCSyncService: NSObject, ObservableObject {
             let hello: [String: Any] = [
                 "type": "hello",
                 "token": token,
-                "client": "NexusKing-iOS-LAN",
+                "client": "Visual IDE-iOS-LAN",
                 "version": "5.1.0"
             ]
             guard await self.sendRawJSON(hello, on: lanTask) else {
@@ -902,7 +902,7 @@ public final class PCSyncService: NSObject, ObservableObject {
         guard let task = webSocketTask, connectionGeneration == generation else { return }
         let hello: [String: Any] = [
             "type": "hello",
-            "client": "NexusKing-iOS",
+            "client": "Visual IDE-iOS",
             "version": "5.1.0",
             "pinPairing": activeSessionIsPinPairing
         ]
@@ -1231,7 +1231,7 @@ public final class PCSyncService: NSObject, ObservableObject {
 
     private var outboxFileURL: URL {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        let dir = appSupport.appendingPathComponent("NexusKingPCSync", isDirectory: true)
+        let dir = appSupport.appendingPathComponent("Visual IDEPCSync", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         return dir.appendingPathComponent("outbox.json")
     }
@@ -1273,14 +1273,14 @@ public final class PCSyncService: NSObject, ObservableObject {
         suggestedToken: String,
         relayBaseURL: String = defaultRelayBaseURL
     ) -> String {
-        let keyLiteral = suggestedToken.isEmpty ? "NexusKing-replace-with-your-key" : suggestedToken
+        let keyLiteral = suggestedToken.isEmpty ? "Visual IDE-replace-with-your-key" : suggestedToken
         let relayClean = relayBaseURL.trimmingCharacters(in: .whitespacesAndNewlines)
         let relayDefault = relayClean.isEmpty ? defaultRelayBaseURL : relayClean
         let keyJS = jsStringLiteral(keyLiteral)
         let relayJS = jsStringLiteral(relayDefault)
         return """
         #!/usr/bin/env node
-        // NexusKing Zero-Dependency PC <-> Mobile 2-Way E2EE Companion (Node.js 18+)
+        // Visual IDE Zero-Dependency PC <-> Mobile 2-Way E2EE Companion (Node.js 18+)
         // Auto-generated offline fallback — official latest script: \(relayDefault)/sync.mjs
         import fs from "node:fs";
         import path from "node:path";
@@ -1307,14 +1307,14 @@ public final class PCSyncService: NSObject, ObservableObject {
         const PERMANENT_KEY = getArg("key", getArg("token", \(keyJS))).trim();
         const QUICK_PIN = getArg("pin", "").trim();
         const WS_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-        const IGNORED = new Set([".git", "node_modules", ".next", "dist", "build", ".DS_Store", ".NexusKing"]);
+        const IGNORED = new Set([".git", "node_modules", ".next", "dist", "build", ".DS_Store", ".VisualIDE"]);
         const CLIENT_ID = "pc-" + crypto.randomBytes(6).toString("hex");
 
         function deriveRoom(secret) {
-          return crypto.createHash("sha256").update("NexusKing-room-v1:" + String(secret || "").trim(), "utf8").digest("hex");
+          return crypto.createHash("sha256").update("VisualIDE-room-v1:" + String(secret || "").trim(), "utf8").digest("hex");
         }
         function deriveAESKey(secret) {
-          return crypto.createHash("sha256").update("NexusKing-e2ee-v1:" + String(secret || "").trim(), "utf8").digest();
+          return crypto.createHash("sha256").update("VisualIDE-e2ee-v1:" + String(secret || "").trim(), "utf8").digest();
         }
         function encryptE2EE(obj, aesKey) {
           const iv = crypto.randomBytes(12);
@@ -1359,7 +1359,7 @@ public final class PCSyncService: NSObject, ObservableObject {
             let entries;
             try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
             for (const entry of entries) {
-              if (IGNORED.has(entry.name) || entry.name.startsWith(".NexusKing") || entry.isSymbolicLink()) continue;
+              if (IGNORED.has(entry.name) || entry.name.startsWith(".VisualIDE") || entry.isSymbolicLink()) continue;
               const full = path.join(dir, entry.name);
               if (entry.isDirectory()) walk(full);
               else if (entry.isFile()) {
@@ -1479,7 +1479,7 @@ public final class PCSyncService: NSObject, ObservableObject {
             ch.on("close", (code) => { clearTimeout(t); replyFn({ type: "cmd_result", id: msg.id || "", exitCode: code ?? 0, stdout: out, stderr: err }); });
           }
         }
-        const server = http.createServer((_, res) => { res.writeHead(200); res.end("NexusKing PC Sync Ready\\n"); });
+        const server = http.createServer((_, res) => { res.writeHead(200); res.end("Visual IDE PC Sync Ready\\n"); });
         server.on("upgrade", (req, sock) => {
           const k = req.headers["sec-websocket-key"];
           if (!k) return sock.destroy();
@@ -1552,7 +1552,7 @@ public final class PCSyncService: NSObject, ObservableObject {
         fs.watch(ROOT, { recursive: true }, (_, filename) => {
           if (!filename) return;
           const rel = String(filename).split(path.sep).join("/");
-          if (rel.split("/").some((p) => IGNORED.has(p) || p.startsWith(".NexusKing")) || isSuppressed(rel)) return;
+          if (rel.split("/").some((p) => IGNORED.has(p) || p.startsWith(".VisualIDE")) || isSuppressed(rel)) return;
           const abs = safeResolve(rel);
           if (!abs) return;
           setTimeout(() => {
@@ -1569,7 +1569,7 @@ public final class PCSyncService: NSObject, ObservableObject {
           }, 120);
         });
         server.listen(PORT, "0.0.0.0", () => {
-          console.log("\\n[NexusKing PC SYNC E2EE READY] ->", RELAY_BASE);
+          console.log("\\n[Visual IDE PC SYNC E2EE READY] ->", RELAY_BASE);
           console.log("Key :", PERMANENT_KEY);
           if (QUICK_PIN) console.log("PIN :", QUICK_PIN);
           startRelay(PERMANENT_KEY, false);

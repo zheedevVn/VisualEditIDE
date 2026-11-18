@@ -4,13 +4,13 @@ import Crypto
 import Citadel
 
 public enum KeychainVault {
-    private static let serviceName = "com.nexusking.app.vault"
+    private static let serviceName = "com.visualide.app.vault"
     private static let lock = NSLock()
-    private static let encryptedMagic = Data("NexusKingV2".utf8)
+    private static let encryptedMagic = Data("VisualIDEV2".utf8)
 
     private static var fallbackDirectory: URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        var dir = base.appendingPathComponent(".NexusKingvault", isDirectory: true)
+        var dir = base.appendingPathComponent(".VisualIDEvault", isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         var rv = URLResourceValues()
         rv.isExcludedFromBackup = true
@@ -151,8 +151,8 @@ public enum KeychainVault {
             privateKey = fresh
         }
 
-        let pubLine = formatOpenSSHEd25519PublicKey(privateKey.publicKey.rawRepresentation, comment: "NexusKing-mobile-ide")
-        let privPEM = privateKey.makeSSHRepresentation(comment: "NexusKing-mobile-ide")
+        let pubLine = formatOpenSSHEd25519PublicKey(privateKey.publicKey.rawRepresentation, comment: "Visual IDE-mobile-ide")
+        let privPEM = privateKey.makeSSHRepresentation(comment: "Visual IDE-mobile-ide")
         return GeneratedSSHKeyPair(
             publicKeyAuthorizedLine: pubLine,
             privateKeyOpenSSHPEM: privPEM,

@@ -1,4 +1,4 @@
-# NexusKing Theos Builder image — runs ONE untrusted build per container.
+# Visual IDE Theos Builder image — runs ONE untrusted build per container.
 # Toolchain: Theos (master) + L1ghtmann iOS toolchain for Linux + ldid + latest iOS SDKs.
 FROM ubuntu:22.04
 
@@ -37,9 +37,9 @@ RUN mkdir -p "$THEOS/sdks" /tmp/sdks \
 RUN useradd --uid 1000 --create-home --shell /bin/bash builder \
  && chmod -R a+rX "$THEOS"
 
-COPY entrypoint.sh /usr/local/bin/NexusKing-build
-RUN chmod 755 /usr/local/bin/NexusKing-build
+COPY entrypoint.sh /usr/local/bin/visualide-build
+RUN chmod 755 /usr/local/bin/visualide-build
 
 USER 1000:1000
 WORKDIR /work
-ENTRYPOINT ["/usr/local/bin/NexusKing-build"]
+ENTRYPOINT ["/usr/local/bin/visualide-build"]

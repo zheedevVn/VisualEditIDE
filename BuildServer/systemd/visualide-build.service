@@ -1,5 +1,5 @@
 [Unit]
-Description=NexusKing Theos Build Server
+Description=VisualIDE Theos Build Server
 After=network-online.target docker.service
 Wants=network-online.target
 Requires=docker.service
@@ -9,10 +9,10 @@ Type=simple
 User=bnexusking
 Group=bnexusking
 SupplementaryGroups=docker
-EnvironmentFile=/etc/NexusKing-build.env
-Environment=HOME=/var/lib/NexusKing-build
-Environment=DOCKER_CONFIG=/var/lib/NexusKing-build/.docker
-ExecStart=/usr/bin/python3 /opt/NexusKing-build/src/BuildServer/server/build_server.py
+EnvironmentFile=/etc/VisualIDE-build.env
+Environment=HOME=/var/lib/VisualIDE-build
+Environment=DOCKER_CONFIG=/var/lib/VisualIDE-build/.docker
+ExecStart=/usr/bin/python3 /opt/VisualIDE-build/src/BuildServer/server/build_server.py
 Restart=always
 RestartSec=3
 
@@ -21,7 +21,7 @@ NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
 PrivateTmp=true
-ReadWritePaths=/var/lib/NexusKing-build
+ReadWritePaths=/var/lib/VisualIDE-build
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true

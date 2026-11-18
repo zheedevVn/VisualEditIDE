@@ -320,7 +320,7 @@ public struct ThemeStudioEditorSheet: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 codePreviewLine(num: "1", segments: [
-                    ("// NexusKing Theme Studio Live Preview", draft.comment)
+                    ("// Visual IDE Theme Studio Live Preview", draft.comment)
                 ], highlighted: false)
                 codePreviewLine(num: "2", segments: [
                     ("struct ", draft.keyword),

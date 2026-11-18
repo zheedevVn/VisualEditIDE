@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-NexusKing Theos Build & Zero-Knowledge Sync Relay Server
+Visual IDE Theos Build & Zero-Knowledge Sync Relay Server
 ---------------------------------------------------
-1. Accepts a zipped Theos project from the NexusKing iOS app, queues it, and builds
+1. Accepts a zipped Theos project from the Visual IDE iOS app, queues it, and builds
    it inside a throw-away, network-less, unprivileged Docker container.
 2. Hosts a zero-knowledge end-to-end encrypted WebSocket Relay (`/v1/sync`) for
-   2-way real-time file sync between VS Code (PC) and NexusKing (iOS) over 4G/5G & Wi-Fi.
+   2-way real-time file sync between VS Code (PC) and Visual IDE (iOS) over 4G/5G & Wi-Fi.
    All payloads are encrypted client-side with AES-256-GCM; the server only sees
    opaque base64 blobs and SHA-256 room hashes.
 3. Serves `/sync.mjs` for 1-line PC companion sync without Docker or dependencies.
@@ -46,7 +46,7 @@ def _env_int(name: str, default: int) -> int:
 CFG = {
     "bind": os.environ.get("BUILD_BIND", "127.0.0.1"),
     "port": _env_int("BUILD_PORT", 8787),
-    "image": os.environ.get("BUILD_IMAGE", "NexusKing-theos-builder:latest"),
+    "image": os.environ.get("BUILD_IMAGE", "Visual IDE-theos-builder:latest"),
     "concurrency": max(1, _env_int("BUILD_CONCURRENCY", 2)),
     "max_queue": _env_int("BUILD_MAX_QUEUE", 30),
     "max_upload": _env_int("BUILD_MAX_UPLOAD_MB", 20) * 1024 * 1024,
@@ -62,7 +62,7 @@ CFG = {
     "cpus": os.environ.get("BUILD_CPUS", "1.5"),
     "rate_device": _env_int("BUILD_RATE_PER_DEVICE_HOUR", 60),
     "rate_ip": _env_int("BUILD_RATE_PER_IP_HOUR", 120),
-    "data_dir": os.environ.get("BUILD_DATA_DIR", "/var/lib/NexusKing-build"),
+    "data_dir": os.environ.get("BUILD_DATA_DIR", "/var/lib/Visual IDE-build"),
     "artifact_ttl": _env_int("BUILD_ARTIFACT_TTL_SEC", 900),
     "runtime": os.environ.get("BUILD_RUNTIME", "").strip(),
     "disk_max_percent": _env_int("BUILD_DISK_MAX_PERCENT", 90),
@@ -85,7 +85,7 @@ CLIENT_ID_RE = re.compile(r"^[A-Za-z0-9._-]{4,64}$")
 ALLOWED_EXT = (".deb", ".dylib")
 SCHEMES = {"rootless", "rootful", "roothide"}
 WS_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
-CAS_MAGIC = b"NexusKingCAS1"
+CAS_MAGIC = b"Visual IDECAS1"
 CAS_CHUNK_MAX = 8 * 1024 * 1024
 EMPTY_SHA256 = hashlib.sha256(b"").hexdigest()
 BLOCKED_ROOT_DIRS = {".git", ".theos", "packages"}
@@ -304,7 +304,7 @@ class Job:
         self.clean_build = clean_build
         self.project_slug = sanitize_slug(project_slug)
         self.workspace_key = hashlib.sha256(
-            f"NexusKing-ws-v2:{self.device}:{self.project_slug}:{self.scheme}".encode()
+            f"Visual IDE-ws-v2:{self.device}:{self.project_slug}:{self.scheme}".encode()
         ).hexdigest()[:24]
         self.state = "queued"  # queued | running | succeeded | failed | cancelled
         self.log = bytearray()
@@ -807,7 +807,7 @@ def prepare_incremental_workspace(job: Job):
     except OSError:
         pass
 
-    manifest_file = os.path.join(ws_root, ".NexusKing-manifest.json")
+    manifest_file = os.path.join(ws_root, ".Visual IDE-manifest.json")
     prev_files = {}
     try:
         with open(manifest_file, "r", encoding="utf-8") as fh:
@@ -1021,7 +1021,7 @@ def run_job(job: Job) -> None:
         and host_available_ram_mb() < CFG["min_free_ram_mb"]
     ):
         if waited == 0:
-            job.append_log(b"[NexusKing] May chu dang ban - cho RAM trong de chong qua tai...\n")
+            job.append_log(b"[Visual IDE] May chu dang ban - cho RAM trong de chong qua tai...\n")
         time.sleep(2)
         waited += 1
 
@@ -1043,7 +1043,7 @@ def run_job(job: Job) -> None:
             ws_lock.acquire()
             ws_root, stg_root, uid, gid, passwd_file, updated_cnt, total_cnt = prepare_incremental_workspace(job)
             job.append_log(
-                f"[NexusKing] Bắt đầu CAS delta build ({job.project_slug} • {job.scheme} • cập nhật {updated_cnt}/{total_cnt} file, giới hạn {CFG['timeout']}s).\n".encode()
+                f"[Visual IDE] Bắt đầu CAS delta build ({job.project_slug} • {job.scheme} • cập nhật {updated_cnt}/{total_cnt} file, giới hạn {CFG['timeout']}s).\n".encode()
             )
             dcmd = docker_command(
                 job,
@@ -1055,7 +1055,7 @@ def run_job(job: Job) -> None:
             )
         else:
             job.append_log(
-                f"[NexusKing] Bắt đầu build (scheme: {job.scheme}, giới hạn {CFG['timeout']}s, RAM {CFG['memory']}).\n".encode()
+                f"[Visual IDE] Bắt đầu build (scheme: {job.scheme}, giới hạn {CFG['timeout']}s, RAM {CFG['memory']}).\n".encode()
             )
             dcmd = docker_command(job, make_jobs=make_jobs)
 
@@ -1131,20 +1131,20 @@ def run_job(job: Job) -> None:
 
         if job.cancel_requested:
             job.state = "cancelled"
-            job.append_log("\n[NexusKing] Build đã bị huỷ.\n".encode())
+            job.append_log("\n[Visual IDE] Build đã bị huỷ.\n".encode())
         elif timed_out:
             job.state = "failed"
             job.error = "timeout"
-            job.append_log(f"\n[NexusKing] Quá thời gian {CFG['timeout']} giây — build đã bị dừng.\n".encode())
+            job.append_log(f"\n[Visual IDE] Quá thời gian {CFG['timeout']} giây — build đã bị dừng.\n".encode())
         elif proc.returncode == 0 and files:
             job.state = "succeeded"
-            job.append_log(("\n[NexusKing] Build thành công: " + ", ".join(f["name"] for f in files) + "\n").encode())
+            job.append_log(("\n[Visual IDE] Build thành công: " + ", ".join(f["name"] for f in files) + "\n").encode())
         else:
             job.state = "failed"
             job.error = "build_failed" if proc.returncode not in (125, 126, 127) else "runner_error"
             if proc.returncode == 137:
-                job.append_log(f"\n[NexusKing] Build bị dừng do vượt giới hạn RAM ({CFG['memory']}).\n".encode())
-            job.append_log(f"\n[NexusKing] Build thất bại (exit code {proc.returncode}).\n".encode())
+                job.append_log(f"\n[Visual IDE] Build bị dừng do vượt giới hạn RAM ({CFG['memory']}).\n".encode())
+            job.append_log(f"\n[Visual IDE] Build thất bại (exit code {proc.returncode}).\n".encode())
     finally:
         if ws_lock is not None:
             ws_lock.release()
@@ -1172,7 +1172,7 @@ def worker_loop() -> None:
             job.error = "internal_error"
             job.finished = time.time()
             remove_queue_file(job.id)
-            job.append_log(f"\n[NexusKing] Lỗi nội bộ máy chủ: {type(exc).__name__}\n".encode())
+            job.append_log(f"\n[Visual IDE] Lỗi nội bộ máy chủ: {type(exc).__name__}\n".encode())
             log(f"job={job.id[:8]} internal error: {exc!r}")
         finally:
             QUEUE.done(job)
@@ -1191,7 +1191,7 @@ def janitor_loop() -> None:
 # --------------------------------------------------------------------------- Companion /sync.mjs Script Template
 
 SYNC_MJS_TEMPLATE = r"""#!/usr/bin/env node
-// NexusKing PC Sync Companion v5.1 (Zero npm dependencies! Requires Node.js 18+)
+// Visual IDE PC Sync Companion v5.1 (Zero npm dependencies! Requires Node.js 18+)
 // Chay trong thu muc code tren PC: node sync.mjs [--key=<KEY>] [--pin=<6SO>] [--dir=<PATH>]
 import http from "node:http";
 import net from "node:net";
@@ -1265,11 +1265,11 @@ const ACTIVE_PAIRING_SECRET = QUICK_PIN || PERMANENT_KEY;
 let issuedKeyOnPair = Boolean(QUICK_PIN);
 
 function deriveRoomID(secret) {
-  return crypto.createHash("sha256").update("NexusKing-room-v1:" + String(secret || "").trim(), "utf8").digest("hex");
+  return crypto.createHash("sha256").update("Visual IDE-room-v1:" + String(secret || "").trim(), "utf8").digest("hex");
 }
 
 function deriveAESKey(secret) {
-  return crypto.createHash("sha256").update("NexusKing-e2ee-v1:" + String(secret || "").trim(), "utf8").digest();
+  return crypto.createHash("sha256").update("Visual IDE-e2ee-v1:" + String(secret || "").trim(), "utf8").digest();
 }
 
 function encryptE2EE(obj, key32) {
@@ -1334,7 +1334,7 @@ function collectSnapshot(dir = ROOT, base = "", out = {}) {
   let entries = [];
   try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return out; }
   for (const entry of entries) {
-    if (IGNORED.has(entry.name) || entry.name.startsWith(".NexusKing")) continue;
+    if (IGNORED.has(entry.name) || entry.name.startsWith(".Visual IDE")) continue;
     if (entry.isSymbolicLink()) continue;
     const rel = base ? `${base}/${entry.name}` : entry.name;
     const full = path.join(dir, entry.name);
@@ -1518,7 +1518,7 @@ function broadcastEverywhere(obj, exceptLan = null) {
 // Local Wi-Fi LAN Server (30120)
 const lanServer = http.createServer((_req, res) => {
   res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-  res.end(`NexusKing PC Sync Companion running in ${ROOT}\n`);
+  res.end(`Visual IDE PC Sync Companion running in ${ROOT}\n`);
 });
 
 lanServer.on("upgrade", (req, socket) => {
@@ -1595,7 +1595,7 @@ function connectRelayRoom(secret, isPinRoom = false) {
 
     const pingInterval = setInterval(() => {
       if (!sock.destroyed && upgraded) {
-        try { sock.write(encodeWsFrame(0x9, Buffer.from("NexusKing"), true)); } catch {}
+        try { sock.write(encodeWsFrame(0x9, Buffer.from("Visual IDE"), true)); } catch {}
       }
     }, 25000);
 
@@ -1607,7 +1607,7 @@ function connectRelayRoom(secret, isPinRoom = false) {
         "Connection: Upgrade",
         `Sec-WebSocket-Key: ${wsKey}`,
         "Sec-WebSocket-Version: 13",
-        "User-Agent: NexusKing-Sync-Companion/5.1",
+        "User-Agent: Visual IDE-Sync-Companion/5.1",
         "\r\n"
       ].join("\r\n");
       sock.write(req);
@@ -1645,13 +1645,13 @@ function connectRelayRoom(secret, isPinRoom = false) {
               lanToken: PERMANENT_KEY,
               issuedPermanentKey: issuedKeyOnPair ? PERMANENT_KEY : undefined
             });
-            console.log("[NexusKing Relay] Dien thoai da ghep noi E2EE thanh cong!");
+            console.log("[Visual IDE Relay] Dien thoai da ghep noi E2EE thanh cong!");
             if (isPinRoom) setTimeout(() => rc.close(), 1500);
             return;
           }
           handleProtocolMessage(msg, rc.sendApp, (o) => broadcastEverywhere(o));
         } else if (env.type === "relay_peer_joined") {
-          console.log(`[NexusKing Relay] Thiet bi '${env.role || "mobile"}' da vao phong dong bo.`);
+          console.log(`[Visual IDE Relay] Thiet bi '${env.role || "mobile"}' da vao phong dong bo.`);
         }
       }, () => {
         clearInterval(pingInterval);
@@ -1677,7 +1677,7 @@ try {
   fs.watch(ROOT, { recursive: true }, (_event, filename) => {
     if (!filename) return;
     const rel = String(filename).split(path.sep).join("/");
-    if (rel.split("/").some((p) => IGNORED.has(p) || p.startsWith(".NexusKing"))) return;
+    if (rel.split("/").some((p) => IGNORED.has(p) || p.startsWith(".Visual IDE"))) return;
     if (isSuppressed(rel)) return;
     const abs = safeResolve(rel);
     if (!abs) return;
@@ -1696,13 +1696,13 @@ try {
     }, 90);
   });
 } catch (err) {
-  console.warn("[NexusKing] Recursive fs.watch khong kha dung:", err.message);
+  console.warn("[Visual IDE] Recursive fs.watch khong kha dung:", err.message);
 }
 
 lanServer.listen(PORT, "0.0.0.0", () => {
   const lanUrl = `ws://${getLanIP()}:${PORT}`;
   console.log("\n====================================================");
-  console.log("  NexusKing PC SYNC v5.1 (E2EE AES-256-GCM + 4G/Wi-Fi)  ");
+  console.log("  Visual IDE PC SYNC v5.1 (E2EE AES-256-GCM + 4G/Wi-Fi)  ");
   console.log("====================================================");
   console.log("Project      :", ROOT);
   console.log("Relay Server :", RELAY_URL);
@@ -1733,7 +1733,7 @@ def disk_usage_percent() -> int:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "NexusKing-build/" + VERSION
+    server_version = "Visual IDE-build/" + VERSION
     sys_version = ""
     protocol_version = "HTTP/1.1"
     timeout = 65
@@ -1836,7 +1836,7 @@ class Handler(BaseHTTPRequestHandler):
             if not ROOM_RE.match(room):
                 raw_key = str(hello.get("key", "")).strip()
                 if len(raw_key) >= 4:
-                    room = hashlib.sha256(("NexusKing-room-v1:" + raw_key).encode("utf-8")).hexdigest()
+                    room = hashlib.sha256(("Visual IDE-room-v1:" + raw_key).encode("utf-8")).hexdigest()
                 else:
                     _ws_send_json(tmp_client, {"type": "relay_error", "message": "Invalid room hash"})
                     _ws_send_frame(tmp_client, 0x8, struct.pack("!H", 1008))
@@ -1920,7 +1920,7 @@ class Handler(BaseHTTPRequestHandler):
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NexusKing Theos Build &amp; Sync Relay Server</title>
+<title>Visual IDE Theos Build &amp; Sync Relay Server</title>
 <style>
   body{{margin:0;background:#0A0D12;color:#F1F5F9;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;display:grid;place-items:center;min-height:100vh;padding:24px}}
   .card{{max-width:560px;width:100%;background:#141A22;border:1px solid #263040;border-radius:12px;padding:24px;box-sizing:border-box}}
@@ -1936,9 +1936,9 @@ class Handler(BaseHTTPRequestHandler):
 </head>
 <body>
   <div class="card">
-    <span class="badge">NexusKing BUILD &amp; SYNC SERVER v{VERSION} — ONLINE</span>
+    <span class="badge">Visual IDE BUILD &amp; SYNC SERVER v{VERSION} — ONLINE</span>
     <h1>Theos Sandbox + Zero-Knowledge E2EE Sync</h1>
-    <p>Máy chủ biên dịch <code>.deb</code> / <code>.dylib</code> cách ly bằng Docker và trạm tiếp vận WebSocket mã hóa đầu cuối <code>AES-256-GCM</code> cho <strong>NexusKing</strong>.</p>
+    <p>Máy chủ biên dịch <code>.deb</code> / <code>.dylib</code> cách ly bằng Docker và trạm tiếp vận WebSocket mã hóa đầu cuối <code>AES-256-GCM</code> cho <strong>Visual IDE</strong>.</p>
     <div class="grid">
       <div class="stat"><span>Đang build</span><b>{build_stats["running"]}/{build_stats["capacity"]}</b></div>
       <div class="stat"><span>Hàng đợi</span><b>{build_stats["queued"]}</b></div>
@@ -2423,7 +2423,7 @@ def main() -> None:
     server = ThreadingHTTPServer((CFG["bind"], CFG["port"]), Handler)
     server.daemon_threads = True
     log(
-        f"NexusKing build & sync relay server {VERSION} listening on {CFG['bind']}:{CFG['port']} "
+        f"Visual IDE build & sync relay server {VERSION} listening on {CFG['bind']}:{CFG['port']} "
         f"(concurrency={CFG['concurrency']}, image={CFG['image']})"
     )
     server.serve_forever()

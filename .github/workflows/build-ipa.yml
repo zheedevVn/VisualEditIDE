@@ -1,4 +1,4 @@
-name: Build NexusKing Unsigned IPA
+name: Build Visual IDE Unsigned IPA
 
 on:
   push:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build-ipa:
-    name: Build Unsigned iOS IPA (NexusKing)
+    name: Build Unsigned iOS IPA (Visual IDE)
     runs-on: macos-15
 
     steps:
@@ -108,15 +108,15 @@ jobs:
           save-always: true
 
       - name: Resolve Swift Package Dependencies
-        run: xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing -clonedSourcePackagesDirPath build/SourcePackages
+        run: xcodebuild -resolvePackageDependencies -project VisualIDE.xcodeproj -scheme VisualIDE -clonedSourcePackagesDirPath build/SourcePackages
 
       - name: Build Release App (Unsigned)
         run: |
           mkdir -p build
           set +e
           xcodebuild build \
-            -project NexusKing.xcodeproj \
-            -scheme NexusKing \
+            -project VisualIDE.xcodeproj \
+            -scheme VisualIDE \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
@@ -169,43 +169,45 @@ jobs:
 
       - name: Package Unsigned .ipa
         run: |
-          APP_PATH=$(find build/Build/Products/Release-iphoneos -name "NexusKing.app" -type d | head -n 1)
+          APP_PATH=$(find build/Build/Products/Release-iphoneos -name "*.app" -type d | head -n 1)
           if [ -z "$APP_PATH" ]; then
-            echo "Error: NexusKing.app not found!"
+            echo "Error: Application bundle not found!"
             ls -la build/Build/Products/Release-iphoneos || true
             exit 1
           fi
+          APP_NAME=$(basename "$APP_PATH")
+          echo "Found compiled app bundle: $APP_NAME at $APP_PATH"
           echo "Verifying compiled Asset Catalog & AppIcon in Info.plist:"
-          ls -lh "$APP_PATH/Assets.car"
-          /usr/libexec/PlistBuddy -c "Print :CFBundleIcons" "$APP_PATH/Info.plist"
+          ls -lh "$APP_PATH/Assets.car" || true
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIcons" "$APP_PATH/Info.plist" || true
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
-          codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
-          zip -qry NexusKing-Unsigned.ipa Payload
-          ls -lh NexusKing-Unsigned.ipa
+          codesign --force --deep --sign - --timestamp=none "Payload/$APP_NAME"
+          zip -qry VisualIDE-Unsigned.ipa Payload
+          ls -lh VisualIDE-Unsigned.ipa
 
-      - name: Build NexusKing VS Code Sync Extension (.vsix)
+      - name: Build Visual IDE VS Code Sync Extension (.vsix)
         run: |
-          python3 Tools/vscode-nexusking-sync/build_vsix.py nexusking-vscode-sync.vsix
-          ls -lh nexusking-vscode-sync.vsix
+          python3 Tools/vscode-visualide-sync/build_vsix.py visualide-vscode-sync.vsix
+          ls -lh visualide-vscode-sync.vsix
 
-      - name: Upload NexusKing-Unsigned.ipa Artifact
+      - name: Upload VisualIDE-Unsigned.ipa Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NexusKing-Unsigned-IPA
-          path: NexusKing-Unsigned.ipa
+          name: VisualIDE-Unsigned-IPA
+          path: VisualIDE-Unsigned.ipa
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload NexusKing-VSCode-Sync-VSIX Artifact
+      - name: Upload VisualIDE-VSCode-Sync-VSIX Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NexusKing-VSCode-Sync-VSIX
-          path: nexusking-vscode-sync.vsix
+          name: VisualIDE-VSCode-Sync-VSIX
+          path: visualide-vscode-sync.vsix
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish NexusKing-Unsigned.ipa to GitHub Releases
+      - name: Publish VisualIDE-Unsigned.ipa to GitHub Releases
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -214,35 +216,35 @@ jobs:
           TAG_NAME="v${APP_VERSION}-b${{ github.run_number }}"
           SHORT_SHA=$(git rev-parse --short HEAD)
           COMMIT_MSG=$(git log -1 --pretty=%s)
-          IPA_SIZE=$(du -h NexusKing-Unsigned.ipa | cut -f1 | tr -d ' ')
-          shasum -a 256 NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix > SHA256SUMS.txt
-          SHA256_VAL=$(grep 'NexusKing-Unsigned.ipa' SHA256SUMS.txt | cut -d ' ' -f1)
+          IPA_SIZE=$(du -h VisualIDE-Unsigned.ipa | cut -f1 | tr -d ' ')
+          shasum -a 256 VisualIDE-Unsigned.ipa visualide-vscode-sync.vsix > SHA256SUMS.txt
+          SHA256_VAL=$(grep 'VisualIDE-Unsigned.ipa' SHA256SUMS.txt | cut -d ' ' -f1)
 
           cat <<EOF > RELEASE_NOTES.md
-          ## NexusKing Mobile IDE — v${APP_VERSION} (Build #${{ github.run_number }})
+          ## Visual IDE Mobile — v${APP_VERSION} (Build #${{ github.run_number }})
 
           Direct unsigned iOS/iPadOS application package ready for external certificate signing (\`.p12\` / \`.mobileprovision\` via Feather, ESign, AltStore, SideStore, Sideloadly, or TrollStore).
 
           | Property | Value |
           | :--- | :--- |
           | **Version** | \`${APP_VERSION}\` (Build \`#${{ github.run_number }}\`) |
-          | **Bundle Identifier** | \`com.nexusking.app\` |
+          | **Bundle Identifier** | \`com.visualide.app\` |
           | **Target Platform** | \`iOS 15.0+\` / \`iPadOS 15.0+\` (arm64 — TrollStore & Sideload Ready) |
           | **Package Size** | \`${IPA_SIZE}\` |
           | **Commit** | \`${SHORT_SHA}\` — ${COMMIT_MSG} |
           | **SHA-256 (IPA)** | \`${SHA256_VAL}\` |
 
           ### Direct Download
-          - **[Download NexusKing-Unsigned.ipa](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/NexusKing-Unsigned.ipa)**
-          - **[Download nexusking-vscode-sync.vsix](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/nexusking-vscode-sync.vsix)** *(VS Code 2-Way E2EE Sync Extension)*
+          - **[Download VisualIDE-Unsigned.ipa](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/VisualIDE-Unsigned.ipa)**
+          - **[Download visualide-vscode-sync.vsix](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/visualide-vscode-sync.vsix)** *(VS Code 2-Way E2EE Sync Extension)*
           EOF
 
           if gh release view "${TAG_NAME}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release upload "${TAG_NAME}" NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix SHA256SUMS.txt --clobber --repo "${{ github.repository }}"
+            gh release upload "${TAG_NAME}" VisualIDE-Unsigned.ipa visualide-vscode-sync.vsix SHA256SUMS.txt --clobber --repo "${{ github.repository }}"
           else
-            gh release create "${TAG_NAME}" NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix SHA256SUMS.txt \
+            gh release create "${TAG_NAME}" VisualIDE-Unsigned.ipa visualide-vscode-sync.vsix SHA256SUMS.txt \
               --repo "${{ github.repository }}" \
-              --title "NexusKing v${APP_VERSION} (Build #${{ github.run_number }})" \
+              --title "Visual IDE v${APP_VERSION} (Build #${{ github.run_number }})" \
               --notes-file RELEASE_NOTES.md \
               --latest
           fi

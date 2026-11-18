@@ -875,27 +875,27 @@ private struct LiveServerWebView: UIViewRepresentable {
         let contentController = WKUserContentController()
         let consoleBridgeJS = """
         (function() {
-          function sendToNexusKing(level, args) {
+          function sendToVisualIDE(level, args) {
             try {
               var msg = Array.prototype.slice.call(args).map(function(x) {
                 if (typeof x === 'object') { try { return JSON.stringify(x); } catch(e) { return String(x); } }
                 return String(x);
               }).join(' ');
-              window.webkit.messageHandlers.ideNexusKingConsole.postMessage({ level: level, message: msg });
+              window.webkit.messageHandlers.ideVisualIDEConsole.postMessage({ level: level, message: msg });
             } catch (_) {}
           }
           var origLog = console.log, origWarn = console.warn, origErr = console.error;
-          console.log = function() { sendToNexusKing('log', arguments); if (origLog) origLog.apply(console, arguments); };
-          console.warn = function() { sendToNexusKing('warn', arguments); if (origWarn) origWarn.apply(console, arguments); };
-          console.error = function() { sendToNexusKing('error', arguments); if (origErr) origErr.apply(console, arguments); };
+          console.log = function() { sendToVisualIDE('log', arguments); if (origLog) origLog.apply(console, arguments); };
+          console.warn = function() { sendToVisualIDE('warn', arguments); if (origWarn) origWarn.apply(console, arguments); };
+          console.error = function() { sendToVisualIDE('error', arguments); if (origErr) origErr.apply(console, arguments); };
           window.addEventListener('error', function(ev) {
-            sendToNexusKing('error', [ev.message + ' (' + (ev.filename || 'inline') + ':' + ev.lineno + ')']);
+            sendToVisualIDE('error', [ev.message + ' (' + (ev.filename || 'inline') + ':' + ev.lineno + ')']);
           });
         })();
         """
         let userScript = WKUserScript(source: consoleBridgeJS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         contentController.addUserScript(userScript)
-        contentController.add(WeakScriptMessageProxy(target: context.coordinator), name: "ideNexusKingConsole")
+        contentController.add(WeakScriptMessageProxy(target: context.coordinator), name: "ideVisualIDEConsole")
         config.userContentController = contentController
 
         let webView = WKWebView(frame: .zero, configuration: config)
@@ -931,7 +931,7 @@ private struct LiveServerWebView: UIViewRepresentable {
     }
 
     static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
-        uiView.configuration.userContentController.removeScriptMessageHandler(forName: "ideNexusKingConsole")
+        uiView.configuration.userContentController.removeScriptMessageHandler(forName: "ideVisualIDEConsole")
     }
 
     final class Coordinator: NSObject, WKScriptMessageHandler {
@@ -945,7 +945,7 @@ private struct LiveServerWebView: UIViewRepresentable {
         }
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            guard message.name == "ideNexusKingConsole",
+            guard message.name == "ideVisualIDEConsole",
                   let body = message.body as? [String: Any] else { return }
             let level = (body["level"] as? String) ?? "log"
             let text = (body["message"] as? String) ?? ""

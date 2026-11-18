@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 /// Generic AI provider manager: users add any number of providers (online or offline),
-/// store keys in the Keychain and let NexusKing track each provider's newest model automatically.
+/// store keys in the Keychain and let Visual IDE track each provider's newest model automatically.
 public struct AIProviderSettingsSheet: View {
     @ObservedObject var aiService: AIAgentService
     @Environment(\.dismiss) private var dismiss
@@ -17,7 +17,7 @@ public struct AIProviderSettingsSheet: View {
             List {
                 Section {
                     if aiService.profiles.isEmpty {
-                        Text("Chưa có cấu hình AI nào. Thêm nhà cung cấp bên dưới — NexusKing sẽ tự tải danh sách model mới nhất trực tiếp từ nhà cung cấp đó.")
+                        Text("Chưa có cấu hình AI nào. Thêm nhà cung cấp bên dưới — Visual IDE sẽ tự tải danh sách model mới nhất trực tiếp từ nhà cung cấp đó.")
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     }
@@ -53,7 +53,7 @@ public struct AIProviderSettingsSheet: View {
                 }
 
                 Section("Quyền riêng tư") {
-                    Text("API Key chỉ lưu trong iOS Keychain trên máy này. NexusKing không có máy chủ trung gian: code và câu hỏi được gửi trực tiếp từ iPhone tới nhà cung cấp bạn chọn (hoặc xử lý ngay trên máy với cấu hình Offline).")
+                    Text("API Key chỉ lưu trong iOS Keychain trên máy này. Visual IDE không có máy chủ trung gian: code và câu hỏi được gửi trực tiếp từ iPhone tới nhà cung cấp bạn chọn (hoặc xử lý ngay trên máy với cấu hình Offline).")
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
@@ -434,7 +434,7 @@ struct AIProviderProfileEditor: View {
         } header: {
             Text("Custom POST Endpoint")
         } footer: {
-            Text("Tự cấu hình trực tiếp request POST của bạn (URL, Header, Body JSON). NexusKing chỉ gửi đúng thông tin bạn cấu hình và dùng User-Agent trung thực, không giả mạo ứng dụng khác.")
+            Text("Tự cấu hình trực tiếp request POST của bạn (URL, Header, Body JSON). Visual IDE chỉ gửi đúng thông tin bạn cấu hình và dùng User-Agent trung thực, không giả mạo ứng dụng khác.")
         }
 
         Section {
@@ -650,7 +650,7 @@ struct AIProviderProfileEditor: View {
         } header: {
             Text("Model")
         } footer: {
-            Text("Mới nhất: NexusKing tự tải danh sách model trực tiếp từ nhà cung cấp (mỗi 6 giờ hoặc khi bạn bấm kiểm tra) và luôn dùng model mới nhất — khi nhà cung cấp ra model mới, app tự chuyển sang mà không cần cập nhật app. Cố định: luôn dùng đúng model bạn chọn.")
+            Text("Mới nhất: Visual IDE tự tải danh sách model trực tiếp từ nhà cung cấp (mỗi 6 giờ hoặc khi bạn bấm kiểm tra) và luôn dùng model mới nhất — khi nhà cung cấp ra model mới, app tự chuyển sang mà không cần cập nhật app. Cố định: luôn dùng đúng model bạn chọn.")
         }
 
         Section {

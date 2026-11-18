@@ -30,10 +30,10 @@ public final class ExtensionStoreService: ObservableObject {
     @Published public var storeMessage: String = "Kho Open VSX sẵn sàng — tải trực tiếp gói .vsix (Themes & Snippets) chuẩn VS Code."
 
     public init() {
-        if let savedIDs = UserDefaults.standard.array(forKey: "NexusKing.installedExts") as? [String] {
+        if let savedIDs = UserDefaults.standard.array(forKey: "Visual IDE.installedExts") as? [String] {
             self.installedExtensionIDs = Set(savedIDs)
         }
-        if let data = UserDefaults.standard.data(forKey: "NexusKing.customSnippets"),
+        if let data = UserDefaults.standard.data(forKey: "Visual IDE.customSnippets"),
            let decoded = try? JSONDecoder().decode([CodeSnippetItem].self, from: data) {
             self.snippets = Self.builtInSnippets + decoded
         }
@@ -187,13 +187,13 @@ public final class ExtensionStoreService: ObservableObject {
                     let filteredCustom = mergedCustom.filter { !builtInIDs.contains($0.id) }
                     snippets = Self.builtInSnippets + filteredCustom
                     if let encoded = try? JSONEncoder().encode(filteredCustom) {
-                        UserDefaults.standard.set(encoded, forKey: "NexusKing.customSnippets")
+                        UserDefaults.standard.set(encoded, forKey: "Visual IDE.customSnippets")
                     }
                 }
             }
 
             installedExtensionIDs.insert(item.id)
-            UserDefaults.standard.set(Array(installedExtensionIDs), forKey: "NexusKing.installedExts")
+            UserDefaults.standard.set(Array(installedExtensionIDs), forKey: "Visual IDE.installedExts")
 
             if importedThemesCount > 0 || importedSnippetsCount > 0 {
                 storeMessage = "Đã cài \(item.displayName): +\(importedThemesCount) Theme, +\(importedSnippetsCount) Snippets."
@@ -298,11 +298,11 @@ public final class ExtensionStoreService: ObservableObject {
             let cmd: String
             switch language {
             case .cpp:
-                cmd = "echo '\(b64)' | base64 -d | g++ -std=c++20 -fsyntax-only -x c++ - 2>&1; echo \"__NexusKing_EXIT__:$?\""
+                cmd = "echo '\(b64)' | base64 -d | g++ -std=c++20 -fsyntax-only -x c++ - 2>&1; echo \"__Visual IDE_EXIT__:$?\""
             case .c:
-                cmd = "echo '\(b64)' | base64 -d | gcc -std=c17 -fsyntax-only -x c - 2>&1; echo \"__NexusKing_EXIT__:$?\""
+                cmd = "echo '\(b64)' | base64 -d | gcc -std=c17 -fsyntax-only -x c - 2>&1; echo \"__Visual IDE_EXIT__:$?\""
             case .python:
-                cmd = "tmp=\"/tmp/NexusKing_diag_\(uniqueID).py\"; echo '\(b64)' | base64 -d > \"$tmp\" && python3 -m py_compile \"$tmp\" 2>&1; ec=$?; rm -f \"$tmp\"; echo \"__NexusKing_EXIT__:$ec\""
+                cmd = "tmp=\"/tmp/Visual IDE_diag_\(uniqueID).py\"; echo '\(b64)' | base64 -d > \"$tmp\" && python3 -m py_compile \"$tmp\" 2>&1; ec=$?; rm -f \"$tmp\"; echo \"__Visual IDE_EXIT__:$ec\""
             default:
                 cmd = ""
             }
@@ -312,7 +312,7 @@ public final class ExtensionStoreService: ObservableObject {
                 var exitCode = 0
                 var outputLines: [String] = []
                 for line in lines {
-                    if let range = line.range(of: "__NexusKing_EXIT__:") {
+                    if let range = line.range(of: "__Visual IDE_EXIT__:") {
                         let codeStr = line[range.upperBound...].trimmingCharacters(in: .whitespacesAndNewlines)
                         exitCode = Int(codeStr) ?? 0
                     } else {

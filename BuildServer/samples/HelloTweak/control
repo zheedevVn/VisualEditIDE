@@ -2,8 +2,8 @@ Package: com.nexusking.app.hellotweak
 Name: HelloTweak
 Version: 1.0.0
 Architecture: iphoneos-arm
-Description: Sample tweak built by the NexusKing Theos Build Server.
-Maintainer: NexusKing
-Author: NexusKing
+Description: Sample tweak built by the Visual IDE Theos Build Server.
+Maintainer: Visual IDE
+Author: Visual IDE
 Section: Tweaks
 Depends: mobilesubstrate

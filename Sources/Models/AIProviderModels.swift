@@ -429,7 +429,7 @@ public enum AICurlAndRawRequestParser {
     }
 
     /// Replaces literal top-level JSON fields (`model`, `messages`, `input`, `contents`, `prompt`, `stream`)
-    /// with NexusKing placeholders so imported requests immediately work dynamically in AI Agent chats.
+    /// with Visual IDE placeholders so imported requests immediately work dynamically in AI Agent chats.
     public static func injectTemplatePlaceholders(in body: String, detectedModel: inout String) -> String {
         var result = body
         if let extracted = extractJSONStringFieldValue(named: "model", in: result) {

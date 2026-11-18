@@ -524,12 +524,12 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
             <head>
               <meta charset="UTF-8" />
               <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-              <title>NexusKing Live Web App</title>
+              <title>Visual IDE Live Web App</title>
               <link rel="stylesheet" href="style.css" />
             </head>
             <body>
               <main class="card">
-                <h1>Built on iPhone with NexusKing</h1>
+                <h1>Built on iPhone with Visual IDE</h1>
                 <p>Edit this file and watch Safari or Split Preview hot-reload instantly.</p>
                 <button id="actionBtn">Tap Me</button>
               </main>
@@ -551,7 +551,7 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
             """
         case .javascript:
             return """
-            console.log("Hello from NexusKing JS Engine!");
+            console.log("Hello from Visual IDE JS Engine!");
             const nums = [1, 2, 3, 4, 5];
             console.log("Sum:", nums.reduce((acc, n) => acc + n, 0));
             """
@@ -561,7 +561,7 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
               name: string;
               ide: string;
             }
-            const dev: Developer = { name: "Mobile Dev", ide: "NexusKing" };
+            const dev: Developer = { name: "Mobile Dev", ide: "Visual IDE" };
             console.log(`${dev.name} coding on ${dev.ide}`);
             """
         case .python:
@@ -579,7 +579,7 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
             #include <stdio.h>
 
             int main(void) {
-                printf("Hello from C17 in NexusKing Mobile IDE!\\n");
+                printf("Hello from C17 in Visual IDE!\\n");
                 return 0;
             }
             """
@@ -601,7 +601,7 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
             fn main() {
                 let nums = vec![1, 2, 3, 4, 5];
                 let sum: i32 = nums.iter().sum();
-                println!("Rust running in NexusKing | Sum = {}", sum);
+                println!("Rust running in Visual IDE | Sum = {}", sum);
             }
             """
         case .go:
@@ -611,21 +611,21 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
             import "fmt"
 
             func main() {
-            \tfmt.Println("Go running in NexusKing Mobile IDE!")
+            \tfmt.Println("Go running in Visual IDE!")
             }
             """
         case .java:
             return """
             public class Main {
                 public static void main(String[] args) {
-                    System.out.println("Java running in NexusKing Mobile IDE!");
+                    System.out.println("Java running in Visual IDE!");
                 }
             }
             """
         case .kotlin:
             return """
             fun main() {
-                println("Kotlin in NexusKing Mobile IDE!")
+                println("Kotlin in Visual IDE!")
             }
             """
         case .csharp:
@@ -634,47 +634,47 @@ public enum CodeLanguage: String, CaseIterable, Identifiable, Codable {
 
             class Program {
                 static void Main() {
-                    Console.WriteLine("C# running in NexusKing Mobile IDE!");
+                    Console.WriteLine("C# running in Visual IDE!");
                 }
             }
             """
         case .dart:
             return """
             void main() {
-              print('Dart running in NexusKing Mobile IDE!');
+              print('Dart running in Visual IDE!');
             }
             """
         case .php:
             return """
             <?php
-            echo "PHP 8 running in NexusKing Mobile IDE!\\n";
+            echo "PHP 8 running in Visual IDE!\\n";
             """
         case .ruby:
             return """
-            puts "Ruby running in NexusKing Mobile IDE!"
+            puts "Ruby running in Visual IDE!"
             """
         case .lua:
             return """
-            print("Lua running in NexusKing Mobile IDE!")
+            print("Lua running in Visual IDE!")
             """
         case .sql:
             return """
             CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);
-            INSERT INTO users (name) VALUES ('NexusKing Developer');
+            INSERT INTO users (name) VALUES ('Visual IDE Developer');
             SELECT * FROM users;
             """
         case .swift:
             return """
             import Foundation
 
-            print("Swift running smoothly from NexusKing Mobile IDE!")
+            print("Swift running smoothly from Visual IDE!")
             """
         case .json, .json5:
-            return "{\n  \"name\": \"NexusKing-project\",\n  \"version\": \"1.0.0\"\n}\n"
+            return "{\n  \"name\": \"Visual IDE-project\",\n  \"version\": \"1.0.0\"\n}\n"
         case .markdown:
-            return "# Project Notes\n\nCreated in **NexusKing Mobile IDE**.\n"
+            return "# Project Notes\n\nCreated in **Visual IDE**.\n"
         case .shell, .fish:
-            return "#!/usr/bin/env bash\necho \"Running shell script from NexusKing...\"\n"
+            return "#!/usr/bin/env bash\necho \"Running shell script from Visual IDE...\"\n"
         default:
             return ""
         }

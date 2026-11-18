@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/VisualIDE-banner.svg" width="680" alt="Visual IDE — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>iOS 与 iPadOS 原生代码编辑器、远程开发工作站及 AI 编程 IDE</strong></p>
 
@@ -21,8 +21,8 @@
     <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
       <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-VisualIDE--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,7 +36,7 @@
 
 ## 项目简介
 
-**NexusKing**（`com.nexusking.app`）是一款专为 **iOS 15.0+** 和 **iPadOS 15.0+** 打造的 100% 原生集成开发环境（IDE），基于 `SwiftUI` 与 `UIKit` 构建，在移动端还原 **VS Code** 与 **Cursor** 的工作流，完全摆脱 WebView/Electron 带来的卡顿与功耗。
+**Visual IDE**（`com.visualide.app`）是一款专为 **iOS 15.0+** 和 **iPadOS 15.0+** 打造的 100% 原生集成开发环境（IDE），基于 `SwiftUI` 与 `UIKit` 构建，在移动端还原 **VS Code** 与 **Cursor** 的工作流，完全摆脱 WebView/Electron 带来的卡顿与功耗。
 
 编辑器核心采用 `Runestone` 并内置 **48 个静态编译的 C/C++ `Tree-sitter` 语法解析器**，支持 120Hz ProMotion 流畅滚动；同时集成 `localhost:5500` 本地 Web 服务器、**本机 24/7 后台守护进程与 Telegram Bot 运行器**、**Theos Tweak**（`.deb`/`.dylib`）构建器、**xtool Studio**（SwiftPM `.ipa` 打包与本机 Mach-O `.dylib` 注入）、`SwiftTerm`（`xterm-256color`）终端、`Citadel` **SSH/SFTP** 远程开发以及带 Diff 审核面板的 **Coding Agent**。
 
@@ -44,19 +44,19 @@
 
 ## 下载与安装
 
-`main` 分支的每次更新均由 GitHub Actions 在 `macos-15`（Xcode 16+）环境下自动编译，并在 **Releases** 中发布 **`NexusKing-Unsigned.ipa`**（已附带 Ad-hoc 签名，可直接通过 **TrollStore** 在 iOS 15/16+ 永久安装，或使用个人 `.p12` 证书签名）。
+`main` 分支的每次更新均由 GitHub Actions 在 `macos-15`（Xcode 16+）环境下自动编译，并在 **Releases** 中发布 **`VisualIDE-Unsigned.ipa`**（已附带 Ad-hoc 签名，可直接通过 **TrollStore** 在 iOS 15/16+ 永久安装，或使用个人 `.p12` 证书签名）。
 
-- **直接下载最新版本：** [**NexusKing-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **直接下载最新版本：** [**VisualIDE-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa)
 - **全部历史版本与 SHA-256 校验：** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### 安装方式（TrollStore / `.p12` / 自签）
 
 | 安装工具 | 环境要求 | 操作步骤 |
 | :--- | :--- | :--- |
-| **TrollStore (巨魔商店)** | 支持 CoreTrust 的 iOS 15.0+ – 17.0 | 直接用 TrollStore 打开 `NexusKing-Unsigned.ipa` 即可永久安装，无需续签。 |
-| **Feather / ESign / GBox** | 个人 `.p12` 证书 + `.mobileprovision` | 导入证书后选择 `NexusKing-Unsigned.ipa`，点击 **Sign & Install**。 |
-| **AltStore / SideStore** | 个人 Apple ID（免费或开发者账号） | 在 **My Apps (+)** 中导入 `NexusKing-Unsigned.ipa` 自动签名与续期。 |
-| **Sideloadly (macOS / Windows)** | Apple ID 或开发者证书 | 将 `NexusKing-Unsigned.ipa` 拖入 Sideloadly，通过 USB 或 Wi-Fi 安装。 |
+| **TrollStore (巨魔商店)** | 支持 CoreTrust 的 iOS 15.0+ – 17.0 | 直接用 TrollStore 打开 `VisualIDE-Unsigned.ipa` 即可永久安装，无需续签。 |
+| **Feather / ESign / GBox** | 个人 `.p12` 证书 + `.mobileprovision` | 导入证书后选择 `VisualIDE-Unsigned.ipa`，点击 **Sign & Install**。 |
+| **AltStore / SideStore** | 个人 Apple ID（免费或开发者账号） | 在 **My Apps (+)** 中导入 `VisualIDE-Unsigned.ipa` 自动签名与续期。 |
+| **Sideloadly (macOS / Windows)** | Apple ID 或开发者证书 | 将 `VisualIDE-Unsigned.ipa` 拖入 Sideloadly，通过 USB 或 Wi-Fi 安装。 |
 
 ---
 
@@ -144,7 +144,7 @@ flowchart TB
 
 ## 隐私说明
 
-- **零数据收集：** NexusKing 不含任何统计 SDK、广告或行为追踪，也不架设中转代理服务器。
+- **零数据收集：** Visual IDE 不含任何统计 SDK、广告或行为追踪，也不架设中转代理服务器。
 - **凭据本地保存：** API Key、VPS 密码、SSH 私钥与 GitHub Token 仅保存在本机 **iOS Keychain**（或无权限环境下的应用沙盒存储）中。
 - **外部请求：** 仅在使用在线 AI 服务或社区 Theos 构建服务器时直接向目标服务器发起请求，且首次使用社区构建服务器前会弹窗请求用户确认。
 
@@ -176,17 +176,17 @@ flowchart TB
 - macOS 15.0+ 与 **Xcode 16.0+**
 - [**XcodeGen**](https://github.com/yonaskolb/XcodeGen)（`brew install xcodegen`）
 
-### 编译 `NexusKing-Unsigned.ipa`
+### 编译 `VisualIDE-Unsigned.ipa`
 
 ```bash
 git clone https://github.com/zheedevVN/VisualEditIDE.git
-cd NexusKing
+cd Visual IDE
 xcodegen generate
-xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
+xcodebuild -resolvePackageDependencies -project Visual IDE.xcodeproj -scheme Visual IDE
 
 xcodebuild build \
-  -project NexusKing.xcodeproj \
-  -scheme NexusKing \
+  -project Visual IDE.xcodeproj \
+  -scheme Visual IDE \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -197,9 +197,9 @@ xcodebuild build \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
-zip -qry NexusKing-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/Visual IDE.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/Visual IDE.app
+zip -qry VisualIDE-Unsigned.ipa Payload
 ```
 
 ---
@@ -208,4 +208,4 @@ zip -qry NexusKing-Unsigned.ipa Payload
 
 **Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-**NexusKing** 的全部源代码、系统架构及品牌视觉资产均遵循 [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE) 发布。任何 Fork、二次修改、重新打包（`.ipa`）或通过网络提供服务（AGPL-3.0 第 13 条）的衍生项目，均须保留原始版权声明与 [`LICENSE`](LICENSE) 文件，并**完整公开全部对应源代码**且继续采用 `AGPL-3.0` 协议；禁止闭源商用或抹除原作者署名。
+**Visual IDE** 的全部源代码、系统架构及品牌视觉资产均遵循 [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE) 发布。任何 Fork、二次修改、重新打包（`.ipa`）或通过网络提供服务（AGPL-3.0 第 13 条）的衍生项目，均须保留原始版权声明与 [`LICENSE`](LICENSE) 文件，并**完整公开全部对应源代码**且继续采用 `AGPL-3.0` 协议；禁止闭源商用或抹除原作者署名。

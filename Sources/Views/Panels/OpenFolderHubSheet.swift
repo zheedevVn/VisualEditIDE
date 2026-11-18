@@ -76,7 +76,7 @@ public struct OpenFolderHubSheet: View {
                                     Text(folderURL.lastPathComponent)
                                         .font(.system(size: 14, weight: isActive ? .semibold : .regular))
                                         .foregroundColor(.primary)
-                                    Text(L10n.tr("Trên iPhone -> NexusKing -> \(folderURL.lastPathComponent)", "On My iPhone -> NexusKing -> \(folderURL.lastPathComponent)"))
+                                    Text(L10n.tr("Trên iPhone -> Visual IDE -> \(folderURL.lastPathComponent)", "On My iPhone -> Visual IDE -> \(folderURL.lastPathComponent)"))
                                         .font(.system(size: 11))
                                         .foregroundColor(.secondary)
                                 }
@@ -98,11 +98,11 @@ public struct OpenFolderHubSheet: View {
                             .foregroundColor(.blue)
                     }
                 } header: {
-                    Text(L10n.tr("Thư mục trên Máy (On My iPhone -> NexusKing)", "On My iPhone -> NexusKing (100% Native R/W)"))
+                    Text(L10n.tr("Thư mục trên Máy (On My iPhone -> Visual IDE)", "On My iPhone -> Visual IDE (100% Native R/W)"))
                 } footer: {
                     Text(L10n.tr(
-                        "Mọi thư mục đặt trong Files -> On My iPhone -> NexusKing đều mở 1 chạm không bị giới hạn chứng chỉ .p12.",
-                        "Folders inside Files -> On My iPhone -> NexusKing open with full read/write access under any certificate."
+                        "Mọi thư mục đặt trong Files -> On My iPhone -> Visual IDE đều mở 1 chạm không bị giới hạn chứng chỉ .p12.",
+                        "Folders inside Files -> On My iPhone -> Visual IDE open with full read/write access under any certificate."
                     ))
                 }
 

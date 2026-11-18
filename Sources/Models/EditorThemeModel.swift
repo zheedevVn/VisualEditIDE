@@ -651,59 +651,59 @@ public final class EditorPreferences: ObservableObject {
         }
     }
     @Published public var selectedThemeID: String {
-        didSet { UserDefaults.standard.set(selectedThemeID, forKey: "NexusKing.themeID") }
+        didSet { UserDefaults.standard.set(selectedThemeID, forKey: "Visual IDE.themeID") }
     }
     @Published public var customAccentHex: String {
-        didSet { UserDefaults.standard.set(customAccentHex, forKey: "NexusKing.customAccentHex") }
+        didSet { UserDefaults.standard.set(customAccentHex, forKey: "Visual IDE.customAccentHex") }
     }
     @Published public var fontName: String {
-        didSet { UserDefaults.standard.set(fontName, forKey: "NexusKing.fontName") }
+        didSet { UserDefaults.standard.set(fontName, forKey: "Visual IDE.fontName") }
     }
     @Published public var fontSize: CGFloat {
         didSet {
             let clamped = min(max(fontSize, 10), 28)
             if fontSize != clamped { fontSize = clamped }
-            UserDefaults.standard.set(Double(clamped), forKey: "NexusKing.fontSize")
+            UserDefaults.standard.set(Double(clamped), forKey: "Visual IDE.fontSize")
         }
     }
     @Published public var lineHeightMultiplier: Double {
-        didSet { UserDefaults.standard.set(lineHeightMultiplier, forKey: "NexusKing.lineHeight") }
+        didSet { UserDefaults.standard.set(lineHeightMultiplier, forKey: "Visual IDE.lineHeight") }
     }
     @Published public var tabWidth: Int {
-        didSet { UserDefaults.standard.set(tabWidth, forKey: "NexusKing.tabWidth") }
+        didSet { UserDefaults.standard.set(tabWidth, forKey: "Visual IDE.tabWidth") }
     }
     @Published public var wordWrap: Bool {
-        didSet { UserDefaults.standard.set(wordWrap, forKey: "NexusKing.wordWrap") }
+        didSet { UserDefaults.standard.set(wordWrap, forKey: "Visual IDE.wordWrap") }
     }
     @Published public var showLineNumbers: Bool {
-        didSet { UserDefaults.standard.set(showLineNumbers, forKey: "NexusKing.showLineNumbers") }
+        didSet { UserDefaults.standard.set(showLineNumbers, forKey: "Visual IDE.showLineNumbers") }
     }
     @Published public var showInvisibleCharacters: Bool {
-        didSet { UserDefaults.standard.set(showInvisibleCharacters, forKey: "NexusKing.showInvisibles") }
+        didSet { UserDefaults.standard.set(showInvisibleCharacters, forKey: "Visual IDE.showInvisibles") }
     }
     @Published public var enableCodeFolding: Bool {
-        didSet { UserDefaults.standard.set(enableCodeFolding, forKey: "NexusKing.codeFolding") }
+        didSet { UserDefaults.standard.set(enableCodeFolding, forKey: "Visual IDE.codeFolding") }
     }
     @Published public var enableCodeCompletion: Bool {
-        didSet { UserDefaults.standard.set(enableCodeCompletion, forKey: "NexusKing.codeCompletion") }
+        didSet { UserDefaults.standard.set(enableCodeCompletion, forKey: "Visual IDE.codeCompletion") }
     }
     @Published public var enableLiveDiagnostics: Bool {
-        didSet { UserDefaults.standard.set(enableLiveDiagnostics, forKey: "NexusKing.liveDiagnostics") }
+        didSet { UserDefaults.standard.set(enableLiveDiagnostics, forKey: "Visual IDE.liveDiagnostics") }
     }
     @Published public var enableAutoSave: Bool {
-        didSet { UserDefaults.standard.set(enableAutoSave, forKey: "NexusKing.autoSave") }
+        didSet { UserDefaults.standard.set(enableAutoSave, forKey: "Visual IDE.autoSave") }
     }
     @Published public var formatOnSave: Bool {
-        didSet { UserDefaults.standard.set(formatOnSave, forKey: "NexusKing.formatOnSave") }
+        didSet { UserDefaults.standard.set(formatOnSave, forKey: "Visual IDE.formatOnSave") }
     }
     @Published public var autoIndentOnReturn: Bool {
-        didSet { UserDefaults.standard.set(autoIndentOnReturn, forKey: "NexusKing.autoIndentReturn") }
+        didSet { UserDefaults.standard.set(autoIndentOnReturn, forKey: "Visual IDE.autoIndentReturn") }
     }
     @Published public var showBreadcrumbs: Bool {
-        didSet { UserDefaults.standard.set(showBreadcrumbs, forKey: "NexusKing.showBreadcrumbs") }
+        didSet { UserDefaults.standard.set(showBreadcrumbs, forKey: "Visual IDE.showBreadcrumbs") }
     }
     @Published public var keepServerInBackground: Bool {
-        didSet { UserDefaults.standard.set(keepServerInBackground, forKey: "NexusKing.keepServerBg") }
+        didSet { UserDefaults.standard.set(keepServerInBackground, forKey: "Visual IDE.keepServerBg") }
     }
     @Published public var customThemes: [IDEColorPalette] = [] {
         didSet { saveCustomThemes() }
@@ -737,26 +737,26 @@ public final class EditorPreferences: ObservableObject {
             .flatMap(AppLanguage.init(rawValue:)) ?? .vietnamese
         self.appLanguage = savedLang
         AppLanguage.current = savedLang
-        self.selectedThemeID = UserDefaults.standard.string(forKey: "NexusKing.themeID") ?? "tokyo-night"
-        self.customAccentHex = UserDefaults.standard.string(forKey: "NexusKing.customAccentHex") ?? ""
-        self.fontName = UserDefaults.standard.string(forKey: "NexusKing.fontName") ?? "Menlo-Regular"
-        let savedSize = UserDefaults.standard.double(forKey: "NexusKing.fontSize")
+        self.selectedThemeID = UserDefaults.standard.string(forKey: "Visual IDE.themeID") ?? "tokyo-night"
+        self.customAccentHex = UserDefaults.standard.string(forKey: "Visual IDE.customAccentHex") ?? ""
+        self.fontName = UserDefaults.standard.string(forKey: "Visual IDE.fontName") ?? "Menlo-Regular"
+        let savedSize = UserDefaults.standard.double(forKey: "Visual IDE.fontSize")
         self.fontSize = savedSize > 0 ? CGFloat(savedSize) : 14.0
-        let savedLH = UserDefaults.standard.double(forKey: "NexusKing.lineHeight")
+        let savedLH = UserDefaults.standard.double(forKey: "Visual IDE.lineHeight")
         self.lineHeightMultiplier = savedLH > 0 ? savedLH : 1.22
-        let savedTab = UserDefaults.standard.integer(forKey: "NexusKing.tabWidth")
+        let savedTab = UserDefaults.standard.integer(forKey: "Visual IDE.tabWidth")
         self.tabWidth = savedTab > 0 ? savedTab : 2
-        self.wordWrap = UserDefaults.standard.object(forKey: "NexusKing.wordWrap") as? Bool ?? true
-        self.showLineNumbers = UserDefaults.standard.object(forKey: "NexusKing.showLineNumbers") as? Bool ?? true
-        self.showInvisibleCharacters = UserDefaults.standard.object(forKey: "NexusKing.showInvisibles") as? Bool ?? false
-        self.enableCodeFolding = UserDefaults.standard.object(forKey: "NexusKing.codeFolding") as? Bool ?? true
-        self.enableCodeCompletion = UserDefaults.standard.object(forKey: "NexusKing.codeCompletion") as? Bool ?? true
-        self.enableLiveDiagnostics = UserDefaults.standard.object(forKey: "NexusKing.liveDiagnostics") as? Bool ?? true
-        self.enableAutoSave = UserDefaults.standard.object(forKey: "NexusKing.autoSave") as? Bool ?? true
-        self.formatOnSave = UserDefaults.standard.object(forKey: "NexusKing.formatOnSave") as? Bool ?? true
-        self.autoIndentOnReturn = UserDefaults.standard.object(forKey: "NexusKing.autoIndentReturn") as? Bool ?? true
-        self.showBreadcrumbs = UserDefaults.standard.object(forKey: "NexusKing.showBreadcrumbs") as? Bool ?? true
-        self.keepServerInBackground = UserDefaults.standard.object(forKey: "NexusKing.keepServerBg") as? Bool ?? true
+        self.wordWrap = UserDefaults.standard.object(forKey: "Visual IDE.wordWrap") as? Bool ?? true
+        self.showLineNumbers = UserDefaults.standard.object(forKey: "Visual IDE.showLineNumbers") as? Bool ?? true
+        self.showInvisibleCharacters = UserDefaults.standard.object(forKey: "Visual IDE.showInvisibles") as? Bool ?? false
+        self.enableCodeFolding = UserDefaults.standard.object(forKey: "Visual IDE.codeFolding") as? Bool ?? true
+        self.enableCodeCompletion = UserDefaults.standard.object(forKey: "Visual IDE.codeCompletion") as? Bool ?? true
+        self.enableLiveDiagnostics = UserDefaults.standard.object(forKey: "Visual IDE.liveDiagnostics") as? Bool ?? true
+        self.enableAutoSave = UserDefaults.standard.object(forKey: "Visual IDE.autoSave") as? Bool ?? true
+        self.formatOnSave = UserDefaults.standard.object(forKey: "Visual IDE.formatOnSave") as? Bool ?? true
+        self.autoIndentOnReturn = UserDefaults.standard.object(forKey: "Visual IDE.autoIndentReturn") as? Bool ?? true
+        self.showBreadcrumbs = UserDefaults.standard.object(forKey: "Visual IDE.showBreadcrumbs") as? Bool ?? true
+        self.keepServerInBackground = UserDefaults.standard.object(forKey: "Visual IDE.keepServerBg") as? Bool ?? true
         loadCustomThemes()
     }
 
@@ -787,12 +787,12 @@ public final class EditorPreferences: ObservableObject {
 
     private func saveCustomThemes() {
         if let data = try? JSONEncoder().encode(customThemes) {
-            UserDefaults.standard.set(data, forKey: "NexusKing.customThemes")
+            UserDefaults.standard.set(data, forKey: "Visual IDE.customThemes")
         }
     }
 
     private func loadCustomThemes() {
-        if let data = UserDefaults.standard.data(forKey: "NexusKing.customThemes"),
+        if let data = UserDefaults.standard.data(forKey: "Visual IDE.customThemes"),
            let decoded = try? JSONDecoder().decode([IDEColorPalette].self, from: data) {
             self.customThemes = decoded
         }

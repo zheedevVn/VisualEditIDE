@@ -13,7 +13,7 @@ public enum TheosBuildMode: String, CaseIterable, Identifiable, Codable {
 
     public var title: String {
         switch self {
-        case .communityServer: return L10n.tr("Máy chủ NexusKing Nhanh (Không cần VPS • Tới 300MB)", "NexusKing Fast Build Server (No VPS • Up to 300MB)")
+        case .communityServer: return L10n.tr("Máy chủ Visual IDE Nhanh (Không cần VPS • Tới 300MB)", "Visual IDE Fast Build Server (No VPS • Up to 300MB)")
         case .directVPSTerminal: return L10n.tr("Terminal Linux VPS Trực Tiếp (Không Gửi Lại Zip)", "Direct Linux VPS Terminal (Live Make / Zero Zip)")
         case .privateSSHVPS: return L10n.tr("VPS SSH Nền (Đồng Bộ Delta & Kéo .deb)", "Private SSH VPS (Delta Sync & Auto Pull)")
         case .offlineExport: return L10n.tr("Ngoại tuyến (.zip + GitHub Actions)", "Offline Export (.zip + GitHub Actions)")
@@ -192,16 +192,16 @@ public final class TheosBuildService: ObservableObject {
     public static let defaultServerURL = "https://build.kaydus.xyz"
 
     @Published public var buildMode: TheosBuildMode {
-        didSet { UserDefaults.standard.set(buildMode.rawValue, forKey: "NexusKing.theos.buildMode") }
+        didSet { UserDefaults.standard.set(buildMode.rawValue, forKey: "Visual IDE.theos.buildMode") }
     }
     @Published public var packageScheme: TheosPackageScheme {
-        didSet { UserDefaults.standard.set(packageScheme.rawValue, forKey: "NexusKing.theos.packageScheme") }
+        didSet { UserDefaults.standard.set(packageScheme.rawValue, forKey: "Visual IDE.theos.packageScheme") }
     }
     @Published public var serverURL: String {
-        didSet { UserDefaults.standard.set(serverURL, forKey: "NexusKing.theos.serverURL") }
+        didSet { UserDefaults.standard.set(serverURL, forKey: "Visual IDE.theos.serverURL") }
     }
     @Published public var hasAcceptedPrivacyConsent: Bool {
-        didSet { UserDefaults.standard.set(hasAcceptedPrivacyConsent, forKey: "NexusKing.theos.privacyConsent") }
+        didSet { UserDefaults.standard.set(hasAcceptedPrivacyConsent, forKey: "Visual IDE.theos.privacyConsent") }
     }
     @Published public var cleanBuildOnServer: Bool = false
 
@@ -228,28 +228,28 @@ public final class TheosBuildService: ObservableObject {
     nonisolated private static let emptyFileSHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 
     public init() {
-        if let rawMode = UserDefaults.standard.string(forKey: "NexusKing.theos.buildMode"),
+        if let rawMode = UserDefaults.standard.string(forKey: "Visual IDE.theos.buildMode"),
            let mode = TheosBuildMode(rawValue: rawMode) {
             self.buildMode = mode
         } else {
             self.buildMode = .communityServer
         }
 
-        if let rawScheme = UserDefaults.standard.string(forKey: "NexusKing.theos.packageScheme"),
+        if let rawScheme = UserDefaults.standard.string(forKey: "Visual IDE.theos.packageScheme"),
            let scheme = TheosPackageScheme(rawValue: rawScheme) {
             self.packageScheme = scheme
         } else {
             self.packageScheme = .rootless
         }
 
-        let storedURL = UserDefaults.standard.string(forKey: "NexusKing.theos.serverURL")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let storedURL = UserDefaults.standard.string(forKey: "Visual IDE.theos.serverURL")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if storedURL.isEmpty || Self.isMisconfiguredRootHost(storedURL) {
             self.serverURL = Self.defaultServerURL
-            UserDefaults.standard.set(Self.defaultServerURL, forKey: "NexusKing.theos.serverURL")
+            UserDefaults.standard.set(Self.defaultServerURL, forKey: "Visual IDE.theos.serverURL")
         } else {
             self.serverURL = storedURL
         }
-        self.hasAcceptedPrivacyConsent = UserDefaults.standard.bool(forKey: "NexusKing.theos.privacyConsent")
+        self.hasAcceptedPrivacyConsent = UserDefaults.standard.bool(forKey: "Visual IDE.theos.privacyConsent")
 
         if let existingID = KeychainVault.loadString(forKey: "theos.device.id"),
            existingID.count >= 8 {
@@ -362,7 +362,7 @@ public final class TheosBuildService: ObservableObject {
         bundleFilter rawFilter: String,
         in workspace: WorkspaceManager
     ) -> URL? {
-        let cleanName = Self.sanitizeSymbolName(rawName, fallback: kind == .modMenuDylib ? "ModMenuNexusKing" : "MyTweakNexusKing")
+        let cleanName = Self.sanitizeSymbolName(rawName, fallback: kind == .modMenuDylib ? "ModMenuVisualIDE" : "MyTweakVisualIDE")
         let rawPkg = rawBundleID.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let validPkgScalars = rawPkg.unicodeScalars.filter {
             ($0.value >= 97 && $0.value <= 122) || ($0.value >= 48 && $0.value <= 57) || $0 == "." || $0 == "-"
@@ -399,9 +399,9 @@ public final class TheosBuildService: ObservableObject {
         Name: \(cleanName)
         Version: 1.0.0
         Architecture: iphoneos-arm
-        Description: Built with NexusKing Mobile IDE
-        Maintainer: NexusKing Developer
-        Author: NexusKing Developer
+        Description: Built with Visual IDE
+        Maintainer: Visual IDE Developer
+        Author: Visual IDE Developer
         Section: Tweaks
         Depends: mobilesubstrate (>= 0.9.5000)
         """
@@ -432,7 +432,7 @@ public final class TheosBuildService: ObservableObject {
 
             - (void)applicationDidFinishLaunching:(id)application {
                 %orig;
-                NSLog(@"[\(cleanName)] Tweak loaded via NexusKing Mobile IDE!");
+                NSLog(@"[\(cleanName)] Tweak loaded via Visual IDE!");
             }
 
             %end
@@ -512,7 +512,7 @@ public final class TheosBuildService: ObservableObject {
                 self.floatingToggleButton = [UIButton buttonWithType:UIButtonTypeSystem];
                 self.floatingToggleButton.frame = CGRectMake(0, 0, 46, 46);
                 self.floatingToggleButton.backgroundColor = [UIColor colorWithRed:0.08 green:0.10 blue:0.14 alpha:0.94];
-                [self.floatingToggleButton setTitle:@"NexusKing" forState:UIControlStateNormal];
+                [self.floatingToggleButton setTitle:@"Visual IDE" forState:UIControlStateNormal];
                 [self.floatingToggleButton setTitleColor:[UIColor colorWithRed:0.06 green:0.72 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
                 self.floatingToggleButton.titleLabel.font = [UIFont monospacedSystemFontOfSize:11 weight:UIFontWeightBold];
                 self.floatingToggleButton.layer.cornerRadius = 12.0;
@@ -736,7 +736,7 @@ public final class TheosBuildService: ObservableObject {
 
         isBuilding = true
         activeBuildBaseURL = nil
-        buildLog = "[NexusKing Theos] Chuẩn bị đóng gói dự án từ \(workspaceRoot.lastPathComponent)...\n"
+        buildLog = "[Visual IDE Theos] Chuẩn bị đóng gói dự án từ \(workspaceRoot.lastPathComponent)...\n"
         buildStatusText = "Đang chuẩn bị biên dịch..."
         runner.consoleOutput = buildLog
 
@@ -794,7 +794,7 @@ public final class TheosBuildService: ObservableObject {
         activeBuildBaseURL = nil
         isBuilding = false
         buildStatusText = "Đã huỷ build."
-        appendLog("\n[NexusKing] Người dùng đã huỷ tiến trình build.\n", runner: nil)
+        appendLog("\n[Visual IDE] Người dùng đã huỷ tiến trình build.\n", runner: nil)
 
         if let jobID = jobToCancel, let base = cancelBase {
             let deleteURL = base.appendingPathComponent("v1/builds/\(jobID)")
@@ -821,13 +821,13 @@ public final class TheosBuildService: ObservableObject {
         onWorkspaceChanged: @escaping () -> Void
     ) async {
         guard isTheosWorkspace(workspaceRoot) else {
-            let msg = "[NexusKing] Chưa tìm thấy Makefile / control của Theos trong thư mục dự án. Hãy bấm 'Tạo Mẫu Tweak / Mod Menu' trước.\n"
+            let msg = "[Visual IDE] Chưa tìm thấy Makefile / control của Theos trong thư mục dự án. Hãy bấm 'Tạo Mẫu Tweak / Mod Menu' trước.\n"
             appendLog(msg, runner: runner)
             buildStatusText = "Thiếu Makefile Theos"
             return
         }
         guard let primaryBase = normalizedBaseURL() else {
-            appendLog("[NexusKing] URL Build Server không hợp lệ.\n", runner: runner)
+            appendLog("[Visual IDE] URL Build Server không hợp lệ.\n", runner: runner)
             buildStatusText = "Sai URL máy chủ"
             return
         }
@@ -841,18 +841,18 @@ public final class TheosBuildService: ObservableObject {
         }.value
 
         if let errMsg = scan.truncatedReason {
-            appendLog("[NexusKing] \(errMsg)\n", runner: runner)
+            appendLog("[Visual IDE] \(errMsg)\n", runner: runner)
             buildStatusText = "Vượt giới hạn dự án"
             return
         }
         if scan.files.isEmpty {
-            appendLog("[NexusKing] Không tìm thấy file nguồn hợp lệ trong dự án.\n", runner: runner)
+            appendLog("[Visual IDE] Không tìm thấy file nguồn hợp lệ trong dự án.\n", runner: runner)
             buildStatusText = "Dự án trống"
             return
         }
 
         let totalProjStr = Self.formatByteCount(scan.totalBytes)
-        appendLog("[NexusKing] Dự án \(scan.projectName): \(scan.files.count) file (\(totalProjStr), tái dùng cache hash \(scan.cacheHits) file).\n", runner: runner)
+        appendLog("[Visual IDE] Dự án \(scan.projectName): \(scan.files.count) file (\(totalProjStr), tái dùng cache hash \(scan.cacheHits) file).\n", runner: runner)
 
         do {
             let checkBody = try JSONEncoder().encode(["hashes": scan.orderedUniqueHashes])
@@ -870,14 +870,14 @@ public final class TheosBuildService: ObservableObject {
                 resourceTimeout: 45,
                 maxAttempts: 3,
                 onRetry: { [weak self] attempt, nextHost in
-                    self?.appendLog("[NexusKing] Kết nối gián đoạn khi kiểm tra cache, đang thử lại (lần \(attempt + 1)/3 -> \(nextHost))...\n", runner: runner)
+                    self?.appendLog("[Visual IDE] Kết nối gián đoạn khi kiểm tra cache, đang thử lại (lần \(attempt + 1)/3 -> \(nextHost))...\n", runner: runner)
                 }
             )
 
             let checkCode = checkResult.response.statusCode
             if checkCode == 404 {
                 if scan.totalBytes <= Int64(Self.maxCommunityUploadBytes) {
-                    appendLog("[NexusKing] Máy chủ đang dùng API cũ — tự động dùng luồng gửi .zip...\n", runner: runner)
+                    appendLog("[Visual IDE] Máy chủ đang dùng API cũ — tự động dùng luồng gửi .zip...\n", runner: runner)
                     await buildViaCommunityServerLegacyZip(
                         workspaceRoot: workspaceRoot,
                         primaryBase: primaryBase,
@@ -885,7 +885,7 @@ public final class TheosBuildService: ObservableObject {
                         onWorkspaceChanged: onWorkspaceChanged
                     )
                 } else {
-                    appendLog("[NexusKing] Máy chủ cần cập nhật BuildServer v2.0 để hỗ trợ dự án lớn > 20 MB (\(totalProjStr)).\n", runner: runner)
+                    appendLog("[Visual IDE] Máy chủ cần cập nhật BuildServer v2.0 để hỗ trợ dự án lớn > 20 MB (\(totalProjStr)).\n", runner: runner)
                     buildStatusText = "Server chưa hỗ trợ > 20 MB"
                 }
                 return
@@ -894,7 +894,7 @@ public final class TheosBuildService: ObservableObject {
             if !(200...299).contains(checkCode) {
                 let apiErr = try? JSONDecoder().decode(TheosServerErrorResponse.self, from: checkResult.data)
                 let msg = apiErr?.message ?? "HTTP \(checkCode)"
-                appendLog("[NexusKing] Máy chủ từ chối kiểm tra cache: \(msg)\n", runner: runner)
+                appendLog("[Visual IDE] Máy chủ từ chối kiểm tra cache: \(msg)\n", runner: runner)
                 buildStatusText = msg
                 return
             }
@@ -902,7 +902,7 @@ public final class TheosBuildService: ObservableObject {
             let checkResp = try JSONDecoder().decode(TheosCASCheckResponse.self, from: checkResult.data)
             if let serverMaxProjMB = checkResp.maxProjectMB,
                scan.totalBytes > Int64(serverMaxProjMB) * 1024 * 1024 {
-                appendLog("[NexusKing] Dự án (\(totalProjStr)) vượt giới hạn \(serverMaxProjMB) MB trên máy chủ.\n", runner: runner)
+                appendLog("[Visual IDE] Dự án (\(totalProjStr)) vượt giới hạn \(serverMaxProjMB) MB trên máy chủ.\n", runner: runner)
                 buildStatusText = "Vượt giới hạn \(serverMaxProjMB) MB"
                 return
             }
@@ -921,7 +921,7 @@ public final class TheosBuildService: ObservableObject {
                 )
                 if !uploaded { return }
             } else {
-                appendLog("[NexusKing] 100% file đã có trên cache máy chủ — gửi 0 KB dữ liệu!\n", runner: runner)
+                appendLog("[Visual IDE] 100% file đã có trên cache máy chủ — gửi 0 KB dữ liệu!\n", runner: runner)
             }
 
             buildStatusText = "Đang khởi chạy build trên máy chủ..."
@@ -949,14 +949,14 @@ public final class TheosBuildService: ObservableObject {
                 resourceTimeout: 90,
                 maxAttempts: 3,
                 onRetry: { [weak self] attempt, nextHost in
-                    self?.appendLog("[NexusKing] Đang thử gửi lại manifest build (lần \(attempt + 1)/3 -> \(nextHost))...\n", runner: runner)
+                    self?.appendLog("[Visual IDE] Đang thử gửi lại manifest build (lần \(attempt + 1)/3 -> \(nextHost))...\n", runner: runner)
                 }
             )
 
             if submitResult.response.statusCode == 409,
                let missingResp = try? JSONDecoder().decode(TheosMissingBlobsResponse.self, from: submitResult.data),
                let retryHashes = missingResp.missing, !retryHashes.isEmpty {
-                appendLog("[NexusKing] Máy chủ yêu cầu gửi bổ sung \(retryHashes.count) khối vừa hết hạn...\n", runner: runner)
+                appendLog("[Visual IDE] Máy chủ yêu cầu gửi bổ sung \(retryHashes.count) khối vừa hết hạn...\n", runner: runner)
                 let reuploaded = try await uploadMissingCASChunks(
                     hashes: retryHashes,
                     chunksByHash: scan.chunksByHash,
@@ -986,7 +986,7 @@ public final class TheosBuildService: ObservableObject {
             if !(200...299).contains(submitResult.response.statusCode) {
                 let apiErr = try? JSONDecoder().decode(TheosServerErrorResponse.self, from: submitResult.data)
                 let msg = apiErr?.message ?? "HTTP \(submitResult.response.statusCode)"
-                appendLog("[NexusKing] Máy chủ từ chối build: \(msg)\n", runner: runner)
+                appendLog("[Visual IDE] Máy chủ từ chối build: \(msg)\n", runner: runner)
                 buildStatusText = msg
                 return
             }
@@ -1005,7 +1005,7 @@ public final class TheosBuildService: ObservableObject {
             )
         } catch {
             if !Task.isCancelled {
-                appendLog("\n[NexusKing] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
+                appendLog("\n[Visual IDE] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
                 buildStatusText = "Lỗi mạng"
             }
         }
@@ -1052,9 +1052,9 @@ public final class TheosBuildService: ObservableObject {
         if totalProjectBytes > 0 {
             let savedPct = max(0.0, (1.0 - Double(missingTotalBytes) / Double(totalProjectBytes)) * 100.0)
             let savedStr = String(format: "%.1f%%", savedPct)
-            appendLog("[NexusKing] Chỉ gửi \(missingLocs.count) phần thay đổi (\(uploadStr) / \(projStr) — tiết kiệm \(savedStr)) trong \(batches.count) gói...\n", runner: runner)
+            appendLog("[Visual IDE] Chỉ gửi \(missingLocs.count) phần thay đổi (\(uploadStr) / \(projStr) — tiết kiệm \(savedStr)) trong \(batches.count) gói...\n", runner: runner)
         } else {
-            appendLog("[NexusKing] Đang tải lên \(uploadStr) qua \(batches.count) gói...\n", runner: runner)
+            appendLog("[Visual IDE] Đang tải lên \(uploadStr) qua \(batches.count) gói...\n", runner: runner)
         }
 
         var sentBytes: Int64 = 0
@@ -1068,7 +1068,7 @@ public final class TheosBuildService: ObservableObject {
             guard let batchFileURL = await Task.detached(priority: .userInitiated, operation: { () -> URL? in
                 Self.writeCASBatchTempFile(batch: batch)
             }).value else {
-                appendLog("[NexusKing] Không tạo được gói dữ liệu tạm để tải lên.\n", runner: runner)
+                appendLog("[Visual IDE] Không tạo được gói dữ liệu tạm để tải lên.\n", runner: runner)
                 buildStatusText = "Lỗi đọc file"
                 return false
             }
@@ -1087,14 +1087,14 @@ public final class TheosBuildService: ObservableObject {
                 resourceTimeout: 240,
                 maxAttempts: 4,
                 onRetry: { [weak self] attempt, nextHost in
-                    self?.appendLog("[NexusKing] Kết nối gián đoạn ở gói \(batchLabel), đang thử lại (lần \(attempt + 1)/4 -> \(nextHost))...\n", runner: runner)
+                    self?.appendLog("[Visual IDE] Kết nối gián đoạn ở gói \(batchLabel), đang thử lại (lần \(attempt + 1)/4 -> \(nextHost))...\n", runner: runner)
                     self?.buildStatusText = "Đang thử lại gói \(batchLabel) (\(attempt + 1)/4)..."
                 }
             )
             if !(200...299).contains(upResult.response.statusCode) {
                 let apiErr = try? JSONDecoder().decode(TheosServerErrorResponse.self, from: upResult.data)
                 let msg = apiErr?.message ?? "HTTP \(upResult.response.statusCode)"
-                appendLog("[NexusKing] Lỗi tải lên gói \(batchLabel): \(msg)\n", runner: runner)
+                appendLog("[Visual IDE] Lỗi tải lên gói \(batchLabel): \(msg)\n", runner: runner)
                 buildStatusText = msg
                 return false
             }
@@ -1112,7 +1112,7 @@ public final class TheosBuildService: ObservableObject {
         guard let zipData = await Task.detached(priority: .userInitiated, operation: { () -> Data? in
             Self.createCleanTheosZipData(workspaceRoot: workspaceRoot)
         }).value else {
-            appendLog("[NexusKing] Không thể nén dự án thành file .zip.\n", runner: runner)
+            appendLog("[Visual IDE] Không thể nén dự án thành file .zip.\n", runner: runner)
             buildStatusText = "Lỗi nén .zip"
             return
         }
@@ -1121,8 +1121,8 @@ public final class TheosBuildService: ObservableObject {
         if zipSize > Self.maxCommunityUploadBytes {
             let sizeMB = String(format: "%.1f", Double(zipSize) / (1024.0 * 1024.0))
             appendLog(
-                "[NexusKing] Dự án sau khi nén (\(sizeMB) MB) vượt giới hạn 20 MB của Máy chủ Cộng đồng.\n" +
-                "[NexusKing] Gợi ý: Cập nhật BuildServer v2.0 hoặc chuyển sang chế độ VPS SSH Cá nhân / Ngoại tuyến (.zip + GitHub Actions).\n",
+                "[Visual IDE] Dự án sau khi nén (\(sizeMB) MB) vượt giới hạn 20 MB của Máy chủ Cộng đồng.\n" +
+                "[Visual IDE] Gợi ý: Cập nhật BuildServer v2.0 hoặc chuyển sang chế độ VPS SSH Cá nhân / Ngoại tuyến (.zip + GitHub Actions).\n",
                 runner: runner
             )
             buildStatusText = "Vượt giới hạn 20 MB"
@@ -1130,7 +1130,7 @@ public final class TheosBuildService: ObservableObject {
         }
 
         let sizeKB = max(1, zipSize / 1024)
-        appendLog("[NexusKing] Đã nén sạch dự án (\(sizeKB) KB). Đang gửi lên \(primaryBase.absoluteString) (scheme: \(packageScheme.rawValue))...\n", runner: runner)
+        appendLog("[Visual IDE] Đã nén sạch dự án (\(sizeKB) KB). Đang gửi lên \(primaryBase.absoluteString) (scheme: \(packageScheme.rawValue))...\n", runner: runner)
         buildStatusText = "Đang tải lên máy chủ build..."
 
         do {
@@ -1148,7 +1148,7 @@ public final class TheosBuildService: ObservableObject {
                 resourceTimeout: 240,
                 maxAttempts: 4,
                 onRetry: { [weak self] attempt, nextHost in
-                    self?.appendLog("[NexusKing] Kết nối gián đoạn khi tải lên, đang tự thử lại (lần \(attempt + 1)/4 -> \(nextHost))...\n", runner: runner)
+                    self?.appendLog("[Visual IDE] Kết nối gián đoạn khi tải lên, đang tự thử lại (lần \(attempt + 1)/4 -> \(nextHost))...\n", runner: runner)
                     self?.buildStatusText = "Đang kết nối lại máy chủ build (\(attempt + 1)/4)..."
                 }
             )
@@ -1158,7 +1158,7 @@ public final class TheosBuildService: ObservableObject {
             if !(200...299).contains(http.statusCode) {
                 let apiErr = try? JSONDecoder().decode(TheosServerErrorResponse.self, from: uploadResult.data)
                 let msg = apiErr?.message ?? "HTTP \(http.statusCode)"
-                appendLog("[NexusKing] Máy chủ từ chối build: \(msg)\n", runner: runner)
+                appendLog("[Visual IDE] Máy chủ từ chối build: \(msg)\n", runner: runner)
                 buildStatusText = msg
                 return
             }
@@ -1173,7 +1173,7 @@ public final class TheosBuildService: ObservableObject {
             )
         } catch {
             if !Task.isCancelled {
-                appendLog("\n[NexusKing] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
+                appendLog("\n[Visual IDE] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
                 buildStatusText = "Lỗi mạng"
             }
         }
@@ -1235,12 +1235,12 @@ public final class TheosBuildService: ObservableObject {
                             continue
                         }
                         if pHttp.statusCode == 404 {
-                            appendLog("\n[NexusKing] Phiên build đã hết hạn trên máy chủ.\n", runner: runner)
+                            appendLog("\n[Visual IDE] Phiên build đã hết hạn trên máy chủ.\n", runner: runner)
                             buildStatusText = "Build hết hạn"
                         } else {
                             let apiErr = try? JSONDecoder().decode(TheosServerErrorResponse.self, from: pollResult.data)
                             let msg = apiErr?.message ?? "HTTP \(pHttp.statusCode)"
-                            appendLog("\n[NexusKing] Lỗi máy chủ khi theo dõi build: \(msg)\n", runner: runner)
+                            appendLog("\n[Visual IDE] Lỗi máy chủ khi theo dõi build: \(msg)\n", runner: runner)
                             buildStatusText = msg
                         }
                         return
@@ -1248,7 +1248,7 @@ public final class TheosBuildService: ObservableObject {
 
                     job = try JSONDecoder().decode(TheosBuildJobResponse.self, from: pollResult.data)
                     if consecutivePollFailures > 0 {
-                        appendLog("\n[NexusKing] Đã khôi phục kết nối theo dõi build.\n", runner: runner)
+                        appendLog("\n[Visual IDE] Đã khôi phục kết nối theo dõi build.\n", runner: runner)
                     }
                     consecutivePollFailures = 0
                     if let nextOff = job.logOffset {
@@ -1262,7 +1262,7 @@ public final class TheosBuildService: ObservableObject {
                     if Self.isTransientNetworkError(error) && consecutivePollFailures < maxConsecutivePollFailures {
                         consecutivePollFailures += 1
                         if consecutivePollFailures == 1 {
-                            appendLog("\n[NexusKing] Mạng tạm gián đoạn, đang giữ phiên build và kết nối lại...\n", runner: runner)
+                            appendLog("\n[Visual IDE] Mạng tạm gián đoạn, đang giữ phiên build và kết nối lại...\n", runner: runner)
                         }
                         buildStatusText = "Mạng chập chờn — đang giữ phiên build (\(consecutivePollFailures)/\(maxConsecutivePollFailures))..."
                         try? await Task.sleep(nanoseconds: 1_500_000_000)
@@ -1301,7 +1301,7 @@ public final class TheosBuildService: ObservableObject {
                     buildStatusText = "Build xong nhưng không tải được file."
                 } else {
                     let listText = savedNames.joined(separator: ", ")
-                    appendLog("\n[NexusKing] Đã tải về packages/: \(listText)\n", runner: runner)
+                    appendLog("\n[Visual IDE] Đã tải về packages/: \(listText)\n", runner: runner)
                     buildStatusText = "Thành công: \(listText)"
                     onWorkspaceChanged()
                 }
@@ -1311,7 +1311,7 @@ public final class TheosBuildService: ObservableObject {
             }
         } catch {
             if !Task.isCancelled {
-                appendLog("\n[NexusKing] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
+                appendLog("\n[Visual IDE] Lỗi kết nối build server: \(error.localizedDescription)\n", runner: runner)
                 buildStatusText = "Lỗi mạng"
             }
         }
@@ -1326,12 +1326,12 @@ public final class TheosBuildService: ObservableObject {
         onWorkspaceChanged: @escaping () -> Void
     ) async {
         guard sshService.isConnected else {
-            appendLog("[NexusKing] Chưa kết nối SSH VPS. Hãy bấm 'Gắn VPS SSH' để đăng nhập VPS Linux.\n", runner: runner)
+            appendLog("[Visual IDE] Chưa kết nối SSH VPS. Hãy bấm 'Gắn VPS SSH' để đăng nhập VPS Linux.\n", runner: runner)
             buildStatusText = "Chưa kết nối SSH VPS"
             return
         }
         guard isTheosWorkspace(workspaceRoot) else {
-            appendLog("[NexusKing] Chưa tìm thấy Makefile / control trong dự án hiện tại.\n", runner: runner)
+            appendLog("[Visual IDE] Chưa tìm thấy Makefile / control trong dự án hiện tại.\n", runner: runner)
             buildStatusText = "Thiếu Makefile Theos"
             return
         }
@@ -1363,7 +1363,7 @@ public final class TheosBuildService: ObservableObject {
                     )
                 } else {
                     self.buildStatusText = "make trên VPS báo lỗi (exit \(exitCode))"
-                    self.appendLog("\n[NexusKing] make trên Terminal VPS thoát với mã lỗi \(exitCode).\n", runner: runner)
+                    self.appendLog("\n[Visual IDE] make trên Terminal VPS thoát với mã lỗi \(exitCode).\n", runner: runner)
                 }
             }
         }
@@ -1372,9 +1372,9 @@ public final class TheosBuildService: ObservableObject {
 
         let schemeEnv = packageScheme == .rootful ? "" : " THEOS_PACKAGE_SCHEME=\(packageScheme.rawValue)"
         let quotedDir = SSHWorkspaceService.shellQuote(remoteDir)
-        let cmd = "cd \(quotedDir) && ( [ -n \"$THEOS\" ] || for _t in \"$HOME/theos\" /opt/theos /var/theos /usr/local/theos; do [ -d \"$_t/makefiles\" ] && export THEOS=\"$_t\" && break; done ) && ( [ -f Makefile ] || { _mf=$(find . -maxdepth 4 -type f -name Makefile ! -path './.theos/*' | head -n 1); [ -n \"$_mf\" ] && cd \"$(dirname \"$_mf\")\"; } ) && make -j2 package FINALPACKAGE=1\(schemeEnv); __rc=$?; printf '\\n[NexusKing-MAKE-EXIT:%d]\\n' $__rc"
+        let cmd = "cd \(quotedDir) && ( [ -n \"$THEOS\" ] || for _t in \"$HOME/theos\" /opt/theos /var/theos /usr/local/theos; do [ -d \"$_t/makefiles\" ] && export THEOS=\"$_t\" && break; done ) && ( [ -f Makefile ] || { _mf=$(find . -maxdepth 4 -type f -name Makefile ! -path './.theos/*' | head -n 1); [ -n \"$_mf\" ] && cd \"$(dirname \"$_mf\")\"; } ) && make -j2 package FINALPACKAGE=1\(schemeEnv); __rc=$?; printf '\\n[Visual IDE-MAKE-EXIT:%d]\\n' $__rc"
 
-        appendLog("[NexusKing] Đã mở Terminal VPS và chạy make trực tiếp tại \(remoteDir)\n", runner: runner)
+        appendLog("[Visual IDE] Đã mở Terminal VPS và chạy make trực tiếp tại \(remoteDir)\n", runner: runner)
         buildStatusText = "Đang chạy make trực tiếp trên Terminal VPS..."
         sshService.sendPTYCommand(cmd)
     }
@@ -1388,12 +1388,12 @@ public final class TheosBuildService: ObservableObject {
         onWorkspaceChanged: @escaping () -> Void
     ) async {
         guard sshService.isConnected else {
-            appendLog("[NexusKing] Chưa kết nối SSH VPS. Hãy mở tab Remote SSH bên trái hoặc bấm 'Gắn VPS SSH' để đăng nhập VPS trước.\n", runner: runner)
+            appendLog("[Visual IDE] Chưa kết nối SSH VPS. Hãy mở tab Remote SSH bên trái hoặc bấm 'Gắn VPS SSH' để đăng nhập VPS trước.\n", runner: runner)
             buildStatusText = "Chưa kết nối SSH VPS"
             return
         }
         guard isTheosWorkspace(workspaceRoot) else {
-            appendLog("[NexusKing] Chưa tìm thấy Makefile / control trong dự án hiện tại.\n", runner: runner)
+            appendLog("[Visual IDE] Chưa tìm thấy Makefile / control trong dự án hiện tại.\n", runner: runner)
             buildStatusText = "Thiếu Makefile Theos"
             return
         }
@@ -1451,7 +1451,7 @@ public final class TheosBuildService: ObservableObject {
             buildStatusText = "Đang đồng bộ SFTP tab vừa lưu..."
             await sshService.flushPendingSFTPWrites(extraDirtyFiles: dirtyBeforeSave)
             lastRemoteBuildDir = mountedRemote
-            appendLog("[NexusKing] Dự án đang mở trực tiếp từ VPS (\(mountedRemote)) — không cần gửi file zip.\n", runner: runner)
+            appendLog("[Visual IDE] Dự án đang mở trực tiếp từ VPS (\(mountedRemote)) — không cần gửi file zip.\n", runner: runner)
             return (mountedRemote, true)
         }
 
@@ -1459,7 +1459,7 @@ public final class TheosBuildService: ObservableObject {
         let slug = Self.sanitizeRemoteSlug(workspaceRoot.lastPathComponent)
         let homeOut = await sshService.executeCommandOnVPS("printf '%s' \"$HOME\"").trimmingCharacters(in: .whitespacesAndNewlines)
         let homeBase = (homeOut.isEmpty || homeOut.contains("[SSH Error]") || !homeOut.hasPrefix("/")) ? "/tmp" : homeOut
-        let remoteProjDir = "\(homeBase)/NexusKing-Workspaces/\(slug)"
+        let remoteProjDir = "\(homeBase)/Visual IDE-Workspaces/\(slug)"
         let quotedProjDir = SSHWorkspaceService.shellQuote(remoteProjDir)
 
         let mkdirOut = await sshService.executeCommandOnVPS("mkdir -p \(quotedProjDir)")
@@ -1503,7 +1503,7 @@ public final class TheosBuildService: ObservableObject {
         }
 
         if changedFiles.isEmpty {
-            appendLog("[NexusKing] 0 file thay đổi (delta sync 0 KB) — giữ nguyên cache tại \(remoteProjDir)\n", runner: runner)
+            appendLog("[Visual IDE] 0 file thay đổi (delta sync 0 KB) — giữ nguyên cache tại \(remoteProjDir)\n", runner: runner)
         } else {
             let neededDirs = Array(Set(changedFiles.compactMap { file -> String? in
                 let parent = (file.relPath as NSString).deletingLastPathComponent
@@ -1522,14 +1522,14 @@ public final class TheosBuildService: ObservableObject {
 
             let totalBytes = changedFiles.reduce(0) { $0 + $1.data.count }
             let kb = max(1, totalBytes / 1024)
-            appendLog("[NexusKing] Đồng bộ delta \(changedFiles.count)/\(localFiles.count) file thay đổi (\(kb) KB) -> \(remoteProjDir)...\n", runner: runner)
+            appendLog("[Visual IDE] Đồng bộ delta \(changedFiles.count)/\(localFiles.count) file thay đổi (\(kb) KB) -> \(remoteProjDir)...\n", runner: runner)
             buildStatusText = "Đang đồng bộ \(changedFiles.count) file thay đổi..."
 
             for file in changedFiles {
                 do {
                     try await sshService.uploadDataViaSFTP(data: file.data, remotePath: "\(remoteProjDir)/\(file.relPath)")
                 } catch {
-                    appendLog("[NexusKing] Lỗi upload SFTP (\(file.relPath)): \(error.localizedDescription)\n", runner: runner)
+                    appendLog("[Visual IDE] Lỗi upload SFTP (\(file.relPath)): \(error.localizedDescription)\n", runner: runner)
                     buildStatusText = "Lỗi đồng bộ SFTP"
                     return nil
                 }
@@ -1553,7 +1553,7 @@ public final class TheosBuildService: ObservableObject {
         }
         guard let searchDir = remoteProjectDir ?? lastRemoteBuildDir ?? sshService.remoteDirectoryBound(to: localWorkspaceRoot),
               !searchDir.isEmpty else {
-            appendLog("[NexusKing] Chưa xác định thư mục build trên VPS. Hãy chạy make trước hoặc gắn thư mục VPS.\n", runner: runner)
+            appendLog("[Visual IDE] Chưa xác định thư mục build trên VPS. Hãy chạy make trước hoặc gắn thư mục VPS.\n", runner: runner)
             buildStatusText = "Chưa có thư mục build trên VPS"
             return
         }
@@ -1569,7 +1569,7 @@ public final class TheosBuildService: ObservableObject {
 
         guard !remoteArtifacts.isEmpty else {
             buildStatusText = "Chưa thấy .deb/.dylib trong \(searchDir)"
-            appendLog("[NexusKing] Không tìm thấy file .deb/.dylib trong \(searchDir) (hãy kiểm tra lại output của make).\n", runner: runner)
+            appendLog("[Visual IDE] Không tìm thấy file .deb/.dylib trong \(searchDir) (hãy kiểm tra lại output của make).\n", runner: runner)
             return
         }
 
@@ -1591,7 +1591,7 @@ public final class TheosBuildService: ObservableObject {
             buildStatusText = "Không tải được .deb/.dylib từ VPS"
         } else {
             let summary = fetched.joined(separator: ", ")
-            appendLog("[NexusKing] Đã tải từ VPS về packages/: \(summary)\n", runner: runner)
+            appendLog("[Visual IDE] Đã tải từ VPS về packages/: \(summary)\n", runner: runner)
             buildStatusText = "Thành công (VPS): \(summary)"
             onWorkspaceChanged()
         }
@@ -1611,7 +1611,7 @@ public final class TheosBuildService: ObservableObject {
         guard let zipData = await Task.detached(priority: .userInitiated, operation: { () -> Data? in
             Self.createCleanTheosZipData(workspaceRoot: workspaceRoot)
         }).value else {
-            appendLog("[NexusKing] Lỗi đóng gói .zip ngoại tuyến.\n", runner: runner)
+            appendLog("[Visual IDE] Lỗi đóng gói .zip ngoại tuyến.\n", runner: runner)
             buildStatusText = "Lỗi nén .zip"
             return
         }
@@ -1622,11 +1622,11 @@ public final class TheosBuildService: ObservableObject {
         let outURL = packagesDir.appendingPathComponent(archiveName)
         do {
             try zipData.write(to: outURL, options: .atomic)
-            appendLog("[NexusKing] Đã tạo .github/workflows/theos-build.yml và đóng gói sẵn sàng tại packages/\(archiveName).\n", runner: runner)
+            appendLog("[Visual IDE] Đã tạo .github/workflows/theos-build.yml và đóng gói sẵn sàng tại packages/\(archiveName).\n", runner: runner)
             buildStatusText = "Đã xuất \(archiveName)"
             onWorkspaceChanged()
         } catch {
-            appendLog("[NexusKing] Không ghi được file .zip: \(error.localizedDescription)\n", runner: runner)
+            appendLog("[Visual IDE] Không ghi được file .zip: \(error.localizedDescription)\n", runner: runner)
             buildStatusText = "Lỗi ghi file"
         }
     }
@@ -1667,7 +1667,7 @@ public final class TheosBuildService: ObservableObject {
         ) {
             for case let url as URL in enumerator {
                 let name = url.lastPathComponent
-                if excludedDirs.contains(name) || name.hasPrefix(".NexusKing") {
+                if excludedDirs.contains(name) || name.hasPrefix(".VisualIDE") {
                     enumerator.skipDescendants()
                     continue
                 }
@@ -1726,7 +1726,7 @@ public final class TheosBuildService: ObservableObject {
             }
         }
 
-        let targetName = detectedName ?? existingFilesPrefix ?? "TweakNexusKing"
+        let targetName = detectedName ?? existingFilesPrefix ?? "TweakVisualIDE"
         let filesKey = "\(targetName)_FILES"
         let cflagsKey = "\(targetName)_CFLAGS"
         let replacementFilesLine = "\(filesKey) = \(sortedSources.joined(separator: " "))"
@@ -1841,7 +1841,7 @@ public final class TheosBuildService: ObservableObject {
         cfg.timeoutIntervalForResource = resourceTimeout
         let appVer = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "5.4.0"
         cfg.httpAdditionalHeaders = [
-            "User-Agent": "NexusKing/\(appVer) (iOS)",
+            "User-Agent": "Visual IDE/\(appVer) (iOS)",
             "Accept": "application/json, application/octet-stream;q=0.9, */*;q=0.8"
         ]
         return URLSession(configuration: cfg)
@@ -1935,7 +1935,7 @@ public final class TheosBuildService: ObservableObject {
                 resolvedUploadURL = bodyFileURL
             } else if let body {
                 let tmpURL = FileManager.default.temporaryDirectory
-                    .appendingPathComponent("NexusKing_up_\(UUID().uuidString).bin")
+                    .appendingPathComponent("Visual IDE_up_\(UUID().uuidString).bin")
                 try body.write(to: tmpURL, options: .atomic)
                 tempUploadURL = tmpURL
                 resolvedUploadURL = tmpURL
@@ -2048,7 +2048,7 @@ public final class TheosBuildService: ObservableObject {
 
                 guard http.statusCode == 200 else {
                     try? FileManager.default.removeItem(at: downloadedTmp)
-                    appendLog("\n[NexusKing] Không tải được \(fileName) (HTTP \(http.statusCode)).\n", runner: runner)
+                    appendLog("\n[Visual IDE] Không tải được \(fileName) (HTTP \(http.statusCode)).\n", runner: runner)
                     return false
                 }
 
@@ -2059,7 +2059,7 @@ public final class TheosBuildService: ObservableObject {
                 }
                 if Self.looksLikeUnexpectedHTML(data: headData, response: http) {
                     try? FileManager.default.removeItem(at: downloadedTmp)
-                    appendLog("\n[NexusKing] Máy chủ trả về trang HTML thay vì file \(fileName).\n", runner: runner)
+                    appendLog("\n[Visual IDE] Máy chủ trả về trang HTML thay vì file \(fileName).\n", runner: runner)
                     return false
                 }
 
@@ -2110,7 +2110,7 @@ public final class TheosBuildService: ObservableObject {
         let digest = SHA256.hash(data: Data(canon.utf8))
         let hex = digest.prefix(8).map { String(format: "%02x", $0) }.joined()
         let cachesDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        return cachesDir.appendingPathComponent("NexusKing_cas_index_v1_\(hex).json")
+        return cachesDir.appendingPathComponent("Visual IDE_cas_index_v1_\(hex).json")
     }
 
     nonisolated private static func scanWorkspaceForCAS(workspaceRoot: URL) -> CASWorkspaceScan {
@@ -2162,7 +2162,7 @@ public final class TheosBuildService: ObservableObject {
             let lowerName = name.lowercased()
             if excludedDirs.contains(name)
                 || excludedDirSuffixes.contains(where: { lowerName.hasSuffix($0) })
-                || name.hasPrefix(".NexusKing")
+                || name.hasPrefix(".VisualIDE")
                 || name == ".DS_Store" {
                 enumerator.skipDescendants()
                 continue
@@ -2329,14 +2329,14 @@ public final class TheosBuildService: ObservableObject {
     nonisolated private static func writeCASBatchTempFile(batch: [CASChunkLoc]) -> URL? {
         guard !batch.isEmpty else { return nil }
         let fm = FileManager.default
-        let batchURL = fm.temporaryDirectory.appendingPathComponent("NexusKing_cas_batch_\(UUID().uuidString).bin")
+        let batchURL = fm.temporaryDirectory.appendingPathComponent("Visual IDE_cas_batch_\(UUID().uuidString).bin")
         guard fm.createFile(atPath: batchURL.path, contents: nil) else { return nil }
 
         do {
             let outHandle = try FileHandle(forWritingTo: batchURL)
             defer { try? outHandle.close() }
 
-            var header = Data("NexusKingCAS1".utf8)
+            var header = Data("VisualIDECAS1".utf8)
             var beCount = UInt32(batch.count).bigEndian
             withUnsafeBytes(of: &beCount) { header.append(contentsOf: $0) }
             try outHandle.write(contentsOf: header)
@@ -2431,7 +2431,7 @@ public final class TheosBuildService: ObservableObject {
             let lowerName = name.lowercased()
             if excludedDirs.contains(name)
                 || excludedDirSuffixes.contains(where: { lowerName.hasSuffix($0) })
-                || name.hasPrefix(".NexusKing")
+                || name.hasPrefix(".VisualIDE")
                 || name == ".DS_Store" {
                 enumerator.skipDescendants()
                 continue
@@ -2464,9 +2464,9 @@ public final class TheosBuildService: ObservableObject {
     nonisolated private static func createCleanTheosZipData(workspaceRoot: URL) -> Data? {
         let fm = FileManager.default
         let stageID = UUID().uuidString
-        let stageParent = fm.temporaryDirectory.appendingPathComponent("NexusKing_stage_\(stageID)", isDirectory: true)
+        let stageParent = fm.temporaryDirectory.appendingPathComponent("VisualIDE_stage_\(stageID)", isDirectory: true)
         let projectStage = stageParent.appendingPathComponent(workspaceRoot.lastPathComponent, isDirectory: true)
-        let destZip = fm.temporaryDirectory.appendingPathComponent("NexusKing_theos_\(stageID).zip")
+        let destZip = fm.temporaryDirectory.appendingPathComponent("VisualIDE_theos_\(stageID).zip")
 
         defer {
             try? fm.removeItem(at: stageParent)
@@ -2493,7 +2493,7 @@ public final class TheosBuildService: ObservableObject {
                     let lowerName = name.lowercased()
                     if excludedDirs.contains(name)
                         || excludedDirSuffixes.contains(where: { lowerName.hasSuffix($0) })
-                        || name.hasPrefix(".NexusKing")
+                        || name.hasPrefix(".VisualIDE")
                         || name == ".DS_Store" {
                         enumerator.skipDescendants()
                         continue

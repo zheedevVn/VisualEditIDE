@@ -10,7 +10,7 @@ public struct TheosBuilderSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var selectedTemplate: TheosTemplateKind = .modMenuDylib
-    @State private var tweakNameInput: String = "ModMenuNexusKing"
+    @State private var tweakNameInput: String = "ModMenuVisualIDE"
     @State private var packageIDInput: String = "com.nexusking.app.modmenu"
     @State private var bundleFilterInput: String = "com.apple.springboard"
     @State private var showTemplateCreator: Bool = false
@@ -109,7 +109,7 @@ public struct TheosBuilderSheet: View {
                             .font(.footnote)
                             .foregroundColor(.secondary)
 
-                        TextField(preferences.tr("Tên Tweak (ví dụ: ModMenuNexusKing)", "Tweak Name (e.g. ModMenuNexusKing)"), text: $tweakNameInput)
+                        TextField(preferences.tr("Tên Tweak (ví dụ: ModMenuVisualIDE)", "Tweak Name (e.g. ModMenuVisualIDE)"), text: $tweakNameInput)
                             .autocorrectionDisabled()
                             .textInputAutocapitalization(.never)
 

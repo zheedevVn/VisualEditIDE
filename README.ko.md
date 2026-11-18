@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/VisualIDE-banner.svg" width="680" alt="Visual IDE — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>iOS 및 iPadOS용 네이티브 코드 에디터, 원격 개발 워크스테이션 &amp; AI 코딩 IDE</strong></p>
 
@@ -21,8 +21,8 @@
     <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
       <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-VisualIDE--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,7 +36,7 @@
 
 ## 개요
 
-**NexusKing**(`com.nexusking.app`)는 **iOS 15.0+** 및 **iPadOS 15.0+**를 위해 `SwiftUI`와 `UIKit`으로 제작된 100% 네이티브 통합 개발 환경(IDE)입니다. WebView나 Electron 래퍼 없이 모바일 기기에서도 **VS Code**와 **Cursor** 수준의 개발 워크플로를 제공합니다.
+**Visual IDE**(`com.visualide.app`)는 **iOS 15.0+** 및 **iPadOS 15.0+**를 위해 `SwiftUI`와 `UIKit`으로 제작된 100% 네이티브 통합 개발 환경(IDE)입니다. WebView나 Electron 래퍼 없이 모바일 기기에서도 **VS Code**와 **Cursor** 수준의 개발 워크플로를 제공합니다.
 
 에디터 엔진은 `Runestone`과 **48개의 정적 컴파일 C/C++ `Tree-sitter` AST 파서**를 기반으로 120Hz ProMotion 스크롤을 지원하며, 내장 `localhost:5500` Live Server, **기기 내 24/7 백그라운드 데몬 & 텔레그램 봇 실행기**, **Theos Tweak**(`.deb`/`.dylib`) 빌더, **xtool Studio**(SwiftPM `.ipa` 패키징 & Mach-O `.dylib` 인젝터), `SwiftTerm`(`xterm-256color`) 터미널, `Citadel` **SSH/SFTP** 원격 개발 및 Diff 검토 기능을 갖춘 **Coding Agent**를 포함합니다.
 
@@ -44,19 +44,19 @@
 
 ## 다운로드 및 설치
 
-`main` 브랜치에 푸시할 때마다 GitHub Actions(`macos-15` / Xcode 16+)가 자동으로 빌드하여 **Releases**에 **`NexusKing-Unsigned.ipa`**를 배포합니다(iOS 15/16+ **TrollStore** 및 `.p12` 사이드로딩 도구와 즉시 호환되는 Ad-hoc 서명 포함).
+`main` 브랜치에 푸시할 때마다 GitHub Actions(`macos-15` / Xcode 16+)가 자동으로 빌드하여 **Releases**에 **`VisualIDE-Unsigned.ipa`**를 배포합니다(iOS 15/16+ **TrollStore** 및 `.p12` 사이드로딩 도구와 즉시 호환되는 Ad-hoc 서명 포함).
 
-- **최신 버전 직접 다운로드:** [**NexusKing-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **최신 버전 직접 다운로드:** [**VisualIDE-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa)
 - **전체 릴리스 및 SHA-256 체크섬:** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### 설치 방법 (TrollStore / `.p12` / 사이드로드)
 
 | 설치 도구 | 요구 사항 | 절차 |
 | :--- | :--- | :--- |
-| **TrollStore** | CoreTrust 지원 iOS 15.0+ – 17.0 | TrollStore에서 `NexusKing-Unsigned.ipa`를 바로 열어 재서명 없이 영구 설치합니다. |
-| **Feather / ESign / GBox** | 개인 `.p12` 인증서 + `.mobileprovision` | 앱에 인증서를 불러온 뒤 `NexusKing-Unsigned.ipa`를 선택하고 **Sign & Install**을 누릅니다. |
-| **AltStore / SideStore** | 개인 Apple ID (무료 또는 유료) | **My Apps (+)**에서 `NexusKing-Unsigned.ipa`를 열어 자동 서명 및 갱신을 진행합니다. |
-| **Sideloadly (macOS / Windows)** | Apple ID 또는 개발자 인증서 | `NexusKing-Unsigned.ipa`를 끌어다 놓고 USB 또는 Wi-Fi로 설치합니다. |
+| **TrollStore** | CoreTrust 지원 iOS 15.0+ – 17.0 | TrollStore에서 `VisualIDE-Unsigned.ipa`를 바로 열어 재서명 없이 영구 설치합니다. |
+| **Feather / ESign / GBox** | 개인 `.p12` 인증서 + `.mobileprovision` | 앱에 인증서를 불러온 뒤 `VisualIDE-Unsigned.ipa`를 선택하고 **Sign & Install**을 누릅니다. |
+| **AltStore / SideStore** | 개인 Apple ID (무료 또는 유료) | **My Apps (+)**에서 `VisualIDE-Unsigned.ipa`를 열어 자동 서명 및 갱신을 진행합니다. |
+| **Sideloadly (macOS / Windows)** | Apple ID 또는 개발자 인증서 | `VisualIDE-Unsigned.ipa`를 끌어다 놓고 USB 또는 Wi-Fi로 설치합니다. |
 
 ---
 
@@ -170,13 +170,13 @@ flowchart TB
 
 ```bash
 git clone https://github.com/zheedevVN/VisualEditIDE.git
-cd NexusKing
+cd Visual IDE
 xcodegen generate
-xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
+xcodebuild -resolvePackageDependencies -project Visual IDE.xcodeproj -scheme Visual IDE
 
 xcodebuild build \
-  -project NexusKing.xcodeproj \
-  -scheme NexusKing \
+  -project Visual IDE.xcodeproj \
+  -scheme Visual IDE \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -187,9 +187,9 @@ xcodebuild build \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
-zip -qry NexusKing-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/Visual IDE.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/Visual IDE.app
+zip -qry VisualIDE-Unsigned.ipa Payload
 ```
 
 ---
@@ -198,4 +198,4 @@ zip -qry NexusKing-Unsigned.ipa Payload
 
 **Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-**NexusKing**의 소스 코드, 아키텍처 및 브랜드 자산은 [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE)에 따라 배포됩니다. 포크, 수정, `.ipa` 재배포 또는 네트워크를 통한 서비스 제공(AGPL-3.0 제13조) 시 원저작권자 표시와 [`LICENSE`](LICENSE)를 유지하고 **전체 소스 코드를 동일한 `AGPL-3.0` 라이선스로 공개**해야 합니다.
+**Visual IDE**의 소스 코드, 아키텍처 및 브랜드 자산은 [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE)에 따라 배포됩니다. 포크, 수정, `.ipa` 재배포 또는 네트워크를 통한 서비스 제공(AGPL-3.0 제13조) 시 원저작권자 표시와 [`LICENSE`](LICENSE)를 유지하고 **전체 소스 코드를 동일한 `AGPL-3.0` 라이선스로 공개**해야 합니다.

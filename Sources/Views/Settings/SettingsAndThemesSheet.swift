@@ -33,13 +33,13 @@ public struct SettingsAndThemesSheet: View {
     public var body: some View {
         CompatibleNavigationContainer {
             Form {
-                // MARK: - 0. NexusKing Developer Brand Identity Header
+                // MARK: - 0. Visual IDE Developer Brand Identity Header
                 Section {
                     HStack(spacing: 14) {
                         IDECodeMarkVector(size: 52)
                         VStack(alignment: .leading, spacing: 5) {
                             HStack(alignment: .center, spacing: 10) {
-                                BrandNexusKingWordmarkView(height: 19, inkColor: .primary)
+                                BrandVisualIDEWordmarkView(height: 19, inkColor: .primary)
                                 Text("v" + ((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "4.0.1"))
                                     .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
                                     .padding(.horizontal, 6)
@@ -432,8 +432,8 @@ public struct SettingsAndThemesSheet: View {
                         }
 
                     Text(preferences.tr(
-                        "Khi bật tùy chọn này, bạn có thể viết HTML/CSS/JS trong NexusKing rồi chuyển sang Safari mở http://localhost:\(liveServer.port) mà iOS không đóng băng máy chủ.",
-                        "When enabled, you can edit HTML/CSS/JS in NexusKing and switch to Safari at http://localhost:\(liveServer.port) without iOS suspending the server."
+                        "Khi bật tùy chọn này, bạn có thể viết HTML/CSS/JS trong Visual IDE rồi chuyển sang Safari mở http://localhost:\(liveServer.port) mà iOS không đóng băng máy chủ.",
+                        "When enabled, you can edit HTML/CSS/JS in Visual IDE and switch to Safari at http://localhost:\(liveServer.port) without iOS suspending the server."
                     ))
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -467,8 +467,8 @@ public struct SettingsAndThemesSheet: View {
 
                     Toggle(
                         preferences.tr(
-                            "Chống tự tắt màn hình khi đang mở NexusKing",
-                            "Prevent Screen Auto-Lock While NexusKing is Open"
+                            "Chống tự tắt màn hình khi đang mở Visual IDE",
+                            "Prevent Screen Auto-Lock While Visual IDE is Open"
                         ),
                         isOn: $daemonService.preventScreenSleep
                     )
@@ -524,8 +524,8 @@ public struct SettingsAndThemesSheet: View {
                     }
 
                     Text(preferences.tr(
-                        "Mặc định nếu để trống VPS, NexusKing vẫn tự biên dịch & chạy ngay C, C++20, Objective-C, Python, Swift, JS bằng Zero-Config Sandbox mà không cần cài MinGW hay sửa PATH.",
-                        "Without a VPS configured, NexusKing compiles and runs C, C++20, Objective-C, Python, Swift, and JS immediately via Zero-Config Sandbox."
+                        "Mặc định nếu để trống VPS, Visual IDE vẫn tự biên dịch & chạy ngay C, C++20, Objective-C, Python, Swift, JS bằng Zero-Config Sandbox mà không cần cài MinGW hay sửa PATH.",
+                        "Without a VPS configured, Visual IDE compiles and runs C, C++20, Objective-C, Python, Swift, and JS immediately via Zero-Config Sandbox."
                     ))
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -544,13 +544,13 @@ public struct SettingsAndThemesSheet: View {
                 }
             }
             .navigationTitle(preferences.tr(
-                "Cài đặt NexusKing IDE",
-                "NexusKing IDE Settings",
-                zh: "NexusKing IDE 设置",
-                ja: "NexusKing IDE 設定",
-                ko: "NexusKing IDE 설정",
-                ru: "Настройки NexusKing IDE",
-                es: "Ajustes de NexusKing IDE"
+                "Cài đặt Visual IDE",
+                "Visual IDE Settings",
+                zh: "Visual IDE 设置",
+                ja: "Visual IDE 設定",
+                ko: "Visual IDE 설정",
+                ru: "Настройки Visual IDE",
+                es: "Ajustes de Visual IDE"
             ))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -614,7 +614,7 @@ public struct SettingsAndThemesSheet: View {
                         Text("()")
                             .foregroundColor(Color(hex: theme.foreground))
                     }
-                    Text("\"NexusKing IDE\"")
+                    Text("\"Visual IDE IDE\"")
                         .foregroundColor(Color(hex: theme.string))
                 }
                 .font(.system(size: 10.5, design: .monospaced))

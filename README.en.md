@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/VisualIDE-banner.svg" width="680" alt="Visual IDE — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>Native Code Editor, Remote Development Workstation &amp; Agentic IDE for iOS and iPadOS</strong></p>
 
@@ -21,8 +21,8 @@
     <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
       <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-VisualIDE--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,27 +36,27 @@
 
 ## Overview
 
-**NexusKing** (`com.nexusking.app`) is a 100% native Integrated Development Environment (IDE) for **iOS 15.0+** and **iPadOS 15.0+**, built with `SwiftUI` and `UIKit` to deliver a desktop-class **VS Code** and **Cursor** workflow on mobile hardware without Electron or WebView overhead.
+**Visual IDE** (`com.visualide.app`) is a 100% native Integrated Development Environment (IDE) for **iOS 15.0+** and **iPadOS 15.0+**, built with `SwiftUI` and `UIKit` to deliver a desktop-class **VS Code** and **Cursor** workflow on mobile hardware without Electron or WebView overhead.
 
-Its editor core runs directly on `Runestone` backed by **48 statically compiled C/C++ `Tree-sitter` AST parsers** for 120Hz ProMotion scrolling. Out of the box, NexusKing ships with a local `localhost:5500` Live Server, an **on-device 24/7 background daemon & Telegram bot runner**, a **Theos Tweak** (`.deb`/`.dylib`) builder, **xtool Studio** (SwiftPM `.ipa` packaging & Mach-O `.dylib` injection), a full `SwiftTerm` (`xterm-256color`) terminal, **SSH/SFTP** remote development via `Citadel`, and an autonomous **Coding Agent** with inline Diff Review.
+Its editor core runs directly on `Runestone` backed by **48 statically compiled C/C++ `Tree-sitter` AST parsers** for 120Hz ProMotion scrolling. Out of the box, Visual IDE ships with a local `localhost:5500` Live Server, an **on-device 24/7 background daemon & Telegram bot runner**, a **Theos Tweak** (`.deb`/`.dylib`) builder, **xtool Studio** (SwiftPM `.ipa` packaging & Mach-O `.dylib` injection), a full `SwiftTerm` (`xterm-256color`) terminal, **SSH/SFTP** remote development via `Citadel`, and an autonomous **Coding Agent** with inline Diff Review.
 
 ---
 
 ## Download & Installation
 
-Every push to `main` is automatically compiled via GitHub Actions on `macos-15` (Xcode 16+) and published as **`NexusKing-Unsigned.ipa`** under **Releases** (ad-hoc signed for immediate compatibility with **TrollStore on iOS 15/16+** as well as `.p12` sideloaders).
+Every push to `main` is automatically compiled via GitHub Actions on `macos-15` (Xcode 16+) and published as **`VisualIDE-Unsigned.ipa`** under **Releases** (ad-hoc signed for immediate compatibility with **TrollStore on iOS 15/16+** as well as `.p12` sideloaders).
 
-- **Direct Download (Latest):** [**NexusKing-Unsigned.ipa**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **Direct Download (Latest):** [**VisualIDE-Unsigned.ipa**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa)
 - **All Releases & SHA-256 Checksums:** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### Installation Guide (`.p12` / TrollStore / Sideload)
 
 | Installer | Requirement | Steps |
 | :--- | :--- | :--- |
-| **TrollStore** | CoreTrust-supported iOS 15.0+ – 17.0 | Open `NexusKing-Unsigned.ipa` directly in TrollStore for permanent installation without re-signing. |
-| **Feather / ESign / GBox** | Personal `.p12` certificate + `.mobileprovision` | Import your certificate into the signing app, select `NexusKing-Unsigned.ipa`, and tap **Sign & Install**. |
-| **AltStore / SideStore** | Personal Apple ID (Free or Paid) | Open `NexusKing-Unsigned.ipa` from **My Apps (+)** to automatically sign and schedule refreshes. |
-| **Sideloadly (macOS / Windows)** | Apple ID or Developer Certificate | Drag and drop `NexusKing-Unsigned.ipa` into Sideloadly and install over USB or Wi-Fi. |
+| **TrollStore** | CoreTrust-supported iOS 15.0+ – 17.0 | Open `VisualIDE-Unsigned.ipa` directly in TrollStore for permanent installation without re-signing. |
+| **Feather / ESign / GBox** | Personal `.p12` certificate + `.mobileprovision` | Import your certificate into the signing app, select `VisualIDE-Unsigned.ipa`, and tap **Sign & Install**. |
+| **AltStore / SideStore** | Personal Apple ID (Free or Paid) | Open `VisualIDE-Unsigned.ipa` from **My Apps (+)** to automatically sign and schedule refreshes. |
+| **Sideloadly (macOS / Windows)** | Apple ID or Developer Certificate | Drag and drop `VisualIDE-Unsigned.ipa` into Sideloadly and install over USB or Wi-Fi. |
 
 ---
 
@@ -152,7 +152,7 @@ flowchart TB
 
 ## Privacy
 
-- **Zero Telemetry:** NexusKing contains no analytics, tracking SDKs, or ads, and operates no intermediary proxy servers.
+- **Zero Telemetry:** Visual IDE contains no analytics, tracking SDKs, or ads, and operates no intermediary proxy servers.
 - **Credential Storage:** API keys, VPS passwords, SSH private keys, and GitHub tokens remain on-device in **iOS Keychain** (or scoped sandbox storage when sideloaded without Keychain entitlements).
 - **External Requests:** When using online AI providers or the optional community Theos Build Server, requests go directly to your configured provider/server (with explicit consent before the first community build).
 
@@ -184,23 +184,23 @@ Targets, frameworks, and SPM packages are declared in [`project.yml`](project.ym
 - macOS 15.0+ with **Xcode 16.0+**
 - [**XcodeGen**](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`)
 
-### Building `NexusKing-Unsigned.ipa`
+### Building `VisualIDE-Unsigned.ipa`
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/zheedevVN/VisualEditIDE.git
-cd NexusKing
+cd Visual IDE
 
 # 2. Generate Xcode project from project.yml
 xcodegen generate
 
 # 3. Resolve Swift Package Manager dependencies
-xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
+xcodebuild -resolvePackageDependencies -project Visual IDE.xcodeproj -scheme Visual IDE
 
 # 4. Build Release for iOS 15.0+ (arm64)
 xcodebuild build \
-  -project NexusKing.xcodeproj \
-  -scheme NexusKing \
+  -project Visual IDE.xcodeproj \
+  -scheme Visual IDE \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -210,11 +210,11 @@ xcodebuild build \
   CODE_SIGNING_ALLOWED=NO \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
-# 5. Ad-hoc sign (TrollStore compatible) & package NexusKing-Unsigned.ipa
+# 5. Ad-hoc sign (TrollStore compatible) & package VisualIDE-Unsigned.ipa
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
-zip -qry NexusKing-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/Visual IDE.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/Visual IDE.app
+zip -qry VisualIDE-Unsigned.ipa Payload
 ```
 
 ---
@@ -222,21 +222,21 @@ zip -qry NexusKing-Unsigned.ipa Payload
 ## Project Structure
 
 ```text
-NexusKing/
+Visual IDE/
 ├── .github/workflows/
-│   ├── build-ipa.yml                   # Automated CI/CD pipeline building NexusKing-Unsigned.ipa for Releases
+│   ├── build-ipa.yml                   # Automated CI/CD pipeline building VisualIDE-Unsigned.ipa for Releases
 │   └── build-server.yml                # CI verification for the isolated Docker Theos Build Server
 ├── BuildServer/                        # Self-hostable Docker-isolated Theos build server
 ├── Config/
 │   └── AppIcon.svg                     # Source vector icon
 ├── Resources/
 │   └── Brand/
-│       ├── NexusKing-banner.svg             # Horizontal vector banner
-│       ├── NexusKing-icon.svg               # Master vector brand icon
-│       └── NexusKing-icon.png               # High-resolution squircle icon
+│       ├── VisualIDE-banner.svg             # Horizontal vector banner
+│       ├── VisualIDE-icon.svg               # Master vector brand icon
+│       └── VisualIDE-icon.png               # High-resolution squircle icon
 ├── Sources/
 │   ├── App/
-│   │   └── NexusKingMain.swift           # App entry point, Tab Strip, resizable split bars & IDE coordinator
+│   │   └── VisualIDEMain.swift           # App entry point, Tab Strip, resizable split bars & IDE coordinator
 │   ├── Models/
 │   │   ├── AIProviderModels.swift      # AI provider profiles, presets & model ranking
 │   │   ├── AppLocalization.swift       # 7-language localization & iOS 15+ compatibility wrappers
@@ -289,7 +289,7 @@ NexusKing/
 
 **Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-The source code, architecture, and brand assets of **NexusKing** are licensed under the [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE).
+The source code, architecture, and brand assets of **Visual IDE** are licensed under the [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE).
 
 ### Mandatory Terms for Forks, Redistribution & Derivative Works
 
@@ -303,4 +303,4 @@ The source code, architecture, and brand assets of **NexusKing** are licensed un
 4. **State Changes:**
    - Modified source files must carry prominent notices documenting changes made.
 
-> **Trademark & Commercial Licensing:** The **NexusKing** name and brand assets under `Resources/Brand/` belong to the original author; independent forks must clearly state they are derived from **NexusKing**. Proprietary commercial licensing outside `AGPL-3.0` requires written permission from [@zheedevVN](https://github.com/zheedevVN).
+> **Trademark & Commercial Licensing:** The **Visual IDE** name and brand assets under `Resources/Brand/` belong to the original author; independent forks must clearly state they are derived from **Visual IDE**. Proprietary commercial licensing outside `AGPL-3.0` requires written permission from [@zheedevVN](https://github.com/zheedevVN).

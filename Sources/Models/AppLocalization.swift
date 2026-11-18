@@ -25,7 +25,7 @@ public enum AppLanguage: String, CaseIterable, Identifiable, Codable, Sendable {
     case russian = "ru"
     case spanish = "es"
 
-    public static let storageKey = "NexusKing.appLanguage"
+    public static let storageKey = "VisualIDE.appLanguage"
 
     private static let lock = NSLock()
     private static var _cachedCurrent: AppLanguage = {

@@ -316,8 +316,8 @@ public struct IDECodeMarkVector: View {
     }
 }
 
-/// Single-line horizontal `NexusKing_` developer wordmark (heavy monospaced set with emerald terminal block cursor).
-public struct BrandNexusKingWordmarkView: View {
+/// Single-line horizontal `VisualIDE_` developer wordmark (heavy monospaced set with emerald terminal block cursor).
+public struct BrandVisualIDEWordmarkView: View {
     public var height: CGFloat = 28
     public var inkColor: Color = .primary
     public var accentColor: Color = Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255)
@@ -337,7 +337,7 @@ public struct BrandNexusKingWordmarkView: View {
         let cursorHeight = height * 0.13
 
         HStack(alignment: .firstTextBaseline, spacing: height * 0.09) {
-            Text("NexusKing")
+            Text("Visual IDE")
                 .font(.system(size: height * 0.80, weight: .heavy, design: .monospaced))
                 .tracking(-height * 0.014)
                 .foregroundColor(inkColor)
@@ -352,7 +352,7 @@ public struct BrandNexusKingWordmarkView: View {
         }
         .frame(height: height)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("NexusKing")
+        .accessibilityLabel("Visual IDE")
     }
 }
 
@@ -595,3 +595,5 @@ public struct FileLanguageIconView: View {
         }
     }
 }
+
+public typealias BrandNexusKingWordmarkView = BrandVisualIDEWordmarkView

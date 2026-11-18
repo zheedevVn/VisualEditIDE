@@ -219,7 +219,7 @@ public enum AIProviderClient {
     public static func defaultUserAgentString() -> String {
         let appVersion = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "5.3.0"
         let os = ProcessInfo.processInfo.operatingSystemVersion
-        return "NexusKing/\(appVersion) (iOS \(os.majorVersion).\(os.minorVersion))"
+        return "Visual IDE/\(appVersion) (iOS \(os.majorVersion).\(os.minorVersion))"
     }
 
     private static func applyStandardHeaders(to req: inout URLRequest) {
@@ -483,7 +483,7 @@ public enum AIProviderClient {
         if !key.isEmpty { req.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization") }
         if base.contains("openrouter.ai") {
             req.setValue("https://github.com/zheedevVN/VisualEditIDE", forHTTPHeaderField: "HTTP-Referer")
-            req.setValue("NexusKing Mobile IDE", forHTTPHeaderField: "X-Title")
+            req.setValue("Visual IDE Mobile", forHTTPHeaderField: "X-Title")
         }
         req.httpBody = try JSONSerialization.data(withJSONObject: payload)
 
@@ -533,7 +533,7 @@ public enum AIProviderClient {
         if !key.isEmpty { req.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization") }
         if base.contains("openrouter.ai") {
             req.setValue("https://github.com/zheedevVN/VisualEditIDE", forHTTPHeaderField: "HTTP-Referer")
-            req.setValue("NexusKing Mobile IDE", forHTTPHeaderField: "X-Title")
+            req.setValue("Visual IDE Mobile", forHTTPHeaderField: "X-Title")
         }
         req.httpBody = try JSONSerialization.data(withJSONObject: payload)
 

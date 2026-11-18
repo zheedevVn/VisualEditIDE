@@ -1,5 +1,5 @@
 #!/bin/bash
-# NexusKing Theos build entrypoint.
+# VisualIDE Theos build entrypoint.
 # Supports two modes:
 #   BUILD_MODE=zip         : reads .zip from stdin into ephemeral /work/src
 #   BUILD_MODE=incremental : uses pre-synced /work/src & persistent .theos cache
@@ -19,7 +19,7 @@ export GO_EASY_ON_ME=1
 export PATH="$THEOS/bin:$PATH"
 mkdir -p "$HOME" /work/src /work/out
 
-say() { printf '[NexusKing] %s\n' "$*"; }
+say() { printf '[VisualIDE] %s\n' "$*"; }
 
 if [ "${BUILD_MODE:-zip}" = "incremental" ]; then
     rm -rf /work/out/* 2>/dev/null || true
@@ -106,9 +106,9 @@ if [ ! -f control ] && [ ! -f layout/DEBIAN/control ]; then
     if [ -n "$mf_file" ] && [ -f "$mf_file" ]; then
         tweak_name=$(grep -E '^[[:space:]]*(TWEAK_NAME|LIBRARY_NAME|APPLICATION_NAME|TOOL_NAME)[[:space:]:+?]*=' "$mf_file" 2>/dev/null | head -n 1 | cut -d= -f2- | sed 's/#.*//' | awk '{print $1}' || true)
     fi
-    tweak_name="${tweak_name:-TweakNexusKing}"
+    tweak_name="${tweak_name:-TweakVisualIDE}"
     safe_display=$(printf '%s' "$tweak_name" | tr -cd 'A-Za-z0-9._+-')
-    safe_display="${safe_display:-TweakNexusKing}"
+    safe_display="${safe_display:-TweakVisualIDE}"
     pkg_slug=$(printf '%s' "$safe_display" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9.-' | sed 's/^[^a-z0-9]*//; s/[^a-z0-9]*$//')
     pkg_slug="${pkg_slug:-nexusking}"
     cat > control <<EOF
@@ -116,9 +116,9 @@ Package: com.nexusking.auto.${pkg_slug}
 Name: ${safe_display}
 Version: 1.0.0
 Architecture: iphoneos-arm
-Description: Built with NexusKing Build Server
-Maintainer: NexusKing
-Author: NexusKing
+Description: Built with VisualIDE Build Server
+Maintainer: VisualIDE
+Author: VisualIDE
 Section: Tweaks
 Depends: mobilesubstrate
 EOF

@@ -689,7 +689,7 @@ public final class SSHWorkspaceService: ObservableObject {
         guard let client = sshClient else {
             return "Chưa kết nối SSH tới VPS."
         }
-        let marker = "__NexusKing_EXIT:"
+        let marker = "__Visual IDE_EXIT:"
         let wrapped = "(\n\(command)\n); printf '\\n\(marker)%d__' $?"
         do {
             let buffer = try await client.executeCommand(wrapped, maxResponseSize: 4 * 1024 * 1024, mergeStreams: true, inShell: true)
@@ -761,16 +761,16 @@ public final class SSHWorkspaceService: ObservableObject {
         if !cleanToken.isEmpty {
             let tokenEsc = shellSingleQuote(cleanToken)
             script = """
-            ASKPASS=$(mktemp /tmp/.NexusKing_askpass_XXXXXX) && chmod 700 "$ASKPASS" && cat << 'EOF_NexusKing_ASKPASS' > "$ASKPASS"
+            ASKPASS=$(mktemp /tmp/.VisualIDE_askpass_XXXXXX) && chmod 700 "$ASKPASS" && cat << 'EOF_Visual IDE_ASKPASS' > "$ASKPASS"
             #!/bin/sh
             case "$1" in
             *Username*|*username*) printf '%s\\n' "x-access-token" ;;
-            *) printf '%s\\n' "$_NexusKing_GH_TOK" ;;
+            *) printf '%s\\n' "$_Visual IDE_GH_TOK" ;;
             esac
-            EOF_NexusKing_ASKPASS
+            EOF_Visual IDE_ASKPASS
             rc=$?
             if [ "$rc" -eq 0 ]; then
-                (cd \(dirEsc) && _NexusKing_GH_TOK=\(tokenEsc) GIT_ASKPASS="$ASKPASS" GIT_TERMINAL_PROMPT=0 git -c credential.helper= \(argsJoined))
+                (cd \(dirEsc) && _Visual IDE_GH_TOK=\(tokenEsc) GIT_ASKPASS="$ASKPASS" GIT_TERMINAL_PROMPT=0 git -c credential.helper= \(argsJoined))
                 rc=$?
             fi
             rm -f "$ASKPASS"
@@ -780,7 +780,7 @@ public final class SSHWorkspaceService: ObservableObject {
             script = "cd \(dirEsc) && GIT_TERMINAL_PROMPT=0 git \(argsJoined)"
         }
 
-        let marker = "__NexusKing_EXIT:"
+        let marker = "__Visual IDE_EXIT:"
         let wrapped = "(\n\(script)\n); printf '\\n\(marker)%d__' $?"
         do {
             let buffer = try await client.executeCommand(wrapped, maxResponseSize: 4 * 1024 * 1024, mergeStreams: true, inShell: true)
@@ -874,7 +874,7 @@ public final class SSHWorkspaceService: ObservableObject {
         }
 
         let fullScript = """
-        WORK_DIR="$(mktemp -d /tmp/NexusKing_runner.XXXXXX)" && \
+        WORK_DIR="$(mktemp -d /tmp/Visual IDE_runner.XXXXXX)" && \
         trap 'rm -rf "$WORK_DIR"' EXIT && \
         cd "$WORK_DIR" && \
         echo '\(b64Code)' | base64 -d > '\(safeFile)' && \
@@ -912,7 +912,7 @@ public final class SSHWorkspaceService: ObservableObject {
           done
         fi
         if [ -z "$THEOS" ]; then export THEOS="$HOME/theos"; fi
-        echo "[NexusKing] THEOS target: $THEOS"
+        echo "[Visual IDE] THEOS target: $THEOS"
 
         if command -v apt-get >/dev/null 2>&1; then
           SUDO=""
@@ -924,18 +924,18 @@ public final class SSHWorkspaceService: ObservableObject {
         fi
 
         if [ ! -d "$THEOS/makefiles" ]; then
-          echo "[NexusKing] Dang tai Theos ve $THEOS..."
+          echo "[Visual IDE] Dang tai Theos ve $THEOS..."
           git clone --recursive --depth=1 https://github.com/theos/theos.git "$THEOS"
         fi
 
         mkdir -p "$THEOS/sdks"
         if ! ls -d "$THEOS/sdks/"*.sdk >/dev/null 2>&1; then
-          echo "[NexusKing] Dang tai iOS SDK vao $THEOS/sdks..."
-          rm -rf /tmp/_NexusKing_theos_sdks
-          if git clone --depth=1 https://github.com/theos/sdks.git /tmp/_NexusKing_theos_sdks; then
-            find /tmp/_NexusKing_theos_sdks -maxdepth 2 -name "*.sdk.tar.xz" -exec tar -xJf {} -C "$THEOS/sdks" \\; 2>/dev/null || true
-            find /tmp/_NexusKing_theos_sdks -maxdepth 2 -type d -name "*.sdk" -exec cp -r {} "$THEOS/sdks/" \\; 2>/dev/null || true
-            rm -rf /tmp/_NexusKing_theos_sdks
+          echo "[Visual IDE] Dang tai iOS SDK vao $THEOS/sdks..."
+          rm -rf /tmp/_VisualIDE_theos_sdks
+          if git clone --depth=1 https://github.com/theos/sdks.git /tmp/_VisualIDE_theos_sdks; then
+            find /tmp/_VisualIDE_theos_sdks -maxdepth 2 -name "*.sdk.tar.xz" -exec tar -xJf {} -C "$THEOS/sdks" \\; 2>/dev/null || true
+            find /tmp/_VisualIDE_theos_sdks -maxdepth 2 -type d -name "*.sdk" -exec cp -r {} "$THEOS/sdks/" \\; 2>/dev/null || true
+            rm -rf /tmp/_VisualIDE_theos_sdks
           fi
         fi
 
@@ -1028,7 +1028,7 @@ public final class SSHWorkspaceService: ObservableObject {
     }
 
     private func extractMakeExitMarker(from tail: String) -> Int? {
-        let prefix = "[NexusKing-MAKE-EXIT:"
+        let prefix = "[Visual IDE-MAKE-EXIT:"
         guard let start = tail.range(of: prefix, options: .backwards) else { return nil }
         let after = tail[start.upperBound...]
         guard let endBracket = after.firstIndex(of: "]") else { return nil }
@@ -1183,12 +1183,12 @@ public final class SSHWorkspaceService: ObservableObject {
 
     private func persistProfiles() {
         if let data = try? JSONEncoder().encode(savedProfiles) {
-            UserDefaults.standard.set(data, forKey: "NexusKing.vpsProfiles")
+            UserDefaults.standard.set(data, forKey: "Visual IDE.vpsProfiles")
         }
     }
 
     private func loadProfiles() {
-        if let data = UserDefaults.standard.data(forKey: "NexusKing.vpsProfiles"),
+        if let data = UserDefaults.standard.data(forKey: "Visual IDE.vpsProfiles"),
            let decoded = try? JSONDecoder().decode([VPSHostProfile].self, from: data) {
             self.savedProfiles = decoded
         }
@@ -1196,12 +1196,12 @@ public final class SSHWorkspaceService: ObservableObject {
 
     private func persistDirectoryBindings() {
         if let data = try? JSONEncoder().encode(directoryBindings) {
-            UserDefaults.standard.set(data, forKey: "NexusKing.vpsDirectoryBindings")
+            UserDefaults.standard.set(data, forKey: "Visual IDE.vpsDirectoryBindings")
         }
     }
 
     private func loadDirectoryBindings() {
-        if let data = UserDefaults.standard.data(forKey: "NexusKing.vpsDirectoryBindings"),
+        if let data = UserDefaults.standard.data(forKey: "Visual IDE.vpsDirectoryBindings"),
            let decoded = try? JSONDecoder().decode([RemoteDirectoryBindingRecord].self, from: data) {
             self.directoryBindings = decoded
         }

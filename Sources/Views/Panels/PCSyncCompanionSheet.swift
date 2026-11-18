@@ -237,7 +237,7 @@ public struct PCSyncCompanionSheet: View {
                 }
 
                 HStack(spacing: 8) {
-                    TextField("NexusKing-XXXX-...", text: $pcSync.permanentSyncKey)
+                    TextField("VisualIDE-XXXX-...", text: $pcSync.permanentSyncKey)
                         .font(.system(.caption, design: .monospaced))
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)

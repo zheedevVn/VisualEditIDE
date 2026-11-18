@@ -29,7 +29,7 @@ public final class FileTimelineAndArchiveService: ObservableObject {
 
     public init() {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        self.storageRoot = appSupport.appendingPathComponent("NexusKingFileTimeline", isDirectory: true)
+        self.storageRoot = appSupport.appendingPathComponent("Visual IDEFileTimeline", isDirectory: true)
         try? FileManager.default.createDirectory(at: storageRoot, withIntermediateDirectories: true)
     }
 
@@ -128,7 +128,7 @@ public final class FileTimelineAndArchiveService: ObservableObject {
             .replacingOccurrences(of: "/", with: "-")
             .replacingOccurrences(of: ":", with: "-")
             .trimmingCharacters(in: .whitespacesAndNewlines)
-        let projectName = (sanitized.isEmpty || sanitized.hasPrefix(".")) ? "NexusKingProject" : sanitized
+        let projectName = (sanitized.isEmpty || sanitized.hasPrefix(".")) ? "Visual IDEProject" : sanitized
         let destZip = fm.temporaryDirectory.appendingPathComponent("\(projectName).zip")
         if fm.fileExists(atPath: destZip.path) {
             try? fm.removeItem(at: destZip)
