@@ -1659,20 +1659,23 @@ public struct MainIDEWorkspaceView: View {
                     showLeftExplorer.toggle()
                 }
             } label: {
-                HStack(spacing: 3) {
+                HStack(spacing: 5) {
                     if !isUltraNarrow {
-                        IDECodeMarkVector(size: isCompactPhone ? 18 : 22)
+                        IDECodeMarkVector(size: isCompactPhone ? 18 : 20)
                     }
                     ZStack(alignment: .topTrailing) {
-                        Image(systemName: "sidebar.left")
-                            .font(.system(size: isCompactPhone ? 12.5 : 13.5, weight: .semibold))
+                        Image(systemName: "sidebar.leading")
+                            .font(.system(size: isCompactPhone ? 12 : 13, weight: .semibold))
                             .foregroundColor(Color(hex: palette.foreground))
-                            .frame(width: 22, height: 30)
                         if sshService.isConnected {
-                            Circle().fill(Color.green).frame(width: 6, height: 6).offset(x: 1, y: 4)
+                            Circle().fill(Color.green).frame(width: 5, height: 5).offset(x: 2, y: -2)
                         }
                     }
                 }
+                .padding(.horizontal, isCompactPhone ? 5 : 7)
+                .frame(height: 28)
+                .background(Color.white.opacity(0.06))
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
             }
 
             // Current Workspace Badge (Tap for Command Palette & Quick Open)
@@ -1681,70 +1684,75 @@ public struct MainIDEWorkspaceView: View {
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "folder.fill")
-                        .font(.system(size: 10))
+                        .font(.system(size: 9.5))
                         .foregroundColor(Color(hex: palette.accent))
                     Text(workspace.workspaceDisplayName)
-                        .font(.system(size: isCompactPhone ? 10.5 : 11, weight: .semibold))
+                        .font(.system(size: isCompactPhone ? 10.5 : 11, weight: .medium))
                         .foregroundColor(Color(hex: palette.foreground))
                         .lineLimit(1)
+                        .truncationMode(.middle)
                     if pcSyncService.isConnected {
                         Circle()
                             .fill(pcSyncService.transportMode == .wifiLAN ? Color.green : Color.cyan)
-                            .frame(width: 5.5, height: 5.5)
+                            .frame(width: 5, height: 5)
                     }
                 }
-                .padding(.horizontal, isCompactPhone ? 6 : 7)
-                .padding(.vertical, 4)
-                .background(Color(hex: palette.currentLineBackground))
-                .cornerRadius(6)
+                .padding(.horizontal, isCompactPhone ? 6 : 8)
+                .frame(height: 28)
+                .background(Color.white.opacity(0.06))
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
             }
             .buttonStyle(.plain)
-            .layoutPriority(-1)
+            .layoutPriority(1)
 
             Spacer(minLength: 2)
 
-            // Quick Top Edit Strip: Undo / Redo (+ Copy / Paste when >= 360pt)
+            // Quick Top Edit Strip: Clean Undo / Redo Pill
             if workspace.activeTab != nil {
-                HStack(spacing: 1) {
+                HStack(spacing: 0) {
                     quickHeaderEditButton(icon: "arrow.uturn.backward", palette: palette) {
                         triggerQuickAction(.undo)
                     }
+                    Divider()
+                        .frame(height: 12)
+                        .overlay(Color.white.opacity(0.12))
                     quickHeaderEditButton(icon: "arrow.uturn.forward", palette: palette) {
                         triggerQuickAction(.redo)
                     }
-                    if !isUltraNarrow {
-                        quickHeaderEditButton(icon: "doc.on.doc", palette: palette) {
-                            triggerQuickAction(.copy)
-                        }
-                        quickHeaderEditButton(icon: "doc.on.clipboard", palette: palette) {
-                            triggerQuickAction(.paste)
-                        }
-                    }
                 }
-                .padding(2)
-                .background(Color(hex: palette.currentLineBackground))
-                .cornerRadius(6)
+                .frame(height: 28)
+                .background(Color.white.opacity(0.06))
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
             }
 
-            // 1-Tap Smart Run Button
+            // 1-Tap Smart Run Button: Sleek Emerald Gradient
             Button {
                 triggerSmartRun()
             } label: {
-                HStack(spacing: 3) {
+                HStack(spacing: 4) {
                     if runner.isRunning {
-                        ProgressView().scaleEffect(0.65)
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(0.65)
                     } else {
                         Image(systemName: "play.fill")
-                            .font(.system(size: 10.5, weight: .bold))
+                            .font(.system(size: 9.5, weight: .bold))
                     }
                     Text("Run")
                         .font(.system(size: 11, weight: .bold))
                 }
-                .padding(.horizontal, isCompactPhone ? 7 : 8)
-                .padding(.vertical, 5)
-                .background(Color.green.opacity(0.88))
-                .foregroundColor(.black)
-                .cornerRadius(6)
+                .padding(.horizontal, 9)
+                .frame(height: 28)
+                .background(
+                    LinearGradient(
+                        colors: [Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255), Color(red: 5 / 255, green: 150 / 255, blue: 105 / 255)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                .shadow(color: Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255).opacity(0.35), radius: 3, x: 0, y: 1)
                 .fixedSize(horizontal: true, vertical: false)
             }
 
@@ -1860,31 +1868,43 @@ public struct MainIDEWorkspaceView: View {
                 }
             } label: {
                 HStack(spacing: 4) {
-                    Image(systemName: "cpu")
-                        .font(.system(size: 11, weight: .semibold))
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 10, weight: .bold))
                     Text(isCompactPhone ? "AI" : "Agent")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 11, weight: .bold))
                 }
-                .padding(.horizontal, isCompactPhone ? 6.5 : 8)
-                .padding(.vertical, 5)
-                .background(showRightAIPanel ? Color(hex: palette.accent) : Color(hex: palette.currentLineBackground))
+                .padding(.horizontal, isCompactPhone ? 7 : 8)
+                .frame(height: 28)
+                .background(
+                    showRightAIPanel
+                        ? Color(hex: palette.accent)
+                        : Color(hex: palette.currentLineBackground)
+                )
                 .foregroundColor(showRightAIPanel ? .white : Color(hex: palette.accent))
-                .cornerRadius(6)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .stroke(showRightAIPanel ? Color.clear : Color(hex: palette.accent).opacity(0.35), lineWidth: 0.8)
+                )
                 .fixedSize(horizontal: true, vertical: false)
             }
         }
         .padding(.horizontal, isUltraNarrow ? 6 : 8)
-        .frame(height: 38)
+        .frame(height: 40)
         .background(Color(hex: palette.headerBackground).ignoresSafeArea(.container, edges: .top))
+        .overlay(
+            Divider().overlay(Color.white.opacity(0.06)),
+            alignment: .bottom
+        )
     }
 
     @ViewBuilder
     private func quickHeaderEditButton(icon: String, palette: IDEColorPalette, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon)
-                .font(.system(size: 11, weight: .semibold))
+                .font(.system(size: 11.5, weight: .medium))
                 .foregroundColor(Color(hex: palette.foreground))
-                .frame(width: 24, height: 24)
+                .frame(width: 25, height: 28)
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -3369,11 +3389,15 @@ private struct HeaderToolsMenuView: View, Equatable {
                 Label(tr("Theme, Font & Cài đặt", "Themes, Fonts & Settings", nil, nil, nil, nil, nil), systemImage: "slider.horizontal.3")
             }
         } label: {
-            Image(systemName: liveServerRunning ? "antenna.radiowaves.left.and.right" : "ellipsis.circle")
-                .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(liveServerRunning ? .green : Color(hex: foregroundHex))
-                .frame(width: 28, height: 30)
+            HStack(spacing: 0) {
+                Image(systemName: liveServerRunning ? "antenna.radiowaves.left.and.right" : "ellipsis.circle")
+                    .symbolRenderingMode(.hierarchical)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(liveServerRunning ? Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255) : Color(hex: foregroundHex))
+            }
+            .frame(width: 28, height: 28)
+            .background(Color.white.opacity(0.06))
+            .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
         }
     }
 }

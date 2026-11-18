@@ -16,13 +16,6 @@ public struct AIAgentSidePanel: View {
     @State private var showConfigSheet: Bool = false
     @State private var showSkillCreatorSheet: Bool = false
     @State private var newSkillCmd: String = ""
-    public enum AgentMode: String, CaseIterable, Identifiable {
-        case native
-        case web
-        public var id: String { rawValue }
-    }
-
-    @AppStorage("VisualIDE.agent.displayMode") private var agentMode: AgentMode = .native
     @State private var newSkillTitle: String = ""
     @State private var newSkillInstruction: String = ""
 
@@ -74,124 +67,120 @@ public struct AIAgentSidePanel: View {
         VStack(spacing: 0) {
             // Top Header Bar
             HStack(spacing: 6) {
-                Image(systemName: agentMode == .web ? "globe" : "cpu")
+                Image(systemName: "cpu")
                     .symbolRenderingMode(.hierarchical)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(Color(hex: palette.accent))
-                Text(agentMode == .web ? "Web Chat" : "Agent")
+                Text("Agent")
                     .font(.system(size: 13, weight: .bold))
                     .foregroundColor(Color(hex: palette.foreground))
 
-                if agentMode == .native {
-                    // Provider & Model Menu
-                    Menu {
-                        if !aiService.profiles.isEmpty {
-                            Section(preferences.tr("Nhà cung cấp", "Providers")) {
-                                ForEach(aiService.profiles) { profile in
-                                    Button {
-                                        aiService.setActiveProfile(profile.id)
-                                    } label: {
-                                        if aiService.activeProfile?.id == profile.id {
-                                            Label(profile.name, systemImage: "checkmark")
-                                        } else {
-                                            Text(profile.name)
-                                        }
+                // Provider & Model Menu
+                Menu {
+                    if !aiService.profiles.isEmpty {
+                        Section(preferences.tr("Nhà cung cấp", "Providers")) {
+                            ForEach(aiService.profiles) { profile in
+                                Button {
+                                    aiService.setActiveProfile(profile.id)
+                                } label: {
+                                    if aiService.activeProfile?.id == profile.id {
+                                        Label(profile.name, systemImage: "checkmark")
+                                    } else {
+                                        Text(profile.name)
                                     }
                                 }
                             }
                         }
-                        if let active = aiService.activeProfile {
-                            Button {
-                                Task { await aiService.refreshModels(for: active.id) }
-                            } label: {
-                                Label(preferences.tr("Kiểm tra model mới nhất", "Check Latest Models"), systemImage: "arrow.clockwise")
-                            }
-                        }
-                        Button {
-                            showConfigSheet = true
-                        } label: {
-                            Label(preferences.tr("Cấu hình AI...", "Configure AI..."), systemImage: "slider.horizontal.3")
-                        }
-                    } label: {
-                        HStack(spacing: 3) {
-                            if let active = aiService.activeProfile, active.isLocal {
-                                Image(systemName: "wifi.slash")
-                                    .font(.system(size: 8.5, weight: .bold))
-                            }
-                            Text(aiService.modelName)
-                                .font(.system(size: 10, weight: .medium, design: .monospaced))
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                            Image(systemName: "chevron.down")
-                                .font(.system(size: 7.5, weight: .bold))
-                        }
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 3)
-                        .background(Color(hex: palette.currentLineBackground))
-                        .cornerRadius(4)
-                        .foregroundColor(Color(hex: palette.gutterForeground))
                     }
+                    if let active = aiService.activeProfile {
+                        Button {
+                            Task { await aiService.refreshModels(for: active.id) }
+                        } label: {
+                            Label(preferences.tr("Kiểm tra model mới nhất", "Check Latest Models"), systemImage: "arrow.clockwise")
+                        }
+                    }
+                    Button {
+                        showConfigSheet = true
+                    } label: {
+                        Label(preferences.tr("Cấu hình AI...", "Configure AI..."), systemImage: "slider.horizontal.3")
+                    }
+                } label: {
+                    HStack(spacing: 3) {
+                        if let active = aiService.activeProfile, active.isLocal {
+                            Image(systemName: "wifi.slash")
+                                .font(.system(size: 8.5, weight: .bold))
+                        }
+                        Text(aiService.modelName)
+                            .font(.system(size: 10, weight: .medium, design: .monospaced))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 7.5, weight: .bold))
+                    }
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(Color(hex: palette.currentLineBackground))
+                    .cornerRadius(4)
+                    .foregroundColor(Color(hex: palette.gutterForeground))
+                }
 
-                    // Multi-session Thread Switcher
-                    Menu {
-                        Button {
-                            aiService.createNewSession()
-                        } label: {
-                            Label(preferences.tr("Phiên chat mới", "New Chat Thread"), systemImage: "plus.bubble")
-                        }
-                        if !aiService.sessions.isEmpty {
-                            Section(preferences.tr("Lịch sử phiên chat", "Chat Sessions")) {
-                                ForEach(aiService.sessions) { session in
-                                    Button {
-                                        aiService.switchSession(to: session.id)
-                                    } label: {
-                                        if session.id == aiService.activeSessionID {
-                                            Label(session.title, systemImage: "checkmark")
-                                        } else {
-                                            Text(session.title)
-                                        }
+                // Multi-session Thread Switcher
+                Menu {
+                    Button {
+                        aiService.createNewSession()
+                    } label: {
+                        Label(preferences.tr("Phiên chat mới", "New Chat Thread"), systemImage: "plus.bubble")
+                    }
+                    if !aiService.sessions.isEmpty {
+                        Section(preferences.tr("Lịch sử phiên chat", "Chat Sessions")) {
+                            ForEach(aiService.sessions) { session in
+                                Button {
+                                    aiService.switchSession(to: session.id)
+                                } label: {
+                                    if session.id == aiService.activeSessionID {
+                                        Label(session.title, systemImage: "checkmark")
+                                    } else {
+                                        Text(session.title)
                                     }
                                 }
                             }
                         }
-                        Divider()
-                        Button {
-                            showSkillCreatorSheet = true
-                        } label: {
-                            Label(preferences.tr("Quản lý '/' Skills...", "Manage '/' Skills..."), systemImage: "slash.circle")
-                        }
-                        if let currentID = aiService.activeSessionID, aiService.sessions.count > 1 {
-                            Button(role: .destructive) {
-                                aiService.deleteSession(id: currentID)
-                            } label: {
-                                Label(preferences.tr("Xóa phiên hiện tại", "Delete This Thread"), systemImage: "trash")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "bubble.left.and.bubble.right")
-                            .font(.system(size: 12))
-                            .foregroundColor(Color(hex: palette.gutterForeground))
                     }
+                    Divider()
+                    Button {
+                        showSkillCreatorSheet = true
+                    } label: {
+                        Label(preferences.tr("Quản lý '/' Skills...", "Manage '/' Skills..."), systemImage: "slash.circle")
+                    }
+                    if let currentID = aiService.activeSessionID, aiService.sessions.count > 1 {
+                        Button(role: .destructive) {
+                            aiService.deleteSession(id: currentID)
+                        } label: {
+                            Label(preferences.tr("Xóa phiên hiện tại", "Delete This Thread"), systemImage: "trash")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .font(.system(size: 12))
+                        .foregroundColor(Color(hex: palette.gutterForeground))
                 }
 
                 Spacer(minLength: 4)
 
-                if agentMode == .native {
-                    Button {
-                        aiService.clearConversation()
-                    } label: {
-                        Image(systemName: "trash")
-                            .font(.system(size: 12))
-                            .foregroundColor(Color(hex: palette.gutterForeground))
-                    }
+                Button {
+                    aiService.clearConversation()
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.system(size: 12))
+                        .foregroundColor(Color(hex: palette.gutterForeground))
+                }
 
-                    Button {
-                        showConfigSheet = true
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                            .font(.system(size: 13))
-                            .foregroundColor(Color(hex: palette.foreground))
-                    }
+                Button {
+                    showConfigSheet = true
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                        .font(.system(size: 13))
+                        .foregroundColor(Color(hex: palette.foreground))
                 }
 
                 Button {
@@ -205,20 +194,6 @@ public struct AIAgentSidePanel: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 8)
             .background(Color(hex: palette.headerBackground))
-
-            // Mode Selector: Native Agent vs Web Chat (No API Key)
-            Picker("", selection: $agentMode) {
-                Text(preferences.tr("⚡ Agent (Sửa code)", "⚡ Native Agent")).tag(AgentMode.native)
-                Text(preferences.tr("🌐 Web Chat (Đăng nhập)", "🌐 Web Chat (Login)")).tag(AgentMode.web)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(Color(hex: palette.headerBackground))
-
-            if agentMode == .web {
-                AIWebChatView(workspace: workspace, preferences: preferences)
-            } else {
 
             // Active Context & Quick /Skill + @Mention Bar
             ScrollView(.horizontal, showsIndicators: false) {
@@ -511,7 +486,6 @@ public struct AIAgentSidePanel: View {
             }
             .padding(8)
             .background(Color(hex: palette.headerBackground))
-            }
         }
         .background(Color(hex: palette.sidebarBackground))
         .task {
