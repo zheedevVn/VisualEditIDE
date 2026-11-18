@@ -614,7 +614,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                   claude / opencode       Enter interactive AI CLI mode (REPL)
                   claude auth <API_KEY>   Save key to iOS Keychain (or use 'models', 'model <id>')
 
-                \u{001B}[1;32mOpen & Edit Files in Visual IDE IDE:\u{001B}[0m
+                \u{001B}[1;32mOpen & Edit Files in Visual IDE:\u{001B}[0m
                   code <file>             Open (or create & open) file in Visual IDE Code Editor
                   open / notepad <file>   Aliases for 'code <file>' (code . refreshes tree)
                   files / realpath        Show iOS Files.app path ("On My iPhone > Visual IDE > Workspace")
@@ -1757,7 +1757,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
 
             case "pr":
                 if sub == "create" {
-                    var title = "Update from Visual IDE IDE"
+                    var title = "Update from Visual IDE"
                     var body = ""
                     var base = "main"
                     if let tIdx = rest.firstIndex(where: { $0 == "-t" || $0 == "--title" }), tIdx + 1 < rest.count {

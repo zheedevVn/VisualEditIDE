@@ -21,9 +21,9 @@ public final class CodeRunnerService: ObservableObject {
     @Published public var vpsAuthToken: String {
         didSet {
             if vpsAuthToken.isEmpty {
-                KeychainVault.delete(forKey: "Visual IDE.vpsAuthToken")
+                KeychainVault.delete(forKey: "VisualIDE.vpsAuthToken")
             } else {
-                KeychainVault.saveString(vpsAuthToken, forKey: "Visual IDE.vpsAuthToken")
+                KeychainVault.saveString(vpsAuthToken, forKey: "VisualIDE.vpsAuthToken")
             }
         }
     }
@@ -38,15 +38,15 @@ public final class CodeRunnerService: ObservableObject {
 
     public init() {
         self.vpsEndpointURL = UserDefaults.standard.string(forKey: "Visual IDE.vpsEndpointURL") ?? ""
-        let keychainToken = KeychainVault.loadString(forKey: "Visual IDE.vpsAuthToken") ?? ""
+        let keychainToken = KeychainVault.loadString(forKey: "VisualIDE.vpsAuthToken") ?? ""
         if keychainToken.isEmpty,
-           let legacyToken = UserDefaults.standard.string(forKey: "Visual IDE.vpsAuthToken"),
+           let legacyToken = UserDefaults.standard.string(forKey: "VisualIDE.vpsAuthToken"),
            !legacyToken.isEmpty {
-            KeychainVault.saveString(legacyToken, forKey: "Visual IDE.vpsAuthToken")
-            UserDefaults.standard.removeObject(forKey: "Visual IDE.vpsAuthToken")
+            KeychainVault.saveString(legacyToken, forKey: "VisualIDE.vpsAuthToken")
+            UserDefaults.standard.removeObject(forKey: "VisualIDE.vpsAuthToken")
             self.vpsAuthToken = legacyToken
         } else {
-            UserDefaults.standard.removeObject(forKey: "Visual IDE.vpsAuthToken")
+            UserDefaults.standard.removeObject(forKey: "VisualIDE.vpsAuthToken")
             self.vpsAuthToken = keychainToken
         }
     }

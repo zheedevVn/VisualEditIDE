@@ -263,9 +263,9 @@ public struct AIChatSession: Identifiable, Codable, Equatable {
 /// (always tracks the provider's newest model), realtime streaming, online + offline backends.
 @MainActor
 public final class AIAgentService: ObservableObject {
-    private static let profilesKey = "Visual IDE.ai.profiles.v2"
-    private static let activeProfileKey = "Visual IDE.ai.activeProfileID"
-    private static let customSkillsKey = "Visual IDE.ai.customSkills.v1"
+    private static let profilesKey = "VisualIDE.ai.profiles.v2"
+    private static let activeProfileKey = "VisualIDE.ai.activeProfileID"
+    private static let customSkillsKey = "VisualIDE.ai.customSkills.v1"
     /// How often the model catalogue is re-fetched to pick up newly released models.
     private static let modelRefreshInterval: TimeInterval = 6 * 3600
 
@@ -1380,11 +1380,11 @@ public final class AIAgentService: ObservableObject {
     /// the API key out of UserDefaults into the Keychain.
     private func migrateLegacyConfiguration() -> [AIProviderProfile] {
         let defaults = UserDefaults.standard
-        let legacyKeys = ["Visual IDE.aiProvider", "Visual IDE.aiApiKey", "Visual IDE.aiModel", "Visual IDE.aiBaseURL"]
-        let apiKey = (defaults.string(forKey: "Visual IDE.aiApiKey") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        let providerRaw = defaults.string(forKey: "Visual IDE.aiProvider") ?? ""
-        let model = (defaults.string(forKey: "Visual IDE.aiModel") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        let baseURL = (defaults.string(forKey: "Visual IDE.aiBaseURL") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let legacyKeys = ["VisualIDE.aiProvider", "VisualIDE.aiApiKey", "VisualIDE.aiModel", "VisualIDE.aiBaseURL"]
+        let apiKey = (defaults.string(forKey: "VisualIDE.aiApiKey") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let providerRaw = defaults.string(forKey: "VisualIDE.aiProvider") ?? ""
+        let model = (defaults.string(forKey: "VisualIDE.aiModel") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let baseURL = (defaults.string(forKey: "VisualIDE.aiBaseURL") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         defer { legacyKeys.forEach { defaults.removeObject(forKey: $0) } }
 
         guard !apiKey.isEmpty else { return [] }

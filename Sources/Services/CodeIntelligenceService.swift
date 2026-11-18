@@ -1644,7 +1644,7 @@ public final class CodeIntelligenceService: ObservableObject {
         sshService: SSHWorkspaceService
     ) async -> [EditorDiagnostic] {
         let b64 = Data(code.utf8).base64EncodedString()
-        let tmpDir = "/tmp/Visual IDE_diag_\(UUID().uuidString.prefix(8))"
+        let tmpDir = "/tmp/VisualIDE_diag_\(UUID().uuidString.prefix(8))"
         let cmd: String
         switch language {
         case .cpp:

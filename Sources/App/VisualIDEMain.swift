@@ -2167,7 +2167,7 @@ public struct MainIDEWorkspaceView: View {
                         .shadow(color: Color.black.opacity(0.28), radius: 12, x: 0, y: 6)
 
                     VStack(spacing: 8) {
-                        BrandVisual IDEWordmarkView(
+                        BrandVisualIDEWordmarkView(
                             height: 28,
                             inkColor: Color(hex: palette.foreground)
                         )

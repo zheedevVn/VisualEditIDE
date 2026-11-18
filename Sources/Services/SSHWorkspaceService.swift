@@ -689,7 +689,7 @@ public final class SSHWorkspaceService: ObservableObject {
         guard let client = sshClient else {
             return "Chưa kết nối SSH tới VPS."
         }
-        let marker = "__Visual IDE_EXIT:"
+        let marker = "__VisualIDE_EXIT:"
         let wrapped = "(\n\(command)\n); printf '\\n\(marker)%d__' $?"
         do {
             let buffer = try await client.executeCommand(wrapped, maxResponseSize: 4 * 1024 * 1024, mergeStreams: true, inShell: true)
@@ -780,7 +780,7 @@ public final class SSHWorkspaceService: ObservableObject {
             script = "cd \(dirEsc) && GIT_TERMINAL_PROMPT=0 git \(argsJoined)"
         }
 
-        let marker = "__Visual IDE_EXIT:"
+        let marker = "__VisualIDE_EXIT:"
         let wrapped = "(\n\(script)\n); printf '\\n\(marker)%d__' $?"
         do {
             let buffer = try await client.executeCommand(wrapped, maxResponseSize: 4 * 1024 * 1024, mergeStreams: true, inShell: true)
@@ -1028,7 +1028,7 @@ public final class SSHWorkspaceService: ObservableObject {
     }
 
     private func extractMakeExitMarker(from tail: String) -> Int? {
-        let prefix = "[Visual IDE-MAKE-EXIT:"
+        let prefix = "[VisualIDE-MAKE-EXIT:"
         guard let start = tail.range(of: prefix, options: .backwards) else { return nil }
         let after = tail[start.upperBound...]
         guard let endBracket = after.firstIndex(of: "]") else { return nil }
