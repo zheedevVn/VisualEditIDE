@@ -213,42 +213,10 @@ public struct IDECodeMarkVector: View {
                     )
                 )
 
-                // Subtle 128-unit blueprint grid & registration ticks at medium/large display sizes
-                if size >= 36 {
-                    var gridPath = Path()
-                    let steps: [CGFloat] = [128, 256, 384, 512, 640, 768, 896]
-                    for g in steps {
-                        gridPath.move(to: pt(g, 0))
-                        gridPath.addLine(to: pt(g, 1024))
-                        gridPath.move(to: pt(0, g))
-                        gridPath.addLine(to: pt(1024, g))
-                    }
-                    drawCtx.stroke(
-                        gridPath,
-                        with: .color(Color(red: 26 / 255, green: 34 / 255, blue: 45 / 255)),
-                        lineWidth: max(0.5, 2 * u)
-                    )
-
-                    var ticks = Path()
-                    ticks.move(to: pt(828, 148))
-                    ticks.addLine(to: pt(868, 148))
-                    ticks.addLine(to: pt(868, 188))
-                    ticks.move(to: pt(828, 876))
-                    ticks.addLine(to: pt(868, 876))
-                    ticks.addLine(to: pt(868, 836))
-                    drawCtx.stroke(
-                        ticks,
-                        with: .color(Color(red: 42 / 255, green: 54 / 255, blue: 70 / 255)),
-                        style: StrokeStyle(lineWidth: max(0.75, 6 * u), lineCap: .square)
-                    )
-                }
+                // Ambient Center Radial Core Glow
+                let glowCircle = Circle().path(in: CGRect(x: 160 * u, y: 160 * u, width: 704 * u, height: 704 * u))
+                drawCtx.fill(glowCircle, with: .color(Color(red: 0 / 255, green: 210 / 255, blue: 255 / 255).opacity(0.12)))
             }
-
-            // 1. Left Active Editor Gutter Rail (Terminal Emerald)
-            let railWidth: CGFloat = (size < 28 ? 36 : 28) * u
-            let railRect = CGRect(x: 140 * u, y: 240 * u, width: railWidth, height: 544 * u)
-            let railPath = RoundedRectangle(cornerRadius: railWidth * 0.5, style: .continuous).path(in: railRect)
-            drawCtx.fill(railPath, with: .color(primaryColor))
 
             // 2. V-Monogram Ribbon of Visual IDE
             let vStrokeWidth = (size < 28 ? 96 : 84) * u

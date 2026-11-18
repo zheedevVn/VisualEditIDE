@@ -244,7 +244,7 @@ public struct AIWebChatView: View {
                 }
             }
             Button(preferences.tr("Tạo file mới từ code vừa copy...", "Create new file from clipboard...")) {
-                let defaultName = "NewCode_\(Int(Date().timeIntervalSince1970 % 10000)).swift"
+                let defaultName = "NewCode_\(Int(Date().timeIntervalSince1970) % 10000).swift"
                 workspace.applyAgentFileEdit(relativePath: defaultName, newContent: clipboardCodeCandidate)
                 showToast(preferences.tr("Đã tạo file \(defaultName)!", "Created file \(defaultName)!"))
             }

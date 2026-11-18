@@ -1,52 +1,72 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" fill="none">
   <defs>
-    
+    <!-- Background Canvas: Deep Obsidian / Titanium Space -->
     <linearGradient id="bgGrad" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#111722"/>
-      <stop offset="50%" stop-color="#0B0F16"/>
-      <stop offset="100%" stop-color="#070A0F"/>
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="40%" stop-color="#0A0F1D"/>
+      <stop offset="100%" stop-color="#050811"/>
     </linearGradient>
 
-    <!-- Ambient Center Radial Glow -->
-    <radialGradient id="centerGlow" cx="512" cy="512" r="480" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0284C7" stop-opacity="0.22"/>
-      <stop offset="45%" stop-color="#10B981" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#0B0F16" stop-opacity="0"/>
+    <!-- Ambient Core Radial Glow -->
+    <radialGradient id="coreGlow" cx="512" cy="512" r="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00F2FE" stop-opacity="0.30"/>
+      <stop offset="40%" stop-color="#4FACFE" stop-opacity="0.16"/>
+      <stop offset="75%" stop-color="#6366F1" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#050811" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- Left Wing Gradient: Electric Cyan to Azure -->
-    <linearGradient id="leftWing" x1="220" y1="220" x2="512" y2="820" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#38BDF8"/>
-      <stop offset="40%" stop-color="#0284C7"/>
-      <stop offset="100%" stop-color="#1D4ED8"/>
+    <!-- Top Left Rim Highlight Gradient -->
+    <linearGradient id="rimLight" x1="100" y1="80" x2="924" y2="944" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="35%" stop-color="#38BDF8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.4"/>
     </linearGradient>
 
-    <!-- Right Wing Gradient: Emerald to Mint -->
-    <linearGradient id="rightWing" x1="804" y1="220" x2="512" y2="820" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#34D399"/>
-      <stop offset="50%" stop-color="#10B981"/>
+    <!-- Left Wing Gradient: Electric Cyan to Royal Blue -->
+    <linearGradient id="leftWingGrad" x1="240" y1="200" x2="512" y2="820" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="25%" stop-color="#00D2FF"/>
+      <stop offset="60%" stop-color="#0072FF"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+
+    <!-- Right Wing Gradient: Vivid Emerald Teal to Cyber Indigo -->
+    <linearGradient id="rightWingGrad" x1="784" y1="200" x2="512" y2="820" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="30%" stop-color="#10B981"/>
+      <stop offset="70%" stop-color="#059669"/>
       <stop offset="100%" stop-color="#047857"/>
     </linearGradient>
 
-    <!-- Center Code Gradient -->
-    <linearGradient id="codeGrad" x1="360" y1="360" x2="664" y2="540" gradientUnits="userSpaceOnUse">
+    <!-- Overlapping Fold Gradient: Purple to Deep Violet -->
+    <linearGradient id="foldGrad" x1="512" y1="460" x2="512" y2="820" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="50%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#312E81"/>
+    </linearGradient>
+
+    <!-- Gloss Highlight for 3D Sheen -->
+    <linearGradient id="specularSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Center Code Glow Gradient -->
+    <linearGradient id="codeGlow" x1="340" y1="420" x2="684" y2="580" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
+      <stop offset="50%" stop-color="#E0F2FE"/>
+      <stop offset="100%" stop-color="#BAE6FD"/>
     </linearGradient>
 
-    <!-- Badge Background -->
-    <linearGradient id="badgeBg" x1="380" y1="840" x2="644" y2="900" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#1E293B"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-
-    <!-- Shadow for Depth -->
-    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.6"/>
+    <!-- Drop Shadows -->
+    <filter id="shadowDepth" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="30" flood-color="#000000" flood-opacity="0.75"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0284C7" flood-opacity="0.35"/>
     </filter>
 
-    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="18" result="blur"/>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
@@ -54,63 +74,98 @@
     </filter>
   </defs>
 
-  <g>
-    <!-- Background Canvas -->
-    <rect width="1024" height="1024" fill="url(#bgGrad)"/>
-    <circle cx="512" cy="512" r="480" fill="url(#centerGlow)"/>
+  <!-- Base Plate with Inner Rim -->
+  <rect width="1024" height="1024" fill="url(#bgGrad)"/>
+  <circle cx="512" cy="512" r="480" fill="url(#coreGlow)"/>
+  
+  <!-- Subtle Inset Bevel Frame (Simulates frosted glass bevel) -->
+  <rect x="2" y="2" width="1020" height="1020" rx="226" fill="none" stroke="url(#rimLight)" stroke-width="4"/>
 
-    <!-- Technical Architectural Grid Lines -->
-    <g stroke="#1A2433" stroke-width="2">
-      <line x1="128" y1="0" x2="128" y2="1024"/><line x1="256" y1="0" x2="256" y2="1024"/>
-      <line x1="384" y1="0" x2="384" y2="1024"/><line x1="512" y1="0" x2="512" y2="1024"/>
-      <line x1="640" y1="0" x2="640" y2="1024"/><line x1="768" y1="0" x2="768" y2="1024"/>
-      <line x1="896" y1="0" x2="896" y2="1024"/>
-      <line x1="0" y1="128" x2="1024" y2="128"/><line x1="0" y1="256" x2="1024" y2="256"/>
-      <line x1="0" y1="384" x2="1024" y2="384"/><line x1="0" y1="512" x2="1024" y2="512"/>
-      <line x1="0" y1="640" x2="1024" y2="640"/><line x1="0" y1="768" x2="1024" y2="768"/>
-      <line x1="0" y1="896" x2="1024" y2="896"/>
-    </g>
+  <!-- HERO EMBLEM: Modern 3D Isometric "V" Infinity Prism -->
+  <g filter="url(#shadowDepth)">
+    <!-- Left Wing (Cyan Prism Pillar) -->
+    <path d="M 230 240
+             C 230 215, 260 195, 290 210
+             L 490 730
+             C 502 755, 522 755, 534 730
+             L 440 500
+             L 320 230
+             C 305 200, 275 190, 245 210
+             Z"
+          fill="url(#leftWingGrad)"/>
+    <!-- Left Wing Highlight Sheen -->
+    <path d="M 245 220
+             L 475 730
+             L 450 730
+             L 230 240
+             Z"
+          fill="url(#specularSheen)" opacity="0.45"/>
 
-    <!-- Corner Registration Marks -->
-    <path d="M828 148 H868 V188 M828 876 H868 V836 M156 188 V148 H196 M156 836 V876 H196" stroke="#253346" stroke-width="5" stroke-linecap="square"/>
+    <!-- Right Wing (Emerald/Teal Ribbon) -->
+    <path d="M 794 240
+             C 794 215, 764 195, 734 210
+             L 534 730
+             C 522 755, 502 755, 490 730
+             L 584 500
+             L 704 230
+             C 719 200, 749 190, 779 210
+             Z"
+          fill="url(#rightWingGrad)"/>
+    <!-- Right Wing Highlight Sheen -->
+    <path d="M 779 220
+             L 549 730
+             L 574 730
+             L 794 240
+             Z"
+          fill="url(#specularSheen)" opacity="0.35"/>
 
-    <!-- Left Active Editor Gutter Accent -->
-    <rect x="136" y="240" width="18" height="544" rx="9" fill="#10B981" opacity="0.85"/>
-
-    <!-- MAIN EMBLEM: The Iconic 'Visual IDE' Monogram (V + Coding Core) -->
-    <!-- Glow Backdrop for V -->
-    <g opacity="0.4" filter="url(#neonGlow)">
-      <path d="M 230 240 L 512 800 L 794 240" fill="none" stroke="#0284C7" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-
-    <!-- Left Wing of V (Electric Blue Ribbon with Bevel) -->
-    <path d="M 230 240 L 512 800" stroke="url(#leftWing)" stroke-width="84" stroke-linecap="round" stroke-linejoin="round" filter="url(#dropShadow)"/>
-
-    <!-- Right Wing of V (Emerald Ribbon, overlaps gracefully at vertex) -->
-    <path d="M 794 240 L 512 800" stroke="url(#rightWing)" stroke-width="84" stroke-linecap="round" stroke-linejoin="round" filter="url(#dropShadow)"/>
-
-    <!-- Overlap Joint Core Vertex -->
-    <circle cx="512" cy="800" r="42" fill="#10B981"/>
-
-    <!-- Inner Code Core: < / > Bracket Glyph floating harmoniously inside V -->
-    <g filter="url(#dropShadow)">
-      <!-- Left Chevron '<' -->
-      <path d="M 420 380 L 330 460 L 420 540" fill="none" stroke="#38BDF8" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
-      
-      <!-- Forward Slash '/' -->
-      <line x1="540" y1="360" x2="484" y2="560" stroke="#10B981" stroke-width="40" stroke-linecap="round"/>
-      
-      <!-- Right Chevron '>' -->
-      <path d="M 604 380 L 694 460 L 604 540" fill="none" stroke="#34D399" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-
-    <!-- Terminal Prompt / Visual IDE Tagline Pill at Top-Right -->
-    <g transform="translate(680, 150)">
-      <rect width="180" height="48" rx="24" fill="#1E293B" stroke="#334155" stroke-width="3"/>
-      <circle cx="28" cy="24" r="7" fill="#10B981"/>
-      <text x="48" y="32" fill="#F8FAFC" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="700" letter-spacing="1.5">IDE</text>
-    </g>
-
-    
+    <!-- Bottom Junction Cap (Smooth Geometric Fold) -->
+    <path d="M 440 680
+             C 475 765, 549 765, 584 680
+             L 512 805
+             Z"
+          fill="url(#foldGrad)"/>
   </g>
+
+  <!-- CORE CODE GLYPH: Clean Luminous `< / >` Floating in Center -->
+  <g filter="url(#softGlow)">
+    <!-- Left Angle Bracket `<` -->
+    <path d="M 415 425
+             L 330 495
+             C 318 505, 318 519, 330 529
+             L 415 599
+             C 427 609, 442 602, 442 587
+             L 442 575
+             L 372 512
+             L 442 449
+             L 442 437
+             C 442 422, 427 415, 415 425 Z"
+          fill="url(#codeGlow)"/>
+
+    <!-- Right Angle Bracket `>` -->
+    <path d="M 609 425
+             L 694 495
+             C 706 505, 706 519, 694 529
+             L 609 599
+             C 597 609, 582 602, 582 587
+             L 582 575
+             L 652 512
+             L 582 449
+             L 582 437
+             C 582 422, 597 415, 609 425 Z"
+          fill="url(#codeGlow)"/>
+
+    <!-- Center Forward Slash `/` -->
+    <path d="M 545 405
+             C 552 395, 563 398, 568 410
+             L 485 615
+             C 480 625, 469 622, 464 610
+             Z"
+          fill="#38BDF8"/>
+  </g>
+
+  <!-- Micro Glow Particle Points (Subtle AI / IDE Energy) -->
+  <circle cx="512" cy="805" r="7" fill="#38BDF8" filter="url(#softGlow)"/>
+  <circle cx="270" cy="215" r="5" fill="#00F2FE" opacity="0.8"/>
+  <circle cx="754" cy="215" r="5" fill="#34D399" opacity="0.8"/>
 </svg>
