@@ -49,20 +49,20 @@ public struct LocalDaemonJob: Identifiable, Equatable {
 public final class LocalDaemonService: ObservableObject {
     @Published public var keepTerminalAliveInBackground: Bool {
         didSet {
-            UserDefaults.standard.set(keepTerminalAliveInBackground, forKey: "3012.keepTerminalBg")
+            UserDefaults.standard.set(keepTerminalAliveInBackground, forKey: "NexusKing.keepTerminalBg")
             syncKeepAliveState()
         }
     }
 
     @Published public var autoRestartOnError: Bool {
         didSet {
-            UserDefaults.standard.set(autoRestartOnError, forKey: "3012.daemonAutoRestart")
+            UserDefaults.standard.set(autoRestartOnError, forKey: "NexusKing.daemonAutoRestart")
         }
     }
 
     @Published public var preventScreenSleep: Bool {
         didSet {
-            UserDefaults.standard.set(preventScreenSleep, forKey: "3012.preventScreenSleep")
+            UserDefaults.standard.set(preventScreenSleep, forKey: "NexusKing.preventScreenSleep")
             UIApplication.shared.isIdleTimerDisabled = preventScreenSleep
         }
     }
@@ -83,7 +83,7 @@ public final class LocalDaemonService: ObservableObject {
     private var nextPID: Int = 101
     private var silentAudioPlayer: AVAudioPlayer?
     private let pathMonitor = NWPathMonitor()
-    private let monitorQueue = DispatchQueue(label: "com.dev.app3012.daemon.network")
+    private let monitorQueue = DispatchQueue(label: "com.nexusking.app.daemon.network")
     private var backgroundTaskID: UIBackgroundTaskIdentifier = .invalid
 
     private final class ObserverBag: @unchecked Sendable {
@@ -151,9 +151,9 @@ public final class LocalDaemonService: ObservableObject {
     }()
 
     public init() {
-        let savedKeep = UserDefaults.standard.object(forKey: "3012.keepTerminalBg") as? Bool ?? true
-        let savedRestart = UserDefaults.standard.object(forKey: "3012.daemonAutoRestart") as? Bool ?? true
-        let savedSleep = UserDefaults.standard.object(forKey: "3012.preventScreenSleep") as? Bool ?? false
+        let savedKeep = UserDefaults.standard.object(forKey: "NexusKing.keepTerminalBg") as? Bool ?? true
+        let savedRestart = UserDefaults.standard.object(forKey: "NexusKing.daemonAutoRestart") as? Bool ?? true
+        let savedSleep = UserDefaults.standard.object(forKey: "NexusKing.preventScreenSleep") as? Bool ?? false
         self.keepTerminalAliveInBackground = savedKeep
         self.autoRestartOnError = savedRestart
         self.preventScreenSleep = savedSleep
@@ -298,7 +298,7 @@ public final class LocalDaemonService: ObservableObject {
             UIApplication.shared.endBackgroundTask(backgroundTaskID)
             backgroundTaskID = .invalid
         }
-        backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "3012.LocalDaemonKeepAlive") { [weak self] in
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "NexusKing.LocalDaemonKeepAlive") { [weak self] in
             Task { @MainActor [weak self] in
                 self?.endTransientBackgroundAssertion()
             }
@@ -498,7 +498,7 @@ public final class LocalDaemonService: ObservableObject {
 
         let botURL = root.appendingPathComponent("telegram_bot.js")
         let botTemplate = #"""
-        // 3012 On-Device 24/7 Telegram Bot (Runs locally on your iPhone/iPad — No VPS required)
+        // NexusKing On-Device 24/7 Telegram Bot (Runs locally on your iPhone/iPad — No VPS required)
         // Enable "Keep Terminal & Bot Alive 24/7" so it keeps running even when the screen is off.
 
         const token = process.env.TELEGRAM_BOT_TOKEN || '';
@@ -508,7 +508,7 @@ public final class LocalDaemonService: ObservableObject {
           const name = (msg.from && msg.from.first_name) ? msg.from.first_name : 'Developer';
           await bot.sendMessage(
             msg.chat.id,
-            `Xin chao ${name}! Bot nay dang chay 24/7 truc tiep tren iPhone/iPad bang 3012 IDE.`
+            `Xin chao ${name}! Bot nay dang chay 24/7 truc tiep tren iPhone/iPad bang NexusKing IDE.`
           );
         });
 
@@ -524,7 +524,7 @@ public final class LocalDaemonService: ObservableObject {
           const st = process.deviceStatus();
           await bot.sendMessage(
             msg.chat.id,
-            `[3012 On-Device Daemon]\n- Platform: ${st.platform}\n- Pin: ${st.battery}% (${st.charging ? 'Dang sac' : 'Pin'})\n- Keep-Alive: ${st.keepAliveActive ? 'ON' : 'OFF'}\n- Uptime: ${st.uptimeSeconds}s`
+            `[NexusKing On-Device Daemon]\n- Platform: ${st.platform}\n- Pin: ${st.battery}% (${st.charging ? 'Dang sac' : 'Pin'})\n- Keep-Alive: ${st.keepAliveActive ? 'ON' : 'OFF'}\n- Uptime: ${st.uptimeSeconds}s`
           );
         });
 
@@ -789,7 +789,7 @@ public final class LocalDaemonService: ObservableObject {
                 if line.contains("commands=") || line.contains("Command("),
                    let cmdRange = line.range(of: #"['"]([a-zA-Z0-9_]+)['"]"#, options: .regularExpression) {
                     let cmd = String(line[cmdRange]).trimmingCharacters(in: CharacterSet(charactersIn: "'\""))
-                    var replyText = "Bot Python dang chay ngam 24/7 tren thiet bi 3012!"
+                    var replyText = "Bot Python dang chay ngam 24/7 tren thiet bi NexusKing!"
                     let searchEnd = min(lines.count, idx + 8)
                     for k in idx..<searchEnd {
                         if (lines[k].contains("reply_to") || lines[k].contains("send_message") || lines[k].contains("answer")),
@@ -805,7 +805,7 @@ public final class LocalDaemonService: ObservableObject {
             }
             if cmdReplies.isEmpty {
                 cmdReplies = [
-                    ("start", "Python Bot đang chạy ngầm trực tiếp trên thiết bị iOS qua 3012 Daemon!"),
+                    ("start", "Python Bot đang chạy ngầm trực tiếp trên thiết bị iOS qua NexusKing Daemon!"),
                     ("ping", "Pong! (On-Device Python Bot Runtime)")
                 ]
             }
@@ -1141,7 +1141,7 @@ private final class DeviceStatusSnapshotBox: @unchecked Sendable {
             "networkOnline": n,
             "uptimeSeconds": uptime,
             "keepAliveActive": k,
-            "platform": "iOS-Local-3012"
+            "platform": "iOS-Local-NexusKing"
         ]
     }
 }

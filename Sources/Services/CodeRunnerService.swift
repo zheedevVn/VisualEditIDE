@@ -10,20 +10,20 @@ public final class CodeRunnerService: ObservableObject {
     @Published public private(set) var lastExecutionFailed: Bool = false
     @Published public private(set) var lastErrorSummary: String = ""
     @Published public var shellHistory: [String] = [
-        "3012 Local Workspace Shell v1.0 — type 'help' for commands."
+        "NexusKing Local Workspace Shell v1.0 — type 'help' for commands."
     ]
     @Published public private(set) var currentShellDirectory: URL?
 
     // Optional User VPS Runner Endpoint (Zero-Config Remote Compile Server)
     @Published public var vpsEndpointURL: String {
-        didSet { UserDefaults.standard.set(vpsEndpointURL, forKey: "3012.vpsEndpointURL") }
+        didSet { UserDefaults.standard.set(vpsEndpointURL, forKey: "NexusKing.vpsEndpointURL") }
     }
     @Published public var vpsAuthToken: String {
         didSet {
             if vpsAuthToken.isEmpty {
-                KeychainVault.delete(forKey: "3012.vpsAuthToken")
+                KeychainVault.delete(forKey: "NexusKing.vpsAuthToken")
             } else {
-                KeychainVault.saveString(vpsAuthToken, forKey: "3012.vpsAuthToken")
+                KeychainVault.saveString(vpsAuthToken, forKey: "NexusKing.vpsAuthToken")
             }
         }
     }
@@ -37,22 +37,22 @@ public final class CodeRunnerService: ObservableObject {
     private var executionCache: [String: CachedExecutionResult] = [:]
 
     public init() {
-        self.vpsEndpointURL = UserDefaults.standard.string(forKey: "3012.vpsEndpointURL") ?? ""
-        let keychainToken = KeychainVault.loadString(forKey: "3012.vpsAuthToken") ?? ""
+        self.vpsEndpointURL = UserDefaults.standard.string(forKey: "NexusKing.vpsEndpointURL") ?? ""
+        let keychainToken = KeychainVault.loadString(forKey: "NexusKing.vpsAuthToken") ?? ""
         if keychainToken.isEmpty,
-           let legacyToken = UserDefaults.standard.string(forKey: "3012.vpsAuthToken"),
+           let legacyToken = UserDefaults.standard.string(forKey: "NexusKing.vpsAuthToken"),
            !legacyToken.isEmpty {
-            KeychainVault.saveString(legacyToken, forKey: "3012.vpsAuthToken")
-            UserDefaults.standard.removeObject(forKey: "3012.vpsAuthToken")
+            KeychainVault.saveString(legacyToken, forKey: "NexusKing.vpsAuthToken")
+            UserDefaults.standard.removeObject(forKey: "NexusKing.vpsAuthToken")
             self.vpsAuthToken = legacyToken
         } else {
-            UserDefaults.standard.removeObject(forKey: "3012.vpsAuthToken")
+            UserDefaults.standard.removeObject(forKey: "NexusKing.vpsAuthToken")
             self.vpsAuthToken = keychainToken
         }
     }
 
     public static let vpsBootstrapCommand: String = """
-    sudo apt-get update && sudo apt-get install -y build-essential gcc g++ gdb clang clangd cmake python3 python3-pip nodejs npm git ripgrep && echo "[OK] 3012 VPS Toolchain Installed"
+    sudo apt-get update && sudo apt-get install -y build-essential gcc g++ gdb clang clangd cmake python3 python3-pip nodejs npm git ripgrep && echo "[OK] NexusKing VPS Toolchain Installed"
     """
 
     public func runCode(
@@ -214,7 +214,7 @@ public final class CodeRunnerService: ObservableObject {
         req.timeoutInterval = 12
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.setValue("application/json", forHTTPHeaderField: "Accept")
-        req.setValue("3012-Mobile-IDE/5.0", forHTTPHeaderField: "User-Agent")
+        req.setValue("NexusKing-Mobile-IDE/5.0", forHTTPHeaderField: "User-Agent")
         req.httpBody = try? JSONSerialization.data(withJSONObject: payload)
 
         do {
@@ -396,7 +396,7 @@ public final class CodeRunnerService: ObservableObject {
         req.httpMethod = "POST"
         req.timeoutInterval = 25
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        req.setValue("3012-Mobile-IDE/5.0", forHTTPHeaderField: "User-Agent")
+        req.setValue("NexusKing-Mobile-IDE/5.0", forHTTPHeaderField: "User-Agent")
         req.httpBody = try? JSONSerialization.data(withJSONObject: payload)
 
         do {
@@ -482,7 +482,7 @@ public final class CodeRunnerService: ObservableObject {
             shellHistory.append("""
             Available commands:
               claude / opencode  Run AI Coding CLI directly on project files
-              code <file>        Open or create & open file in 3012 Editor
+              code <file>        Open or create & open file in NexusKing Editor
               dir / ls | cd | pwd | tree | type / cat | copy / cp | move / mv | del / rm
               gcc / g++ / python / node / swift / npm / git / zip / unzip / wget / curl / ping
               bot new [tok]      Create & launch 24/7 local Telegram bot

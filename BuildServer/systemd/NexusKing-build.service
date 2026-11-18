@@ -1,18 +1,18 @@
 [Unit]
-Description=3012 Theos Build Server
+Description=NexusKing Theos Build Server
 After=network-online.target docker.service
 Wants=network-online.target
 Requires=docker.service
 
 [Service]
 Type=simple
-User=b3012
-Group=b3012
+User=bnexusking
+Group=bnexusking
 SupplementaryGroups=docker
-EnvironmentFile=/etc/3012-build.env
-Environment=HOME=/var/lib/3012-build
-Environment=DOCKER_CONFIG=/var/lib/3012-build/.docker
-ExecStart=/usr/bin/python3 /opt/3012-build/src/BuildServer/server/build_server.py
+EnvironmentFile=/etc/NexusKing-build.env
+Environment=HOME=/var/lib/NexusKing-build
+Environment=DOCKER_CONFIG=/var/lib/NexusKing-build/.docker
+ExecStart=/usr/bin/python3 /opt/NexusKing-build/src/BuildServer/server/build_server.py
 Restart=always
 RestartSec=3
 
@@ -21,7 +21,7 @@ NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
 PrivateTmp=true
-ReadWritePaths=/var/lib/3012-build
+ReadWritePaths=/var/lib/NexusKing-build
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true

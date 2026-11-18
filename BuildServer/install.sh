@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# 3012 Theos Build & Sync Relay Server — one-command installer / fast updater for Ubuntu 22.04 / 24.04 (x86_64).
+# NexusKing Theos Build & Sync Relay Server — one-command installer / fast updater for Ubuntu 22.04 / 24.04 (x86_64).
 #
-#   curl -fsSL https://raw.githubusercontent.com/userlethekhoi/3012/main/BuildServer/install.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/zheedevVN/VisualEditIDE/main/BuildServer/install.sh | sudo bash
 #
 # Flags / Env:
-#   --rebuild-image / FORCE_REBUILD=1 : rebuild 3012-theos-builder Docker image from scratch
+#   --rebuild-image / FORCE_REBUILD=1 : rebuild NexusKing-theos-builder Docker image from scratch
 set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export NEEDRESTART_MODE=a
@@ -16,18 +16,18 @@ for arg in "$@"; do
     esac
 done
 
-REPO_URL="${REPO_URL:-https://github.com/userlethekhoi/3012.git}"
+REPO_URL="${REPO_URL:-https://github.com/zheedevVN/VisualEditIDE.git}"
 BRANCH="${BRANCH:-main}"
-INSTALL_DIR=/opt/3012-build
-DATA_DIR=/var/lib/3012-build
-ENV_FILE=/etc/3012-build.env
-SERVICE=3012-build
-SVC_USER=b3012
-IMAGE=3012-theos-builder:latest
+INSTALL_DIR=/opt/NexusKing-build
+DATA_DIR=/var/lib/NexusKing-build
+ENV_FILE=/etc/NexusKing-build.env
+SERVICE=NexusKing-build
+SVC_USER=bnexusking
+IMAGE=NexusKing-theos-builder:latest
 
-say()  { printf '\033[1;32m[3012]\033[0m %s\n' "$*"; }
-warn() { printf '\033[1;33m[3012]\033[0m %s\n' "$*"; }
-die()  { printf '\033[1;31m[3012] %s\033[0m\n' "$*" >&2; exit 1; }
+say()  { printf '\033[1;32m[NexusKing]\033[0m %s\n' "$*"; }
+warn() { printf '\033[1;33m[NexusKing]\033[0m %s\n' "$*"; }
+die()  { printf '\033[1;31m[NexusKing] %s\033[0m\n' "$*" >&2; exit 1; }
 
 [ "$(id -u)" -eq 0 ] || die "Hãy chạy bằng quyền root (sudo)."
 [ "$(uname -m)" = "x86_64" ] || die "Hiện chỉ hỗ trợ VPS x86_64."
@@ -76,20 +76,20 @@ else
     docker build -q -t "$IMAGE" -f - "$INSTALL_DIR/src/BuildServer/image" <<EOF >/dev/null
 FROM $IMAGE
 USER root
-COPY entrypoint.sh /usr/local/bin/3012-build
-RUN chmod 755 /usr/local/bin/3012-build
+COPY entrypoint.sh /usr/local/bin/NexusKing-build
+RUN chmod 755 /usr/local/bin/NexusKing-build
 USER 1000:1000
 EOF
 fi
 
 say "5/6 Cấu hình và khởi động lại dịch vụ systemd..."
 if [ ! -f "$ENV_FILE" ]; then
-    install -m 644 "$INSTALL_DIR/src/BuildServer/config/3012-build.env.example" "$ENV_FILE"
+    install -m 644 "$INSTALL_DIR/src/BuildServer/config/NexusKing-build.env.example" "$ENV_FILE"
 fi
 BUILD_PORT=$(grep -E '^BUILD_PORT=' "$ENV_FILE" | tail -n 1 | cut -d= -f2 | tr -dc '0-9' || true)
 BUILD_PORT="${BUILD_PORT:-8787}"
 
-install -m 644 "$INSTALL_DIR/src/BuildServer/systemd/3012-build.service" "/etc/systemd/system/$SERVICE.service"
+install -m 644 "$INSTALL_DIR/src/BuildServer/systemd/NexusKing-build.service" "/etc/systemd/system/$SERVICE.service"
 systemctl daemon-reload
 systemctl enable -q "$SERVICE"
 systemctl restart "$SERVICE"
@@ -117,7 +117,7 @@ if systemctl is-active --quiet cloudflared 2>/dev/null; then
 else
     TOKEN="${CF_TUNNEL_TOKEN:-}"
     if [ -z "$TOKEN" ] && [ -r /dev/tty ]; then
-        printf '\033[1;36m[3012]\033[0m Dán Cloudflare Tunnel Token hoặc cả câu lệnh install (ký tự sẽ được ẩn, Enter để bỏ qua): ' > /dev/tty
+        printf '\033[1;36m[NexusKing]\033[0m Dán Cloudflare Tunnel Token hoặc cả câu lệnh install (ký tự sẽ được ẩn, Enter để bỏ qua): ' > /dev/tty
         read -rs TOKEN < /dev/tty || true
         printf '\n' > /dev/tty
     fi
@@ -137,7 +137,7 @@ fi
 cat <<EOF
 
 ────────────────────────────────────────────────────────────
- 3012 Build & Sync Relay Server đã sẵn sàng!
+ NexusKing Build & Sync Relay Server đã sẵn sàng!
 
  Cloudflare Public Hostname -> Service: HTTP localhost:${BUILD_PORT}
 
@@ -151,6 +151,6 @@ cat <<EOF
    - Trạng thái : systemctl status $SERVICE
    - Log        : journalctl -u $SERVICE -f
    - Rebuild Docker (khi cần cập nhật SDK mới):
-       curl -fsSL https://raw.githubusercontent.com/userlethekhoi/3012/main/BuildServer/install.sh | sudo bash -s -- --rebuild-image
+       curl -fsSL https://raw.githubusercontent.com/zheedevVN/VisualEditIDE/main/BuildServer/install.sh | sudo bash -s -- --rebuild-image
 ────────────────────────────────────────────────────────────
 EOF

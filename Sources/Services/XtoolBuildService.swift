@@ -166,16 +166,16 @@ public enum XtoolInjectionError: LocalizedError {
 @MainActor
 public final class XtoolBuildService: ObservableObject {
     @Published public var buildMode: XtoolBuildMode {
-        didSet { UserDefaults.standard.set(buildMode.rawValue, forKey: "3012.xtool.buildMode") }
+        didSet { UserDefaults.standard.set(buildMode.rawValue, forKey: "NexusKing.xtool.buildMode") }
     }
     @Published public var overrideBundleID: String {
-        didSet { UserDefaults.standard.set(overrideBundleID, forKey: "3012.xtool.overrideBundleID") }
+        didSet { UserDefaults.standard.set(overrideBundleID, forKey: "NexusKing.xtool.overrideBundleID") }
     }
     @Published public var overrideDisplayName: String {
-        didSet { UserDefaults.standard.set(overrideDisplayName, forKey: "3012.xtool.overrideDisplayName") }
+        didSet { UserDefaults.standard.set(overrideDisplayName, forKey: "NexusKing.xtool.overrideDisplayName") }
     }
     @Published public var stripOldCodeSignature: Bool {
-        didSet { UserDefaults.standard.set(stripOldCodeSignature, forKey: "3012.xtool.stripSignature") }
+        didSet { UserDefaults.standard.set(stripOldCodeSignature, forKey: "NexusKing.xtool.stripSignature") }
     }
 
     @Published public private(set) var isBuilding: Bool = false
@@ -188,16 +188,16 @@ public final class XtoolBuildService: ObservableObject {
     private var buildGeneration: Int = 0
 
     public init() {
-        if let rawMode = UserDefaults.standard.string(forKey: "3012.xtool.buildMode"),
+        if let rawMode = UserDefaults.standard.string(forKey: "NexusKing.xtool.buildMode"),
            let mode = XtoolBuildMode(rawValue: rawMode) {
             self.buildMode = mode
         } else {
             self.buildMode = .offlineGitHubActions
         }
-        self.overrideBundleID = UserDefaults.standard.string(forKey: "3012.xtool.overrideBundleID") ?? ""
-        self.overrideDisplayName = UserDefaults.standard.string(forKey: "3012.xtool.overrideDisplayName") ?? ""
-        if UserDefaults.standard.object(forKey: "3012.xtool.stripSignature") != nil {
-            self.stripOldCodeSignature = UserDefaults.standard.bool(forKey: "3012.xtool.stripSignature")
+        self.overrideBundleID = UserDefaults.standard.string(forKey: "NexusKing.xtool.overrideBundleID") ?? ""
+        self.overrideDisplayName = UserDefaults.standard.string(forKey: "NexusKing.xtool.overrideDisplayName") ?? ""
+        if UserDefaults.standard.object(forKey: "NexusKing.xtool.stripSignature") != nil {
+            self.stripOldCodeSignature = UserDefaults.standard.bool(forKey: "NexusKing.xtool.stripSignature")
         } else {
             self.stripOldCodeSignature = true
         }
@@ -305,7 +305,7 @@ public final class XtoolBuildService: ObservableObject {
         bundleID rawBundleID: String,
         in workspace: WorkspaceManager
     ) -> URL? {
-        let cleanName = Self.sanitizeSwiftIdentifier(rawName, fallback: "App3012")
+        let cleanName = Self.sanitizeSwiftIdentifier(rawName, fallback: "NexusKing")
         let cleanBundleID = rawBundleID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             ? "com.dev.\(cleanName.lowercased())"
             : rawBundleID.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -372,7 +372,7 @@ public final class XtoolBuildService: ObservableObject {
                                 .foregroundColor(.blue)
                             Text("\(cleanName)")
                                 .font(.title.bold())
-                            Text("Built with 3012 IDE + xtool SwiftPM")
+                            Text("Built with NexusKing IDE + xtool SwiftPM")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                             Button("Tap Count: \\(tapCount)") {
@@ -513,7 +513,7 @@ public final class XtoolBuildService: ObservableObject {
                         .modifier(WidgetContainerCompatModifier())
                     }
                     .configurationDisplayName("\(cleanName) Widget")
-                    .description("Built with xtool & 3012 IDE.")
+                    .description("Built with xtool & NexusKing IDE.")
                 }
             }
             """
@@ -589,7 +589,7 @@ public final class XtoolBuildService: ObservableObject {
                             return "dlopen error: \\(String(cString: err))"
                         }
                     }
-                    return "No embedded Frameworks/ModMenu.dylib found (use 3012 Dylib Injector after build)"
+                    return "No embedded Frameworks/ModMenu.dylib found (use NexusKing Dylib Injector after build)"
                 }
             }
 
@@ -668,7 +668,7 @@ public final class XtoolBuildService: ObservableObject {
 
         let libraryProducts = Self.extractSwiftPackageLibraryNames(from: pkgContent)
         let packageName = Self.extractSwiftPackageName(from: pkgContent) ?? rootURL.lastPathComponent
-        let primaryProduct = libraryProducts.first ?? Self.sanitizeSwiftIdentifier(packageName, fallback: "App3012")
+        let primaryProduct = libraryProducts.first ?? Self.sanitizeSwiftIdentifier(packageName, fallback: "NexusKing")
         let cleanBundleID = "com.dev.\(primaryProduct.lowercased())"
 
         if !fm.fileExists(atPath: xtoolURL.path) {
@@ -773,7 +773,7 @@ public final class XtoolBuildService: ObservableObject {
         let gen = buildGeneration
 
         isBuilding = true
-        buildLog = "[3012 xtool] Chuẩn bị dự án SwiftPM từ \(workspaceRoot.lastPathComponent)...\n"
+        buildLog = "[NexusKing xtool] Chuẩn bị dự án SwiftPM từ \(workspaceRoot.lastPathComponent)...\n"
         buildStatusText = "Đang chuẩn bị xtool build..."
         runner.consoleOutput = buildLog
 
@@ -810,7 +810,7 @@ public final class XtoolBuildService: ObservableObject {
         activeTask = nil
         isBuilding = false
         buildStatusText = "Đã huỷ build xtool."
-        appendLog("\n[3012 xtool] Người dùng đã huỷ tiến trình build.\n", runner: nil)
+        appendLog("\n[NexusKing xtool] Người dùng đã huỷ tiến trình build.\n", runner: nil)
     }
 
     private func buildViaPrivateSSHVPS(
@@ -820,21 +820,21 @@ public final class XtoolBuildService: ObservableObject {
         onWorkspaceChanged: @escaping () -> Void
     ) async {
         guard sshService.isConnected else {
-            appendLog("[3012 xtool] Chưa kết nối SSH VPS. Hãy đăng nhập VPS trước.\n", runner: runner)
+            appendLog("[NexusKing xtool] Chưa kết nối SSH VPS. Hãy đăng nhập VPS trước.\n", runner: runner)
             buildStatusText = "Chưa kết nối SSH VPS"
             return
         }
         guard let zipData = await Task.detached(priority: .userInitiated, operation: { () -> Data? in
             Self.createCleanXtoolZipData(workspaceRoot: workspaceRoot)
         }).value else {
-            appendLog("[3012 xtool] Không thể nén dự án xtool.\n", runner: runner)
+            appendLog("[NexusKing xtool] Không thể nén dự án xtool.\n", runner: runner)
             buildStatusText = "Lỗi nén .zip"
             return
         }
 
-        let remoteDir = "/tmp/3012_xtool_\(String(UUID().uuidString.prefix(8)))"
+        let remoteDir = "/tmp/NexusKing_xtool_\(String(UUID().uuidString.prefix(8)))"
         buildStatusText = "Đang tải mã nguồn qua SFTP lên VPS..."
-        appendLog("[3012 xtool] Đang tải dự án qua SFTP & biên dịch trên VPS (\(sshService.connectedProfile?.host ?? "VPS"))...\n", runner: runner)
+        appendLog("[NexusKing xtool] Đang tải dự án qua SFTP & biên dịch trên VPS (\(sshService.connectedProfile?.host ?? "VPS"))...\n", runner: runner)
 
         let prepOut = await sshService.executeCommandOnVPS("rm -rf '\(remoteDir)' && mkdir -p '\(remoteDir)/src'")
         if prepOut.contains("[Process exited with code") || prepOut.hasPrefix("[SSH Error]") {
@@ -847,7 +847,7 @@ public final class XtoolBuildService: ObservableObject {
             try await sshService.uploadDataViaSFTP(data: zipData, remotePath: "\(remoteDir)/proj.zip")
         } catch {
             _ = await sshService.executeCommandOnVPS("rm -rf '\(remoteDir)'")
-            appendLog("[3012 xtool] Lỗi upload SFTP: \(error.localizedDescription)\n", runner: runner)
+            appendLog("[NexusKing xtool] Lỗi upload SFTP: \(error.localizedDescription)\n", runner: runner)
             buildStatusText = "Lỗi upload SFTP"
             return
         }
@@ -863,7 +863,7 @@ public final class XtoolBuildService: ObservableObject {
         if command -v xtool >/dev/null 2>&1; then \
           (xtool dev build --help >/dev/null 2>&1 && xtool dev build 2>&1 || xtool dev 2>&1); \
         else \
-          echo "[3012] xtool CLI not installed in PATH — fallback swift build --release" && swift build -c release 2>&1; \
+          echo "[NexusKing] xtool CLI not installed in PATH — fallback swift build --release" && swift build -c release 2>&1; \
         fi
         """
 
@@ -900,7 +900,7 @@ public final class XtoolBuildService: ObservableObject {
             buildStatusText = "Không tải được file kết quả từ VPS"
         } else {
             let summary = fetched.joined(separator: ", ")
-            appendLog("[3012 xtool] Đã tải về packages/: \(summary)\n", runner: runner)
+            appendLog("[NexusKing xtool] Đã tải về packages/: \(summary)\n", runner: runner)
             buildStatusText = "Thành công (VPS): \(summary)"
             onWorkspaceChanged()
         }
@@ -921,7 +921,7 @@ public final class XtoolBuildService: ObservableObject {
         guard let zipData = await Task.detached(priority: .userInitiated, operation: { () -> Data? in
             Self.createCleanXtoolZipData(workspaceRoot: workspaceRoot)
         }).value else {
-            appendLog("[3012 xtool] Lỗi đóng gói .zip ngoại tuyến.\n", runner: runner)
+            appendLog("[NexusKing xtool] Lỗi đóng gói .zip ngoại tuyến.\n", runner: runner)
             buildStatusText = "Lỗi nén .zip"
             return
         }
@@ -932,11 +932,11 @@ public final class XtoolBuildService: ObservableObject {
         let outURL = packagesDir.appendingPathComponent(archiveName)
         do {
             try zipData.write(to: outURL, options: .atomic)
-            appendLog("[3012 xtool] Đã tạo .github/workflows/build-xtool-ipa.yml và đóng gói tại packages/\(archiveName).\n", runner: runner)
+            appendLog("[NexusKing xtool] Đã tạo .github/workflows/build-xtool-ipa.yml và đóng gói tại packages/\(archiveName).\n", runner: runner)
             buildStatusText = "Đã xuất \(archiveName)"
             onWorkspaceChanged()
         } catch {
-            appendLog("[3012 xtool] Không ghi được file .zip: \(error.localizedDescription)\n", runner: runner)
+            appendLog("[NexusKing xtool] Không ghi được file .zip: \(error.localizedDescription)\n", runner: runner)
             buildStatusText = "Lỗi ghi file"
         }
     }
@@ -957,7 +957,7 @@ public final class XtoolBuildService: ObservableObject {
             refreshLocalPackages(in: workspaceRoot)
         }
 
-        buildLog += "[3012 Dylib Injector] Bắt đầu nhúng \(dylibURL.lastPathComponent) vào \(ipaURL.lastPathComponent)...\n"
+        buildLog += "[NexusKing Dylib Injector] Bắt đầu nhúng \(dylibURL.lastPathComponent) vào \(ipaURL.lastPathComponent)...\n"
         buildStatusText = "Đang giải nén .ipa..."
         runner?.consoleOutput = buildLog
 
@@ -979,13 +979,13 @@ public final class XtoolBuildService: ObservableObject {
                     onProgress: progressHandler
                 )
             }.value
-            buildLog += "[3012 Dylib Injector] Hoàn tất: packages/\(outputURL.lastPathComponent)\n"
+            buildLog += "[NexusKing Dylib Injector] Hoàn tất: packages/\(outputURL.lastPathComponent)\n"
             buildStatusText = "Đã nhúng: \(outputURL.lastPathComponent)"
             runner?.consoleOutput = buildLog
             return outputURL
         } catch {
             let errText = error.localizedDescription
-            buildLog += "[3012 Dylib Injector] LỖI: \(errText)\n"
+            buildLog += "[NexusKing Dylib Injector] LỖI: \(errText)\n"
             buildStatusText = "Lỗi nhúng .dylib: \(errText)"
             runner?.consoleOutput = buildLog
             return nil
@@ -1007,7 +1007,7 @@ public final class XtoolBuildService: ObservableObject {
             throw XtoolInjectionError.dylibNotFound("Không tìm thấy file .dylib: \(dylibURL.lastPathComponent)")
         }
 
-        let workRoot = fm.temporaryDirectory.appendingPathComponent("3012_ipainject_\(UUID().uuidString)", isDirectory: true)
+        let workRoot = fm.temporaryDirectory.appendingPathComponent("NexusKing_ipainject_\(UUID().uuidString)", isDirectory: true)
         try fm.createDirectory(at: workRoot, withIntermediateDirectories: true)
         defer { try? fm.removeItem(at: workRoot) }
 
@@ -1345,9 +1345,9 @@ public final class XtoolBuildService: ObservableObject {
     nonisolated private static func createCleanXtoolZipData(workspaceRoot: URL) -> Data? {
         let fm = FileManager.default
         let stageID = UUID().uuidString
-        let stageParent = fm.temporaryDirectory.appendingPathComponent("3012_xstage_\(stageID)", isDirectory: true)
+        let stageParent = fm.temporaryDirectory.appendingPathComponent("NexusKing_xstage_\(stageID)", isDirectory: true)
         let projectStage = stageParent.appendingPathComponent(workspaceRoot.lastPathComponent, isDirectory: true)
-        let destZip = fm.temporaryDirectory.appendingPathComponent("3012_xtool_\(stageID).zip")
+        let destZip = fm.temporaryDirectory.appendingPathComponent("NexusKing_xtool_\(stageID).zip")
 
         defer {
             try? fm.removeItem(at: stageParent)
@@ -1366,7 +1366,7 @@ public final class XtoolBuildService: ObservableObject {
             ) {
                 for case let url as URL in enumerator {
                     let name = url.lastPathComponent
-                    if excludedDirs.contains(name) || name.hasPrefix(".3012") || name == ".DS_Store" {
+                    if excludedDirs.contains(name) || name.hasPrefix(".NexusKing") || name == ".DS_Store" {
                         enumerator.skipDescendants()
                         continue
                     }

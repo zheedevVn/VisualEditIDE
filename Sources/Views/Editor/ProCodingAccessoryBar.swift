@@ -32,7 +32,7 @@ public final class ProCodingAccessoryBar: UIInputView {
     private weak var compactToggleButton: UIButton?
     private weak var rowDividerView: UIView?
     private weak var row2ScrollView: UIScrollView?
-    private var isCompactBar: Bool = UserDefaults.standard.bool(forKey: "3012.compactCodingBar")
+    private var isCompactBar: Bool = UserDefaults.standard.bool(forKey: "NexusKing.compactCodingBar")
     private var accumulatedX: CGFloat = 0
     private var accumulatedY: CGFloat = 0
     private let feedback = UIImpactFeedbackGenerator(style: .light)
@@ -49,7 +49,7 @@ public final class ProCodingAccessoryBar: UIInputView {
     }
 
     public init() {
-        let compact = UserDefaults.standard.bool(forKey: "3012.compactCodingBar")
+        let compact = UserDefaults.standard.bool(forKey: "NexusKing.compactCodingBar")
         super.init(frame: CGRect(x: 0, y: 0, width: 320, height: compact ? 36 : 64), inputViewStyle: .keyboard)
         self.allowsSelfSizing = true
         setupUI()
@@ -98,7 +98,7 @@ public final class ProCodingAccessoryBar: UIInputView {
             guard let self else { return }
             self.feedback.impactOccurred()
             self.isCompactBar.toggle()
-            UserDefaults.standard.set(self.isCompactBar, forKey: "3012.compactCodingBar")
+            UserDefaults.standard.set(self.isCompactBar, forKey: "NexusKing.compactCodingBar")
             self.applyCompactState(reloadKeyboard: true)
         }
         compactBtn.translatesAutoresizingMaskIntoConstraints = false

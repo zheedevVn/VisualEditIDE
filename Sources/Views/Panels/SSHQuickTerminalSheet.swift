@@ -88,7 +88,7 @@ public struct SSHQuickTerminalSheet: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(preferences.tr("Chưa gắn Linux VPS SSH", "No Linux VPS Connected"))
                         .font(.system(size: 14, weight: .bold))
-                    Text(preferences.tr("Đăng nhập VPS một lần để mở shell Ubuntu/Debian ngay trong 3012 và chạy make trực tiếp không cần gửi lại zip.", "Sign in once to attach a live Ubuntu/Debian shell inside 3012 and run make without re-uploading zips."))
+                    Text(preferences.tr("Đăng nhập VPS một lần để mở shell Ubuntu/Debian ngay trong NexusKing và chạy make trực tiếp không cần gửi lại zip.", "Sign in once to attach a live Ubuntu/Debian shell inside NexusKing and run make without re-uploading zips."))
                         .font(.system(size: 11.5))
                         .foregroundColor(.secondary)
                 }
@@ -274,7 +274,7 @@ public struct SSHQuickTerminalSheet: View {
         } header: {
             Text(preferences.tr("Duyệt & Gắn Code Trực Tiếp Trên VPS", "Browse & Mount VPS Project Directly"))
         } footer: {
-            Text(preferences.tr("Khi mở thư mục VPS trong 3012, mọi lần Lưu tự đồng bộ ngay file vừa sửa lên VPS qua SFTP và giữ nguyên cache .theos — không bao giờ phải nén gửi lại toàn bộ dự án.", "Mounted VPS projects sync only saved edits via SFTP while keeping .theos build cache intact on the VPS."))
+            Text(preferences.tr("Khi mở thư mục VPS trong NexusKing, mọi lần Lưu tự đồng bộ ngay file vừa sửa lên VPS qua SFTP và giữ nguyên cache .theos — không bao giờ phải nén gửi lại toàn bộ dự án.", "Mounted VPS projects sync only saved edits via SFTP while keeping .theos build cache intact on the VPS."))
         }
     }
 

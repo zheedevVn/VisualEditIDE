@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Theos builder image
-        run: docker build -t 3012-theos-builder:latest BuildServer/image
+        run: docker build -t NexusKing-theos-builder:latest BuildServer/image
 
       - name: Start build server
         run: |
@@ -102,7 +102,7 @@ jobs:
 
           def upload_chunks(items):
               # items: list[(sha_hex, bytes)]
-              buf = bytearray(b"3012CAS1")
+              buf = bytearray(b"NexusKingCAS1")
               buf.extend(struct.pack("!I", len(items)))
               for sha_hex, raw in items:
                   buf.extend(bytes.fromhex(sha_hex))
@@ -397,7 +397,7 @@ jobs:
           EOF
           OUT=$(docker run --rm -i --network none --read-only --tmpfs /work:rw,exec,size=64m,uid=1000,gid=1000 \
                   --user 1000:1000 --cap-drop ALL --security-opt no-new-privileges \
-                  --entrypoint /bin/bash 3012-theos-builder:latest < "$RUNNER_TEMP/probe.sh")
+                  --entrypoint /bin/bash NexusKing-theos-builder:latest < "$RUNNER_TEMP/probe.sh")
           echo "$OUT"
           echo "$OUT" | grep -q '^1000$'
           echo "$OUT" | grep -q NET_BLOCKED

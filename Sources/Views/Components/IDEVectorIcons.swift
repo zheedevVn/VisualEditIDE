@@ -316,8 +316,8 @@ public struct IDECodeMarkVector: View {
     }
 }
 
-/// Single-line horizontal `3012_` bespoke developer wordmark (with slashed zero and emerald terminal block cursor).
-public struct Brand3012WordmarkView: View {
+/// Single-line horizontal `NexusKing_` developer wordmark (heavy monospaced set with emerald terminal block cursor).
+public struct BrandNexusKingWordmarkView: View {
     public var height: CGFloat = 28
     public var inkColor: Color = .primary
     public var accentColor: Color = Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255)
@@ -333,64 +333,26 @@ public struct Brand3012WordmarkView: View {
     }
 
     public var body: some View {
-        let width = height * (476.0 / 104.0)
-        Canvas { context, canvasSize in
-            let u = canvasSize.height / 104.0
-            let pt = { (x: CGFloat, y: CGFloat) in CGPoint(x: x * u, y: y * u) }
+        let cursorWidth = height * 0.36
+        let cursorHeight = height * 0.13
 
-            // Emerald Slashed Zero inside '0'
-            var slash = Path()
-            slash.move(to: pt(126, 78))
-            slash.addLine(to: pt(178, 24))
-            context.stroke(
-                slash,
-                with: .color(accentColor),
-                style: StrokeStyle(lineWidth: 12 * u, lineCap: .round)
-            )
+        HStack(alignment: .firstTextBaseline, spacing: height * 0.09) {
+            Text("NexusKing")
+                .font(.system(size: height * 0.80, weight: .heavy, design: .monospaced))
+                .tracking(-height * 0.014)
+                .foregroundColor(inkColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.55)
 
-            // Single-line custom vector '3 0 1 2'
-            var word = Path()
-            // '3'
-            word.move(to: pt(10, 10))
-            word.addLine(to: pt(66, 10))
-            word.addLine(to: pt(32, 46))
-            word.addLine(to: pt(46, 46))
-            word.addCurve(to: pt(38, 92), control1: pt(72, 46), control2: pt(74, 92))
-            word.addCurve(to: pt(7, 78), control1: pt(20, 92), control2: pt(11, 86))
-
-            // '0'
-            let zRect = CGRect(x: 120 * u, y: 10 * u, width: 64 * u, height: 82 * u)
-            word.addPath(RoundedRectangle(cornerRadius: 32 * u, style: .circular).path(in: zRect))
-
-            // '1'
-            word.move(to: pt(242, 28))
-            word.addLine(to: pt(266, 10))
-            word.addLine(to: pt(266, 92))
-            word.move(to: pt(238, 92))
-            word.addLine(to: pt(294, 92))
-
-            // '2'
-            word.move(to: pt(344, 30))
-            word.addCurve(to: pt(375, 10), control1: pt(348, 10), control2: pt(364, 10))
-            word.addCurve(to: pt(393, 50), control1: pt(400, 10), control2: pt(410, 30))
-            word.addLine(to: pt(342, 92))
-            word.addLine(to: pt(408, 92))
-
-            context.stroke(
-                word,
-                with: .color(inkColor),
-                style: StrokeStyle(lineWidth: 16.5 * u, lineCap: .round, lineJoin: .round)
-            )
-
-            // Terminal Emerald Underscore Cursor
-            let cursorRect = CGRect(x: 430 * u, y: 80 * u, width: 38 * u, height: 14 * u)
-            context.fill(
-                RoundedRectangle(cornerRadius: 4 * u, style: .continuous).path(in: cursorRect),
-                with: .color(accentColor)
-            )
+            // Terminal Emerald Underscore Cursor, sitting on the text baseline
+            RoundedRectangle(cornerRadius: cursorHeight * 0.3, style: .continuous)
+                .fill(accentColor)
+                .frame(width: cursorWidth, height: cursorHeight)
+                .alignmentGuide(.firstTextBaseline) { $0[.bottom] }
         }
-        .frame(width: width, height: height)
-        .accessibilityLabel("3012")
+        .frame(height: height)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("NexusKing")
     }
 }
 

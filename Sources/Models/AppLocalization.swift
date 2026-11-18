@@ -3,13 +3,16 @@ import SwiftUI
 import UIKit
 
 public enum IDEAuthorInfo {
-    public static let fullName = "Le The Khoi"
+    public static let fullName = "NexusKing"
     public static let countryVietnamese = "Việt Nam"
     public static let countryEnglish = "Vietnam"
-    public static let telegramHandle = "@coder_009"
-    public static let telegramURL = URL(string: "https://t.me/coder_009")!
-    public static let githubHandle = "@userlethekhoi"
-    public static let githubRepoURL = URL(string: "https://github.com/userlethekhoi/3012")!
+    public static let email = "antigravity.ops@gmail.com"
+    public static let emailURL = URL(string: "mailto:antigravity.ops@gmail.com")!
+    public static let telegramHandle = "@zheevipv1"
+    public static let telegramURL = URL(string: "https://t.me/zheevipv1")!
+    public static let githubHandle = "@zheedevVN"
+    public static let githubRepoName = "zheedevVN/VisualEditIDE"
+    public static let githubRepoURL = URL(string: "https://github.com/zheedevVN/VisualEditIDE")!
     public static let licenseName = "GNU AGPLv3"
 }
 
@@ -22,7 +25,7 @@ public enum AppLanguage: String, CaseIterable, Identifiable, Codable, Sendable {
     case russian = "ru"
     case spanish = "es"
 
-    public static let storageKey = "3012.appLanguage"
+    public static let storageKey = "NexusKing.appLanguage"
 
     private static let lock = NSLock()
     private static var _cachedCurrent: AppLanguage = {

@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/3012-banner.svg" width="680" alt="3012 — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>Нативный редактор кода, удалённая рабочая станция и AI IDE для iOS и iPadOS</strong></p>
 
@@ -15,14 +15,14 @@
   </p>
 
   <p>
-    <a href="https://github.com/userlethekhoi/3012/actions/workflows/build-ipa.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/userlethekhoi/3012/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/actions/workflows/build-ipa.yml">
+      <img src="https://img.shields.io/github/actions/workflow/status/zheedevVN/VisualEditIDE/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest">
-      <img src="https://img.shields.io/github/v/release/userlethekhoi/3012?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
+      <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-3012--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,7 +36,7 @@
 
 ## Обзор
 
-**3012** (`com.dev.app3012`) — нативная среда разработки (IDE) для **iOS 15.0+** и **iPadOS 15.0+**, написанная полностью на `SwiftUI` и `UIKit` без WebView или Electron, чтобы перенести рабочий процесс **VS Code** и **Cursor** на мобильные устройства без потери производительности.
+**NexusKing** (`com.nexusking.app`) — нативная среда разработки (IDE) для **iOS 15.0+** и **iPadOS 15.0+**, написанная полностью на `SwiftUI` и `UIKit` без WebView или Electron, чтобы перенести рабочий процесс **VS Code** и **Cursor** на мобильные устройства без потери производительности.
 
 В основе редактора лежит `Runestone` с **48 статически скомпилированными C/C++ парсерами `Tree-sitter`** для плавной прокрутки 120 Гц ProMotion. В приложение встроены локальный веб-сервер `localhost:5500`, **локальный фоновый демон 24/7 для ботов Telegram и скриптов**, сборщик **Theos Tweak** (`.deb`/`.dylib`), **xtool Studio** (сборка `.ipa` из SwiftPM и инъекция `.dylib` в Mach-O), терминал `SwiftTerm` (`xterm-256color`), **SSH/SFTP** клиент на базе `Citadel` и **AI Coding Agent** с просмотром diff-патчей.
 
@@ -44,19 +44,19 @@
 
 ## Загрузка и установка
 
-Каждое обновление ветки `main` автоматически собирается в GitHub Actions на `macos-15` (Xcode 16+) и публикуется в разделе **Releases** как **`3012-Unsigned.ipa`** (с ad-hoc подписью для прямой установки через **TrollStore на iOS 15/16+** или через личные `.p12`-сертификаты).
+Каждое обновление ветки `main` автоматически собирается в GitHub Actions на `macos-15` (Xcode 16+) и публикуется в разделе **Releases** как **`NexusKing-Unsigned.ipa`** (с ad-hoc подписью для прямой установки через **TrollStore на iOS 15/16+** или через личные `.p12`-сертификаты).
 
-- **Прямая ссылка на последнюю сборку:** [**3012-Unsigned.ipa (Latest Release)**](https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa)
-- **Все релизы и контрольные суммы SHA-256:** [GitHub Releases](https://github.com/userlethekhoi/3012/releases)
+- **Прямая ссылка на последнюю сборку:** [**NexusKing-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **Все релизы и контрольные суммы SHA-256:** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### Способы установки (TrollStore / `.p12` / Sideload)
 
 | Инструмент | Требования | Порядок установки |
 | :--- | :--- | :--- |
-| **TrollStore** | iOS 15.0+ – 17.0 с поддержкой CoreTrust | Откройте `3012-Unsigned.ipa` напрямую в TrollStore для постоянной установки без переподписи. |
-| **Feather / ESign / GBox** | Личный сертификат `.p12` + `.mobileprovision` | Импортируйте сертификат, выберите `3012-Unsigned.ipa` и нажмите **Sign & Install**. |
-| **AltStore / SideStore** | Личный Apple ID (бесплатный или платный) | Откройте `3012-Unsigned.ipa` через **My Apps (+)** для автоматической подписи и продления. |
-| **Sideloadly (macOS / Windows)** | Apple ID или сертификат разработчика | Перетащите `3012-Unsigned.ipa` в Sideloadly и установите по USB или Wi-Fi. |
+| **TrollStore** | iOS 15.0+ – 17.0 с поддержкой CoreTrust | Откройте `NexusKing-Unsigned.ipa` напрямую в TrollStore для постоянной установки без переподписи. |
+| **Feather / ESign / GBox** | Личный сертификат `.p12` + `.mobileprovision` | Импортируйте сертификат, выберите `NexusKing-Unsigned.ipa` и нажмите **Sign & Install**. |
+| **AltStore / SideStore** | Личный Apple ID (бесплатный или платный) | Откройте `NexusKing-Unsigned.ipa` через **My Apps (+)** для автоматической подписи и продления. |
+| **Sideloadly (macOS / Windows)** | Apple ID или сертификат разработчика | Перетащите `NexusKing-Unsigned.ipa` в Sideloadly и установите по USB или Wi-Fi. |
 
 ---
 
@@ -169,14 +169,14 @@ flowchart TB
 Конфигурация таргета и зависимости SPM описаны в [`project.yml`](project.yml) для **XcodeGen**.
 
 ```bash
-git clone https://github.com/userlethekhoi/3012.git
-cd 3012
+git clone https://github.com/zheedevVN/VisualEditIDE.git
+cd NexusKing
 xcodegen generate
-xcodebuild -resolvePackageDependencies -project App3012.xcodeproj -scheme App3012
+xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
 
 xcodebuild build \
-  -project App3012.xcodeproj \
-  -scheme App3012 \
+  -project NexusKing.xcodeproj \
+  -scheme NexusKing \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -187,15 +187,15 @@ xcodebuild build \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/3012.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/3012.app
-zip -qry 3012-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
+zip -qry NexusKing-Unsigned.ipa Payload
 ```
 
 ---
 
 ## Авторские права и лицензия (GNU AGPLv3)
 
-**Copyright (c) 2026 Le The Khoi (GitHub: [@userlethekhoi](https://github.com/userlethekhoi) • Telegram: [@coder_009](https://t.me/coder_009)).**
+**Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-Исходный код, архитектура и визуальные материалы **3012** распространяются под лицензией [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE). При создании форков, модификаций, пересборке `.ipa` или предоставлении сетевого доступа к изменённой версии (раздел 13 AGPL-3.0) обязательно сохранять уведомление об авторстве и файл [`LICENSE`](LICENSE), а также **полностью публиковать исходный код под той же лицензией `AGPL-3.0`**.
+Исходный код, архитектура и визуальные материалы **NexusKing** распространяются под лицензией [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE). При создании форков, модификаций, пересборке `.ipa` или предоставлении сетевого доступа к изменённой версии (раздел 13 AGPL-3.0) обязательно сохранять уведомление об авторстве и файл [`LICENSE`](LICENSE), а также **полностью публиковать исходный код под той же лицензией `AGPL-3.0`**.

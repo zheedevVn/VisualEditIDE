@@ -33,13 +33,13 @@ public struct SettingsAndThemesSheet: View {
     public var body: some View {
         CompatibleNavigationContainer {
             Form {
-                // MARK: - 0. 3012 Developer Brand Identity Header
+                // MARK: - 0. NexusKing Developer Brand Identity Header
                 Section {
                     HStack(spacing: 14) {
                         IDECodeMarkVector(size: 52)
                         VStack(alignment: .leading, spacing: 5) {
                             HStack(alignment: .center, spacing: 10) {
-                                Brand3012WordmarkView(height: 19, inkColor: .primary)
+                                BrandNexusKingWordmarkView(height: 19, inkColor: .primary)
                                 Text("v" + ((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "4.0.1"))
                                     .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
                                     .padding(.horizontal, 6)
@@ -147,6 +147,16 @@ public struct SettingsAndThemesSheet: View {
                         value: IDEAuthorInfo.fullName
                     )
                     authorInfoRow(
+                        label: preferences.tr("Email", "Email", zh: "邮箱", ja: "メール", ko: "이메일", ru: "Эл. почта", es: "Correo"),
+                        value: IDEAuthorInfo.email,
+                        monospaced: true
+                    )
+                    authorInfoRow(
+                        label: "GitHub",
+                        value: IDEAuthorInfo.githubHandle,
+                        monospaced: true
+                    )
+                    authorInfoRow(
                         label: "Telegram",
                         value: IDEAuthorInfo.telegramHandle,
                         monospaced: true
@@ -155,6 +165,24 @@ public struct SettingsAndThemesSheet: View {
                         label: preferences.tr("Giấy phép", "License", zh: "许可证", ja: "ライセンス", ko: "라이선스", ru: "Лицензия", es: "Licencia"),
                         value: "\(IDEAuthorInfo.licenseName) (Open Source)"
                     )
+
+                    Button {
+                        UIApplication.shared.open(IDEAuthorInfo.emailURL)
+                    } label: {
+                        Label(
+                            preferences.tr(
+                                "Gửi Email (\(IDEAuthorInfo.email))",
+                                "Send Email (\(IDEAuthorInfo.email))",
+                                zh: "发送邮件 (\(IDEAuthorInfo.email))",
+                                ja: "メールを送信 (\(IDEAuthorInfo.email))",
+                                ko: "이메일 보내기 (\(IDEAuthorInfo.email))",
+                                ru: "Отправить email (\(IDEAuthorInfo.email))",
+                                es: "Enviar correo (\(IDEAuthorInfo.email))"
+                            ),
+                            systemImage: "envelope.fill"
+                        )
+                        .font(.body.weight(.semibold))
+                    }
 
                     Button {
                         UIApplication.shared.open(IDEAuthorInfo.telegramURL)
@@ -191,13 +219,13 @@ public struct SettingsAndThemesSheet: View {
                     } label: {
                         Label(
                             preferences.tr(
-                                "Mã nguồn GitHub (userlethekhoi/3012)",
-                                "GitHub Repository (userlethekhoi/3012)",
-                                zh: "GitHub 开源仓库 (userlethekhoi/3012)",
-                                ja: "GitHub リポジトリ (userlethekhoi/3012)",
-                                ko: "GitHub 저장소 (userlethekhoi/3012)",
-                                ru: "Репозиторий GitHub (userlethekhoi/3012)",
-                                es: "Repositorio GitHub (userlethekhoi/3012)"
+                                "Mã nguồn GitHub (zheedevVN/VisualEditIDE)",
+                                "GitHub Repository (zheedevVN/VisualEditIDE)",
+                                zh: "GitHub 开源仓库 (zheedevVN/VisualEditIDE)",
+                                ja: "GitHub リポジトリ (zheedevVN/VisualEditIDE)",
+                                ko: "GitHub 저장소 (zheedevVN/VisualEditIDE)",
+                                ru: "Репозиторий GitHub (zheedevVN/VisualEditIDE)",
+                                es: "Repositorio GitHub (zheedevVN/VisualEditIDE)"
                             ),
                             systemImage: "chevron.left.forwardslash.chevron.right"
                         )
@@ -404,8 +432,8 @@ public struct SettingsAndThemesSheet: View {
                         }
 
                     Text(preferences.tr(
-                        "Khi bật tùy chọn này, bạn có thể viết HTML/CSS/JS trong 3012 rồi chuyển sang Safari mở http://localhost:\(liveServer.port) mà iOS không đóng băng máy chủ.",
-                        "When enabled, you can edit HTML/CSS/JS in 3012 and switch to Safari at http://localhost:\(liveServer.port) without iOS suspending the server."
+                        "Khi bật tùy chọn này, bạn có thể viết HTML/CSS/JS trong NexusKing rồi chuyển sang Safari mở http://localhost:\(liveServer.port) mà iOS không đóng băng máy chủ.",
+                        "When enabled, you can edit HTML/CSS/JS in NexusKing and switch to Safari at http://localhost:\(liveServer.port) without iOS suspending the server."
                     ))
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -439,8 +467,8 @@ public struct SettingsAndThemesSheet: View {
 
                     Toggle(
                         preferences.tr(
-                            "Chống tự tắt màn hình khi đang mở 3012",
-                            "Prevent Screen Auto-Lock While 3012 is Open"
+                            "Chống tự tắt màn hình khi đang mở NexusKing",
+                            "Prevent Screen Auto-Lock While NexusKing is Open"
                         ),
                         isOn: $daemonService.preventScreenSleep
                     )
@@ -496,8 +524,8 @@ public struct SettingsAndThemesSheet: View {
                     }
 
                     Text(preferences.tr(
-                        "Mặc định nếu để trống VPS, 3012 vẫn tự biên dịch & chạy ngay C, C++20, Objective-C, Python, Swift, JS bằng Zero-Config Sandbox mà không cần cài MinGW hay sửa PATH.",
-                        "Without a VPS configured, 3012 compiles and runs C, C++20, Objective-C, Python, Swift, and JS immediately via Zero-Config Sandbox."
+                        "Mặc định nếu để trống VPS, NexusKing vẫn tự biên dịch & chạy ngay C, C++20, Objective-C, Python, Swift, JS bằng Zero-Config Sandbox mà không cần cài MinGW hay sửa PATH.",
+                        "Without a VPS configured, NexusKing compiles and runs C, C++20, Objective-C, Python, Swift, and JS immediately via Zero-Config Sandbox."
                     ))
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -516,13 +544,13 @@ public struct SettingsAndThemesSheet: View {
                 }
             }
             .navigationTitle(preferences.tr(
-                "Cài đặt 3012 IDE",
-                "3012 IDE Settings",
-                zh: "3012 IDE 设置",
-                ja: "3012 IDE 設定",
-                ko: "3012 IDE 설정",
-                ru: "Настройки 3012 IDE",
-                es: "Ajustes de 3012 IDE"
+                "Cài đặt NexusKing IDE",
+                "NexusKing IDE Settings",
+                zh: "NexusKing IDE 设置",
+                ja: "NexusKing IDE 設定",
+                ko: "NexusKing IDE 설정",
+                ru: "Настройки NexusKing IDE",
+                es: "Ajustes de NexusKing IDE"
             ))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -586,7 +614,7 @@ public struct SettingsAndThemesSheet: View {
                         Text("()")
                             .foregroundColor(Color(hex: theme.foreground))
                     }
-                    Text("\"3012 IDE\"")
+                    Text("\"NexusKing IDE\"")
                         .foregroundColor(Color(hex: theme.string))
                 }
                 .font(.system(size: 10.5, design: .monospaced))

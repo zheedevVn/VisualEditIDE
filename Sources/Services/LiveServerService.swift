@@ -40,7 +40,7 @@ public final class LiveServerService: ObservableObject {
     @Published public var isCreatingTunnel: Bool = false
 
     private var listener: NWListener?
-    private let serverQueue = DispatchQueue(label: "com.dev.app3012.liveserver", qos: .userInitiated)
+    private let serverQueue = DispatchQueue(label: "com.nexusking.app.liveserver", qos: .userInitiated)
     private var rootDirectory: URL?
     private var silentAudioPlayer: AVAudioPlayer?
     private var recentRemoteViewers: [String: Date] = [:]
@@ -376,8 +376,8 @@ public final class LiveServerService: ObservableObject {
             if !shareBox.enabled {
                 let deniedHTML = """
                 <html><body style="font-family:-apple-system,sans-serif;background:#0f172a;color:#f8fafc;padding:2rem;">
-                <h2>3012 Live Preview — Sharing Is Turned Off</h2>
-                <p>Chủ dự án đã tắt liên kết chia sẻ Live Server trên ứng dụng 3012 iOS.</p>
+                <h2>NexusKing Live Preview — Sharing Is Turned Off</h2>
+                <p>Chủ dự án đã tắt liên kết chia sẻ Live Server trên ứng dụng NexusKing iOS.</p>
                 </body></html>
                 """
                 let resp = Self.buildHTTPResponse(status: "403 Forbidden", contentType: "text/html; charset=utf-8", body: Data(deniedHTML.utf8), allowCORS: isLocalOwner)
@@ -440,7 +440,7 @@ public final class LiveServerService: ObservableObject {
             // Optional 4-digit PIN gate for external shared viewers (owner 127.0.0.1 always bypasses)
             let requiredPIN = self.shareBox.pinCode
             if !isLocalOwner && !requiredPIN.isEmpty {
-                let expectedToken = "3012_pin=\(requiredPIN)"
+                let expectedToken = "NexusKing_pin=\(requiredPIN)"
                 let hasValidCookie = lines.contains { line in
                     let trimmed = line.trimmingCharacters(in: .whitespaces)
                     guard trimmed.lowercased().hasPrefix("cookie:") else { return false }
@@ -452,12 +452,12 @@ public final class LiveServerService: ObservableObject {
                 }
                 let queryPIN = Self.extractQueryValue(named: "pin", from: queryStr)
 
-                if pathOnly == "/__3012_auth" || queryPIN == requiredPIN {
+                if pathOnly == "/__NexusKing_auth" || queryPIN == requiredPIN {
                     if queryPIN == requiredPIN {
                         let redirHeaders = [
                             "HTTP/1.1 302 Found",
                             "Location: /",
-                            "Set-Cookie: 3012_pin=\(requiredPIN); Path=/; HttpOnly; SameSite=Lax",
+                            "Set-Cookie: NexusKing_pin=\(requiredPIN); Path=/; HttpOnly; SameSite=Lax",
                             "Content-Length: 0",
                             "Connection: close",
                             "",
@@ -482,7 +482,7 @@ public final class LiveServerService: ObservableObject {
                 }
             }
 
-            if pathOnly == "/__3012_version" {
+            if pathOnly == "/__NexusKing_version" {
                 let body = Data("\(self.versionBox.value)".utf8)
                 let response = Self.buildHTTPResponse(status: "200 OK", contentType: "text/plain; charset=utf-8", body: body, allowCORS: isLocalOwner)
                 connection.send(content: response, completion: .contentProcessed { _ in
@@ -585,7 +585,7 @@ public final class LiveServerService: ObservableObject {
                 let escapedRel = Self.escapeHTML(relative)
                 let notFoundHTML = """
                 <html><body style="font-family:sans-serif;background:#0f172a;color:#e2e8f0;padding:2rem;">
-                <h2>3012 Live Server — 404 Not Found</h2>
+                <h2>NexusKing Live Server — 404 Not Found</h2>
                 <p>File <code>/\(escapedRel)</code> does not exist in the current workspace.</p>
                 </body></html>
                 """
@@ -608,7 +608,7 @@ public final class LiveServerService: ObservableObject {
                   let currentVer = null;
                   setInterval(async () => {
                     try {
-                      const r = await fetch('/__3012_version', { cache: 'no-store' });
+                      const r = await fetch('/__NexusKing_version', { cache: 'no-store' });
                       if (r.status === 403 || r.status === 401) { window.location.reload(); return; }
                       const v = await r.text();
                       if (currentVer === null) { currentVer = v; }
@@ -726,7 +726,7 @@ public final class LiveServerService: ObservableObject {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>3012 Live Preview — Nhập mã PIN</title>
+          <title>NexusKing Live Preview — Nhập mã PIN</title>
           <style>
             body { margin:0; min-height:100vh; display:grid; place-items:center; background:#0f172a; color:#f8fafc; font-family:-apple-system,sans-serif; padding:20px; }
             form { max-width:340px; width:100%; background:#1e293b; border:1px solid #334155; border-radius:16px; padding:24px; text-align:center; }
@@ -736,8 +736,8 @@ public final class LiveServerService: ObservableObject {
           </style>
         </head>
         <body>
-          <form method="GET" action="/__3012_auth">
-            <h3>3012 Live Preview</h3>
+          <form method="GET" action="/__NexusKing_auth">
+            <h3>NexusKing Live Preview</h3>
             <p style="font-size:13px;color:#94a3b8;">Nhập mã PIN 4 số từ chủ dự án để xem.</p>
             \(wrongAttempt ? "<div class='err'>Sai mã PIN, vui lòng thử lại.</div>" : "")
             <input name="pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autofocus required />
@@ -846,7 +846,7 @@ public final class LiveServerService: ObservableObject {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>3012 Live Server — \(titlePath)</title>
+          <title>NexusKing Live Server — \(titlePath)</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f172a; color: #e2e8f0; padding: 1.5rem; line-height: 1.6; }
             h2 { color: #10b981; margin-bottom: 0.5rem; }
@@ -856,7 +856,7 @@ public final class LiveServerService: ObservableObject {
           </style>
         </head>
         <body>
-          <h2>3012 Live Server — \(titlePath)</h2>
+          <h2>NexusKing Live Server — \(titlePath)</h2>
           <p>Không có tệp <code>index.html</code>. Chọn tệp trong thư mục:</p>
           <ul>\(listItems.isEmpty ? "<li><em>(Thư mục trống)</em></li>" : listItems)</ul>
         </body>

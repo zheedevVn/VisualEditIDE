@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/3012-banner.svg" width="680" alt="3012 — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>Native Code Editor, Remote Development Workstation &amp; Agentic IDE for iOS and iPadOS</strong></p>
 
@@ -15,14 +15,14 @@
   </p>
 
   <p>
-    <a href="https://github.com/userlethekhoi/3012/actions/workflows/build-ipa.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/userlethekhoi/3012/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/actions/workflows/build-ipa.yml">
+      <img src="https://img.shields.io/github/actions/workflow/status/zheedevVN/VisualEditIDE/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest">
-      <img src="https://img.shields.io/github/v/release/userlethekhoi/3012?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
+      <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-3012--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,7 +36,7 @@
 
 ## Tổng quan
 
-**3012** (`com.dev.app3012`) là môi trường phát triển tích hợp (IDE) thuần Native dành cho **iOS 15.0+** và **iPadOS 15.0+**, được thiết kế để mang quy trình làm việc của **VS Code** và **Cursor** lên thiết bị di động mà không đánh đổi hiệu năng qua lớp bọc WebView/Electron.
+**NexusKing** (`com.nexusking.app`) là môi trường phát triển tích hợp (IDE) thuần Native dành cho **iOS 15.0+** và **iPadOS 15.0+**, được thiết kế để mang quy trình làm việc của **VS Code** và **Cursor** lên thiết bị di động mà không đánh đổi hiệu năng qua lớp bọc WebView/Electron.
 
 Vùng soạn thảo được xây dựng trực tiếp trên `UIKit` (`Runestone`) kết hợp **48 bộ phân tích cú pháp C/C++ `Tree-sitter` biên dịch tĩnh**, đảm bảo cuộn mượt 120Hz ProMotion, tích hợp sẵn máy chủ Web `localhost:5500`, hệ thống chạy ngầm **24/7 On-Device Daemon & Telegram Bot**, trình tạo/biên dịch **Theos Tweak** (`.deb`/`.dylib`) và **xtool Studio** (build `.ipa` từ SwiftPM & nhúng `.dylib`), thiết bị đầu cuối **`SwiftTerm`** (`xterm-256color`), kết nối **`SSH/SFTP`** (`Citadel`) và **Coding Agent** hỗ trợ duyệt Diff.
 
@@ -44,19 +44,19 @@ Vùng soạn thảo được xây dựng trực tiếp trên `UIKit` (`Runestone
 
 ## Tải xuống & Cài đặt
 
-Mỗi bản cập nhật trên nhánh `main` được hệ thống GitHub Actions biên dịch tự động trên `macos-15` (Xcode 16+) và xuất bản dưới dạng gói **`3012-Unsigned.ipa`** tại mục **Releases** (đã kèm chữ ký ad-hoc tương thích trực tiếp với **TrollStore trên iOS 15/16+** và các công cụ ký chứng chỉ `.p12`).
+Mỗi bản cập nhật trên nhánh `main` được hệ thống GitHub Actions biên dịch tự động trên `macos-15` (Xcode 16+) và xuất bản dưới dạng gói **`NexusKing-Unsigned.ipa`** tại mục **Releases** (đã kèm chữ ký ad-hoc tương thích trực tiếp với **TrollStore trên iOS 15/16+** và các công cụ ký chứng chỉ `.p12`).
 
-- **Tải trực tiếp bản mới nhất:** [**3012-Unsigned.ipa (Latest Release)**](https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa)
-- **Danh sách toàn bộ các bản phát hành & mã băm SHA-256:** [GitHub Releases](https://github.com/userlethekhoi/3012/releases)
+- **Tải trực tiếp bản mới nhất:** [**NexusKing-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **Danh sách toàn bộ các bản phát hành & mã băm SHA-256:** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### Hướng dẫn cài đặt (`.p12` / TrollStore / Sideload)
 
 | Công cụ cài đặt | Yêu cầu | Quy trình thực hiện |
 | :--- | :--- | :--- |
-| **TrollStore** | iOS 15.0+ – 17.0 hỗ trợ CoreTrust | Mở trực tiếp `3012-Unsigned.ipa` bằng TrollStore để cài đặt vĩnh viễn, không cần gia hạn chứng chỉ. |
-| **Feather / ESign / GBox** | Chứng chỉ `.p12` + `.mobileprovision` | Nhập chứng chỉ vào ứng dụng ký trên thiết bị, chọn `3012-Unsigned.ipa`, bấm **Sign & Install**. |
-| **AltStore / SideStore** | Apple ID cá nhân (Miễn phí hoặc Trả phí) | Mở `3012-Unsigned.ipa` qua mục **My Apps (+)** để tự động ký và gia hạn định kỳ. |
-| **Sideloadly (macOS / Windows)** | Apple ID hoặc chứng chỉ Developer | Kéo thả `3012-Unsigned.ipa` vào Sideloadly và cài đặt qua USB hoặc Wi-Fi. |
+| **TrollStore** | iOS 15.0+ – 17.0 hỗ trợ CoreTrust | Mở trực tiếp `NexusKing-Unsigned.ipa` bằng TrollStore để cài đặt vĩnh viễn, không cần gia hạn chứng chỉ. |
+| **Feather / ESign / GBox** | Chứng chỉ `.p12` + `.mobileprovision` | Nhập chứng chỉ vào ứng dụng ký trên thiết bị, chọn `NexusKing-Unsigned.ipa`, bấm **Sign & Install**. |
+| **AltStore / SideStore** | Apple ID cá nhân (Miễn phí hoặc Trả phí) | Mở `NexusKing-Unsigned.ipa` qua mục **My Apps (+)** để tự động ký và gia hạn định kỳ. |
+| **Sideloadly (macOS / Windows)** | Apple ID hoặc chứng chỉ Developer | Kéo thả `NexusKing-Unsigned.ipa` vào Sideloadly và cài đặt qua USB hoặc Wi-Fi. |
 
 ---
 
@@ -152,7 +152,7 @@ flowchart TB
 
 ## Quyền riêng tư
 
-- **Không thu thập dữ liệu:** 3012 không chứa công cụ theo dõi, phân tích hay quảng cáo và không gửi mã nguồn về máy chủ trung gian ngoài lựa chọn của người dùng.
+- **Không thu thập dữ liệu:** NexusKing không chứa công cụ theo dõi, phân tích hay quảng cáo và không gửi mã nguồn về máy chủ trung gian ngoài lựa chọn của người dùng.
 - **Lưu trữ thông tin xác thực:** API Key, mật khẩu VPS, khóa SSH và GitHub Token được lưu cục bộ trong **iOS Keychain** (hoặc vùng lưu trữ riêng trong sandbox khi cài qua TrollStore thiếu entitlement).
 - **Dữ liệu AI & Build Server:** Khi dùng Coding Agent online hoặc Build Server Theos cộng đồng, dữ liệu được truyền trực tiếp tới nhà cung cấp / máy chủ bạn chọn (có hộp thoại xác nhận rõ ràng trước lần gửi đầu tiên).
 
@@ -184,23 +184,23 @@ Cấu hình target và phụ thuộc Swift Package Manager được quản lý k
 - macOS 15.0+ đi kèm **Xcode 16.0+**
 - [**XcodeGen**](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`)
 
-### Các bước biên dịch `3012-Unsigned.ipa`
+### Các bước biên dịch `NexusKing-Unsigned.ipa`
 
 ```bash
 # 1. Sao chép mã nguồn
-git clone https://github.com/userlethekhoi/3012.git
-cd 3012
+git clone https://github.com/zheedevVN/VisualEditIDE.git
+cd NexusKing
 
 # 2. Sinh tệp dự án Xcode từ project.yml
 xcodegen generate
 
 # 3. Tải các gói phụ thuộc Swift Package Manager
-xcodebuild -resolvePackageDependencies -project App3012.xcodeproj -scheme App3012
+xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
 
 # 4. Biên dịch bản Release cho iOS 15.0+ (arm64)
 xcodebuild build \
-  -project App3012.xcodeproj \
-  -scheme App3012 \
+  -project NexusKing.xcodeproj \
+  -scheme NexusKing \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -210,11 +210,11 @@ xcodebuild build \
   CODE_SIGNING_ALLOWED=NO \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
-# 5. Ký ad-hoc (tương thích TrollStore) & đóng gói thành 3012-Unsigned.ipa
+# 5. Ký ad-hoc (tương thích TrollStore) & đóng gói thành NexusKing-Unsigned.ipa
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/3012.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/3012.app
-zip -qry 3012-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
+zip -qry NexusKing-Unsigned.ipa Payload
 ```
 
 ---
@@ -222,21 +222,21 @@ zip -qry 3012-Unsigned.ipa Payload
 ## Cấu trúc Thư mục Dự án
 
 ```text
-3012/
+NexusKing/
 ├── .github/workflows/
-│   ├── build-ipa.yml                   # Pipeline CI/CD biên dịch 3012-Unsigned.ipa & phát hành GitHub Releases
+│   ├── build-ipa.yml                   # Pipeline CI/CD biên dịch NexusKing-Unsigned.ipa & phát hành GitHub Releases
 │   └── build-server.yml                # CI kiểm thử môi trường Docker Build Server cho Theos
 ├── BuildServer/                        # Hạ tầng máy chủ biên dịch Theos cách ly bằng Docker (tùy chọn tự host)
 ├── Config/
 │   └── AppIcon.svg                     # Nguồn vector gốc của biểu tượng ứng dụng
 ├── Resources/
 │   └── Brand/
-│       ├── 3012-banner.svg             # Banner vector ngang cho tài liệu dự án
-│       ├── 3012-icon.svg               # Biểu tượng thương hiệu vector gốc
-│       └── 3012-icon.png               # Biểu tượng squircle độ phân giải cao
+│       ├── NexusKing-banner.svg             # Banner vector ngang cho tài liệu dự án
+│       ├── NexusKing-icon.svg               # Biểu tượng thương hiệu vector gốc
+│       └── NexusKing-icon.png               # Biểu tượng squircle độ phân giải cao
 ├── Sources/
 │   ├── App/
-│   │   └── App3012Main.swift           # Điểm khởi chạy ứng dụng, Tab Strip, Split Bars & điều phối trung tâm
+│   │   └── NexusKingMain.swift           # Điểm khởi chạy ứng dụng, Tab Strip, Split Bars & điều phối trung tâm
 │   ├── Models/
 │   │   ├── AIProviderModels.swift      # Hồ sơ nhà cung cấp AI, preset online/offline & thuật toán chọn model
 │   │   ├── AppLocalization.swift       # Hệ thống 7 ngôn ngữ giao diện & component tương thích iOS 15+
@@ -287,14 +287,14 @@ zip -qry 3012-Unsigned.ipa Payload
 
 ## Bản quyền, Quyền Tác giả & Giấy phép Mã nguồn (GNU AGPLv3)
 
-**Copyright (c) 2026 Le The Khoi (GitHub: [@userlethekhoi](https://github.com/userlethekhoi) • Telegram: [@coder_009](https://t.me/coder_009)).**
+**Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-Mã nguồn, kiến trúc hệ thống và bộ nhận diện thương hiệu của dự án **3012** được phát hành theo giấy phép [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE).
+Mã nguồn, kiến trúc hệ thống và bộ nhận diện thương hiệu của dự án **NexusKing** được phát hành theo giấy phép [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE).
 
 ### Các điều khoản bắt buộc khi Fork, Sử dụng hoặc Phát triển Phái sinh
 
 1. **Tôn trọng và Giữ nguyên Quyền Tác giả (`Attribution & Copyright Notice`):**
-   - Bắt buộc giữ nguyên toàn bộ thông báo bản quyền gốc (`Copyright (c) 2026 Le The Khoi`), tệp [`LICENSE`](LICENSE), và ghi nhận rõ nguồn gốc từ [`github.com/userlethekhoi/3012`](https://github.com/userlethekhoi/3012).
+   - Bắt buộc giữ nguyên toàn bộ thông báo bản quyền gốc (`Copyright (c) 2026 NexusKing`), tệp [`LICENSE`](LICENSE), và ghi nhận rõ nguồn gốc từ [`github.com/zheedevVN/VisualEditIDE`](https://github.com/zheedevVN/VisualEditIDE).
    - Nghiêm cấm hành vi xóa tên tác giả, gỡ bỏ thông tin bản quyền hoặc mạo nhận quyền sở hữu gốc.
 2. **Bắt buộc Công khai Toàn bộ Mã nguồn (`Disclose Full Source`):**
    - Mọi bản fork, bản sửa đổi, bản đóng gói lại (`.ipa`) hoặc bản triển khai dưới dạng dịch vụ qua mạng (Điều 13 của AGPL-3.0) đều **bắt buộc phải công khai 100% mã nguồn hoàn chỉnh** kèm cấu hình biên dịch miễn phí cho người dùng.
@@ -309,4 +309,4 @@ Mã nguồn, kiến trúc hệ thống và bộ nhận diện thương hiệu c�
 | **Nghĩa vụ bắt buộc** | Giữ nguyên tên tác giả gốc • Đính kèm [`LICENSE`](LICENSE) • Công khai 100% mã nguồn bản fork/sửa đổi dưới `AGPL-3.0` • Ghi rõ thay đổi. |
 | **Nghiêm cấm** | Đóng nguồn sau khi dùng mã nguồn • Xóa thông tin tác giả • Phân phối `.ipa` hoặc dịch vụ phái sinh mà che giấu mã nguồn thực tế. |
 
-> **Lưu ý về Thương hiệu & Cấp phép Riêng:** Tên gọi **3012** và bộ biểu tượng thương hiệu trong `Resources/Brand/` thuộc quyền sở hữu của tác giả; các bản fork độc lập cần ghi rõ là phiên bản phái sinh từ **3012**. Mọi nhu cầu sử dụng thương mại đóng nguồn ngoài phạm vi `AGPL-3.0` cần có văn bản chấp thuận từ tác giả [@userlethekhoi](https://github.com/userlethekhoi).
+> **Lưu ý về Thương hiệu & Cấp phép Riêng:** Tên gọi **NexusKing** và bộ biểu tượng thương hiệu trong `Resources/Brand/` thuộc quyền sở hữu của tác giả; các bản fork độc lập cần ghi rõ là phiên bản phái sinh từ **NexusKing**. Mọi nhu cầu sử dụng thương mại đóng nguồn ngoài phạm vi `AGPL-3.0` cần có văn bản chấp thuận từ tác giả [@zheedevVN](https://github.com/zheedevVN).

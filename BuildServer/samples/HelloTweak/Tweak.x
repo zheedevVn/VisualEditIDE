@@ -4,7 +4,7 @@
 
 - (void)applicationDidFinishLaunching:(id)application {
     %orig;
-    NSLog(@"[HelloTweak] Built by the 3012 Theos Build Server");
+    NSLog(@"[HelloTweak] Built by the NexusKing Theos Build Server");
 }
 
 %end

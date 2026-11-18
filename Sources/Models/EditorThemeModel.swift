@@ -651,59 +651,59 @@ public final class EditorPreferences: ObservableObject {
         }
     }
     @Published public var selectedThemeID: String {
-        didSet { UserDefaults.standard.set(selectedThemeID, forKey: "3012.themeID") }
+        didSet { UserDefaults.standard.set(selectedThemeID, forKey: "NexusKing.themeID") }
     }
     @Published public var customAccentHex: String {
-        didSet { UserDefaults.standard.set(customAccentHex, forKey: "3012.customAccentHex") }
+        didSet { UserDefaults.standard.set(customAccentHex, forKey: "NexusKing.customAccentHex") }
     }
     @Published public var fontName: String {
-        didSet { UserDefaults.standard.set(fontName, forKey: "3012.fontName") }
+        didSet { UserDefaults.standard.set(fontName, forKey: "NexusKing.fontName") }
     }
     @Published public var fontSize: CGFloat {
         didSet {
             let clamped = min(max(fontSize, 10), 28)
             if fontSize != clamped { fontSize = clamped }
-            UserDefaults.standard.set(Double(clamped), forKey: "3012.fontSize")
+            UserDefaults.standard.set(Double(clamped), forKey: "NexusKing.fontSize")
         }
     }
     @Published public var lineHeightMultiplier: Double {
-        didSet { UserDefaults.standard.set(lineHeightMultiplier, forKey: "3012.lineHeight") }
+        didSet { UserDefaults.standard.set(lineHeightMultiplier, forKey: "NexusKing.lineHeight") }
     }
     @Published public var tabWidth: Int {
-        didSet { UserDefaults.standard.set(tabWidth, forKey: "3012.tabWidth") }
+        didSet { UserDefaults.standard.set(tabWidth, forKey: "NexusKing.tabWidth") }
     }
     @Published public var wordWrap: Bool {
-        didSet { UserDefaults.standard.set(wordWrap, forKey: "3012.wordWrap") }
+        didSet { UserDefaults.standard.set(wordWrap, forKey: "NexusKing.wordWrap") }
     }
     @Published public var showLineNumbers: Bool {
-        didSet { UserDefaults.standard.set(showLineNumbers, forKey: "3012.showLineNumbers") }
+        didSet { UserDefaults.standard.set(showLineNumbers, forKey: "NexusKing.showLineNumbers") }
     }
     @Published public var showInvisibleCharacters: Bool {
-        didSet { UserDefaults.standard.set(showInvisibleCharacters, forKey: "3012.showInvisibles") }
+        didSet { UserDefaults.standard.set(showInvisibleCharacters, forKey: "NexusKing.showInvisibles") }
     }
     @Published public var enableCodeFolding: Bool {
-        didSet { UserDefaults.standard.set(enableCodeFolding, forKey: "3012.codeFolding") }
+        didSet { UserDefaults.standard.set(enableCodeFolding, forKey: "NexusKing.codeFolding") }
     }
     @Published public var enableCodeCompletion: Bool {
-        didSet { UserDefaults.standard.set(enableCodeCompletion, forKey: "3012.codeCompletion") }
+        didSet { UserDefaults.standard.set(enableCodeCompletion, forKey: "NexusKing.codeCompletion") }
     }
     @Published public var enableLiveDiagnostics: Bool {
-        didSet { UserDefaults.standard.set(enableLiveDiagnostics, forKey: "3012.liveDiagnostics") }
+        didSet { UserDefaults.standard.set(enableLiveDiagnostics, forKey: "NexusKing.liveDiagnostics") }
     }
     @Published public var enableAutoSave: Bool {
-        didSet { UserDefaults.standard.set(enableAutoSave, forKey: "3012.autoSave") }
+        didSet { UserDefaults.standard.set(enableAutoSave, forKey: "NexusKing.autoSave") }
     }
     @Published public var formatOnSave: Bool {
-        didSet { UserDefaults.standard.set(formatOnSave, forKey: "3012.formatOnSave") }
+        didSet { UserDefaults.standard.set(formatOnSave, forKey: "NexusKing.formatOnSave") }
     }
     @Published public var autoIndentOnReturn: Bool {
-        didSet { UserDefaults.standard.set(autoIndentOnReturn, forKey: "3012.autoIndentReturn") }
+        didSet { UserDefaults.standard.set(autoIndentOnReturn, forKey: "NexusKing.autoIndentReturn") }
     }
     @Published public var showBreadcrumbs: Bool {
-        didSet { UserDefaults.standard.set(showBreadcrumbs, forKey: "3012.showBreadcrumbs") }
+        didSet { UserDefaults.standard.set(showBreadcrumbs, forKey: "NexusKing.showBreadcrumbs") }
     }
     @Published public var keepServerInBackground: Bool {
-        didSet { UserDefaults.standard.set(keepServerInBackground, forKey: "3012.keepServerBg") }
+        didSet { UserDefaults.standard.set(keepServerInBackground, forKey: "NexusKing.keepServerBg") }
     }
     @Published public var customThemes: [IDEColorPalette] = [] {
         didSet { saveCustomThemes() }
@@ -737,26 +737,26 @@ public final class EditorPreferences: ObservableObject {
             .flatMap(AppLanguage.init(rawValue:)) ?? .vietnamese
         self.appLanguage = savedLang
         AppLanguage.current = savedLang
-        self.selectedThemeID = UserDefaults.standard.string(forKey: "3012.themeID") ?? "tokyo-night"
-        self.customAccentHex = UserDefaults.standard.string(forKey: "3012.customAccentHex") ?? ""
-        self.fontName = UserDefaults.standard.string(forKey: "3012.fontName") ?? "Menlo-Regular"
-        let savedSize = UserDefaults.standard.double(forKey: "3012.fontSize")
+        self.selectedThemeID = UserDefaults.standard.string(forKey: "NexusKing.themeID") ?? "tokyo-night"
+        self.customAccentHex = UserDefaults.standard.string(forKey: "NexusKing.customAccentHex") ?? ""
+        self.fontName = UserDefaults.standard.string(forKey: "NexusKing.fontName") ?? "Menlo-Regular"
+        let savedSize = UserDefaults.standard.double(forKey: "NexusKing.fontSize")
         self.fontSize = savedSize > 0 ? CGFloat(savedSize) : 14.0
-        let savedLH = UserDefaults.standard.double(forKey: "3012.lineHeight")
+        let savedLH = UserDefaults.standard.double(forKey: "NexusKing.lineHeight")
         self.lineHeightMultiplier = savedLH > 0 ? savedLH : 1.22
-        let savedTab = UserDefaults.standard.integer(forKey: "3012.tabWidth")
+        let savedTab = UserDefaults.standard.integer(forKey: "NexusKing.tabWidth")
         self.tabWidth = savedTab > 0 ? savedTab : 2
-        self.wordWrap = UserDefaults.standard.object(forKey: "3012.wordWrap") as? Bool ?? true
-        self.showLineNumbers = UserDefaults.standard.object(forKey: "3012.showLineNumbers") as? Bool ?? true
-        self.showInvisibleCharacters = UserDefaults.standard.object(forKey: "3012.showInvisibles") as? Bool ?? false
-        self.enableCodeFolding = UserDefaults.standard.object(forKey: "3012.codeFolding") as? Bool ?? true
-        self.enableCodeCompletion = UserDefaults.standard.object(forKey: "3012.codeCompletion") as? Bool ?? true
-        self.enableLiveDiagnostics = UserDefaults.standard.object(forKey: "3012.liveDiagnostics") as? Bool ?? true
-        self.enableAutoSave = UserDefaults.standard.object(forKey: "3012.autoSave") as? Bool ?? true
-        self.formatOnSave = UserDefaults.standard.object(forKey: "3012.formatOnSave") as? Bool ?? true
-        self.autoIndentOnReturn = UserDefaults.standard.object(forKey: "3012.autoIndentReturn") as? Bool ?? true
-        self.showBreadcrumbs = UserDefaults.standard.object(forKey: "3012.showBreadcrumbs") as? Bool ?? true
-        self.keepServerInBackground = UserDefaults.standard.object(forKey: "3012.keepServerBg") as? Bool ?? true
+        self.wordWrap = UserDefaults.standard.object(forKey: "NexusKing.wordWrap") as? Bool ?? true
+        self.showLineNumbers = UserDefaults.standard.object(forKey: "NexusKing.showLineNumbers") as? Bool ?? true
+        self.showInvisibleCharacters = UserDefaults.standard.object(forKey: "NexusKing.showInvisibles") as? Bool ?? false
+        self.enableCodeFolding = UserDefaults.standard.object(forKey: "NexusKing.codeFolding") as? Bool ?? true
+        self.enableCodeCompletion = UserDefaults.standard.object(forKey: "NexusKing.codeCompletion") as? Bool ?? true
+        self.enableLiveDiagnostics = UserDefaults.standard.object(forKey: "NexusKing.liveDiagnostics") as? Bool ?? true
+        self.enableAutoSave = UserDefaults.standard.object(forKey: "NexusKing.autoSave") as? Bool ?? true
+        self.formatOnSave = UserDefaults.standard.object(forKey: "NexusKing.formatOnSave") as? Bool ?? true
+        self.autoIndentOnReturn = UserDefaults.standard.object(forKey: "NexusKing.autoIndentReturn") as? Bool ?? true
+        self.showBreadcrumbs = UserDefaults.standard.object(forKey: "NexusKing.showBreadcrumbs") as? Bool ?? true
+        self.keepServerInBackground = UserDefaults.standard.object(forKey: "NexusKing.keepServerBg") as? Bool ?? true
         loadCustomThemes()
     }
 
@@ -787,12 +787,12 @@ public final class EditorPreferences: ObservableObject {
 
     private func saveCustomThemes() {
         if let data = try? JSONEncoder().encode(customThemes) {
-            UserDefaults.standard.set(data, forKey: "3012.customThemes")
+            UserDefaults.standard.set(data, forKey: "NexusKing.customThemes")
         }
     }
 
     private func loadCustomThemes() {
-        if let data = UserDefaults.standard.data(forKey: "3012.customThemes"),
+        if let data = UserDefaults.standard.data(forKey: "NexusKing.customThemes"),
            let decoded = try? JSONDecoder().decode([IDEColorPalette].self, from: data) {
             self.customThemes = decoded
         }

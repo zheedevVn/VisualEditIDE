@@ -116,7 +116,7 @@ public final class GitService: ObservableObject {
         var req = URLRequest(url: url)
         req.httpMethod = method
         req.timeoutInterval = 30
-        req.setValue("3012-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
+        req.setValue("NexusKing-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
         req.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         req.setValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
         let cleanPAT = pat.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -221,7 +221,7 @@ public final class GitService: ObservableObject {
         let metaDir = workspaceMetaDirectory(for: workspaceRoot)
         let fallbackBaseline: [String: String] = {
             if let data = (try? Data(contentsOf: metaDir.appendingPathComponent("baseline.json")))
-                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".3012baseline.json"))),
+                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".NexusKingbaseline.json"))),
                let decoded = try? JSONDecoder().decode([String: String].self, from: data) {
                 return decoded
             }
@@ -229,7 +229,7 @@ public final class GitService: ObservableObject {
         }()
         let deletedGhosts: [String: String] = {
             if let data = (try? Data(contentsOf: metaDir.appendingPathComponent("deleted.json")))
-                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".3012deleted.json"))),
+                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".NexusKingdeleted.json"))),
                let decoded = try? JSONDecoder().decode([String: String].self, from: data) {
                 return decoded
             }
@@ -294,7 +294,7 @@ public final class GitService: ObservableObject {
         pendingPushDeletePaths = Array(mergedDeletes).sorted()
 
         let shortSHA = String(UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased().prefix(7))
-        let authorName = GitHubAccountService.shared.activeAccount?.login ?? "3012 Mobile Dev"
+        let authorName = GitHubAccountService.shared.activeAccount?.login ?? "NexusKing Mobile Dev"
         let record = GitCommitRecord(
             id: shortSHA,
             message: msg,
@@ -325,14 +325,14 @@ public final class GitService: ObservableObject {
         let metaDir = workspaceMetaDirectory(for: workspaceRoot)
         let fallbackBaseline: [String: String] = {
             if let data = (try? Data(contentsOf: metaDir.appendingPathComponent("baseline.json")))
-                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".3012baseline.json"))),
+                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".NexusKingbaseline.json"))),
                let decoded = try? JSONDecoder().decode([String: String].self, from: data) {
                 return decoded
             }
             return [:]
         }()
         let deletedMetaURL = metaDir.appendingPathComponent("deleted.json")
-        let legacyDeletedURL = workspaceRoot.appendingPathComponent(".3012deleted.json")
+        let legacyDeletedURL = workspaceRoot.appendingPathComponent(".NexusKingdeleted.json")
         var deletedGhosts: [String: String] = {
             if let data = (try? Data(contentsOf: deletedMetaURL))
                 ?? (try? Data(contentsOf: legacyDeletedURL)),
@@ -376,7 +376,7 @@ public final class GitService: ObservableObject {
         let metaDir = workspaceMetaDirectory(for: workspaceRoot)
         let fallbackBaseline: [String: String] = {
             if let data = (try? Data(contentsOf: metaDir.appendingPathComponent("baseline.json")))
-                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".3012baseline.json"))),
+                ?? (try? Data(contentsOf: workspaceRoot.appendingPathComponent(".NexusKingbaseline.json"))),
                let decoded = try? JSONDecoder().decode([String: String].self, from: data) {
                 return decoded
             }
@@ -830,7 +830,7 @@ public final class GitService: ObservableObject {
             // 5. Create atomic commit
             guard let createCommitURL = githubAPIURL(pathSegments: ["repos", owner, repo, "git", "commits"]) else { return false }
             let finalMessage = commitMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                ? "Sync from 3012 Mobile IDE"
+                ? "Sync from NexusKing Mobile IDE"
                 : commitMessage.trimmingCharacters(in: .whitespacesAndNewlines)
             var commitBody: [String: Any] = [
                 "message": finalMessage,
@@ -912,9 +912,9 @@ public final class GitService: ObservableObject {
         skippedLargeCount: Int = 0
     ) -> Bool {
         let finalMsg = commitMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            ? "Sync from 3012 Mobile IDE"
+            ? "Sync from NexusKing Mobile IDE"
             : commitMessage.trimmingCharacters(in: .whitespacesAndNewlines)
-        let authorName = GitHubAccountService.shared.activeAccount?.login ?? "3012 Mobile Dev"
+        let authorName = GitHubAccountService.shared.activeAccount?.login ?? "NexusKing Mobile Dev"
         let record = GitCommitRecord(
             id: String(commitSHA.prefix(7)),
             message: finalMsg,
@@ -1002,7 +1002,7 @@ public final class GitService: ObservableObject {
            let firstData = try? Data(contentsOf: workspaceRoot.appendingPathComponent(firstPath)),
            let contentsURL = githubAPIURL(pathSegments: ["repos", owner, repo, "contents"] + firstPath.split(separator: "/").map(String.init)) {
             let putBody: [String: Any] = [
-                "message": commitMessage.isEmpty ? "Initial commit from 3012 Mobile IDE" : commitMessage,
+                "message": commitMessage.isEmpty ? "Initial commit from NexusKing Mobile IDE" : commitMessage,
                 "content": firstData.base64EncodedString(),
                 "branch": branch
             ]
@@ -1286,7 +1286,7 @@ public final class GitService: ObservableObject {
 
             let pushed = await pushToGitHubREST(
                 workspaceRoot: workspaceRoot,
-                commitMessage: "Initial commit from 3012 Mobile IDE",
+                commitMessage: "Initial commit from NexusKing Mobile IDE",
                 force: false,
                 pushAllWorkspaceFiles: true
             )
@@ -1317,7 +1317,7 @@ public final class GitService: ObservableObject {
             let values = try? srcURL.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
             if values?.isSymbolicLink == true { continue }
             let name = srcURL.lastPathComponent
-            if name == ".git" || name == ".3012" || name == "__MACOSX" || name == ".DS_Store" {
+            if name == ".git" || name == ".NexusKing" || name == "__MACOSX" || name == ".DS_Store" {
                 if values?.isDirectory == true { enumerator.skipDescendants() }
                 continue
             }
@@ -1364,8 +1364,8 @@ public final class GitService: ObservableObject {
     }
 
     private static let ignoredWorkspaceEntries: Set<String> = [
-        ".git", ".3012", ".3012meta", ".ExternalMirror",
-        ".3012git.json", ".3012baseline.json", ".3012deleted.json",
+        ".git", ".NexusKing", ".NexusKingmeta", ".ExternalMirror",
+        ".NexusKinggit.json", ".NexusKingbaseline.json", ".NexusKingdeleted.json",
         ".DS_Store", "__MACOSX", "node_modules", ".build", "DerivedData", "packages"
     ]
 
@@ -1475,7 +1475,7 @@ public final class GitService: ObservableObject {
         lastLoadedMetaWorkspacePath = canonRoot
 
         let metaURL = metaFileURL(for: workspaceRoot)
-        let legacyURL = workspaceRoot.appendingPathComponent(".3012git.json")
+        let legacyURL = workspaceRoot.appendingPathComponent(".NexusKinggit.json")
         if let data = (try? Data(contentsOf: metaURL)) ?? (try? Data(contentsOf: legacyURL)),
            let decoded = try? JSONDecoder().decode(StoredRepoMeta.self, from: data) {
             self.currentBranch = decoded.branch

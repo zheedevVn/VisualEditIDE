@@ -1,4 +1,4 @@
-name: Build 3012 Unsigned IPA
+name: Build NexusKing Unsigned IPA
 
 on:
   push:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   build-ipa:
-    name: Build Unsigned iOS IPA (3012)
+    name: Build Unsigned iOS IPA (NexusKing)
     runs-on: macos-15
 
     steps:
@@ -108,15 +108,15 @@ jobs:
           save-always: true
 
       - name: Resolve Swift Package Dependencies
-        run: xcodebuild -resolvePackageDependencies -project App3012.xcodeproj -scheme App3012 -clonedSourcePackagesDirPath build/SourcePackages
+        run: xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing -clonedSourcePackagesDirPath build/SourcePackages
 
       - name: Build Release App (Unsigned)
         run: |
           mkdir -p build
           set +e
           xcodebuild build \
-            -project App3012.xcodeproj \
-            -scheme App3012 \
+            -project NexusKing.xcodeproj \
+            -scheme NexusKing \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
@@ -169,9 +169,9 @@ jobs:
 
       - name: Package Unsigned .ipa
         run: |
-          APP_PATH=$(find build/Build/Products/Release-iphoneos -name "3012.app" -type d | head -n 1)
+          APP_PATH=$(find build/Build/Products/Release-iphoneos -name "NexusKing.app" -type d | head -n 1)
           if [ -z "$APP_PATH" ]; then
-            echo "Error: 3012.app not found!"
+            echo "Error: NexusKing.app not found!"
             ls -la build/Build/Products/Release-iphoneos || true
             exit 1
           fi
@@ -180,32 +180,32 @@ jobs:
           /usr/libexec/PlistBuddy -c "Print :CFBundleIcons" "$APP_PATH/Info.plist"
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
-          codesign --force --deep --sign - --timestamp=none Payload/3012.app
-          zip -qry 3012-Unsigned.ipa Payload
-          ls -lh 3012-Unsigned.ipa
+          codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
+          zip -qry NexusKing-Unsigned.ipa Payload
+          ls -lh NexusKing-Unsigned.ipa
 
-      - name: Build 3012 VS Code Sync Extension (.vsix)
+      - name: Build NexusKing VS Code Sync Extension (.vsix)
         run: |
-          python3 Tools/vscode-3012-sync/build_vsix.py 3012-vscode-sync.vsix
-          ls -lh 3012-vscode-sync.vsix
+          python3 Tools/vscode-nexusking-sync/build_vsix.py nexusking-vscode-sync.vsix
+          ls -lh nexusking-vscode-sync.vsix
 
-      - name: Upload 3012-Unsigned.ipa Artifact
+      - name: Upload NexusKing-Unsigned.ipa Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: 3012-Unsigned-IPA
-          path: 3012-Unsigned.ipa
+          name: NexusKing-Unsigned-IPA
+          path: NexusKing-Unsigned.ipa
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload 3012-VSCode-Sync-VSIX Artifact
+      - name: Upload NexusKing-VSCode-Sync-VSIX Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: 3012-VSCode-Sync-VSIX
-          path: 3012-vscode-sync.vsix
+          name: NexusKing-VSCode-Sync-VSIX
+          path: nexusking-vscode-sync.vsix
           if-no-files-found: error
           retention-days: 30
 
-      - name: Publish 3012-Unsigned.ipa to GitHub Releases
+      - name: Publish NexusKing-Unsigned.ipa to GitHub Releases
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -214,35 +214,35 @@ jobs:
           TAG_NAME="v${APP_VERSION}-b${{ github.run_number }}"
           SHORT_SHA=$(git rev-parse --short HEAD)
           COMMIT_MSG=$(git log -1 --pretty=%s)
-          IPA_SIZE=$(du -h 3012-Unsigned.ipa | cut -f1 | tr -d ' ')
-          shasum -a 256 3012-Unsigned.ipa 3012-vscode-sync.vsix > SHA256SUMS.txt
-          SHA256_VAL=$(grep '3012-Unsigned.ipa' SHA256SUMS.txt | cut -d ' ' -f1)
+          IPA_SIZE=$(du -h NexusKing-Unsigned.ipa | cut -f1 | tr -d ' ')
+          shasum -a 256 NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix > SHA256SUMS.txt
+          SHA256_VAL=$(grep 'NexusKing-Unsigned.ipa' SHA256SUMS.txt | cut -d ' ' -f1)
 
           cat <<EOF > RELEASE_NOTES.md
-          ## 3012 Mobile IDE — v${APP_VERSION} (Build #${{ github.run_number }})
+          ## NexusKing Mobile IDE — v${APP_VERSION} (Build #${{ github.run_number }})
 
           Direct unsigned iOS/iPadOS application package ready for external certificate signing (\`.p12\` / \`.mobileprovision\` via Feather, ESign, AltStore, SideStore, Sideloadly, or TrollStore).
 
           | Property | Value |
           | :--- | :--- |
           | **Version** | \`${APP_VERSION}\` (Build \`#${{ github.run_number }}\`) |
-          | **Bundle Identifier** | \`com.dev.app3012\` |
+          | **Bundle Identifier** | \`com.nexusking.app\` |
           | **Target Platform** | \`iOS 15.0+\` / \`iPadOS 15.0+\` (arm64 — TrollStore & Sideload Ready) |
           | **Package Size** | \`${IPA_SIZE}\` |
           | **Commit** | \`${SHORT_SHA}\` — ${COMMIT_MSG} |
           | **SHA-256 (IPA)** | \`${SHA256_VAL}\` |
 
           ### Direct Download
-          - **[Download 3012-Unsigned.ipa](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/3012-Unsigned.ipa)**
-          - **[Download 3012-vscode-sync.vsix](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/3012-vscode-sync.vsix)** *(VS Code 2-Way E2EE Sync Extension)*
+          - **[Download NexusKing-Unsigned.ipa](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/NexusKing-Unsigned.ipa)**
+          - **[Download nexusking-vscode-sync.vsix](https://github.com/${{ github.repository }}/releases/download/${TAG_NAME}/nexusking-vscode-sync.vsix)** *(VS Code 2-Way E2EE Sync Extension)*
           EOF
 
           if gh release view "${TAG_NAME}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release upload "${TAG_NAME}" 3012-Unsigned.ipa 3012-vscode-sync.vsix SHA256SUMS.txt --clobber --repo "${{ github.repository }}"
+            gh release upload "${TAG_NAME}" NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix SHA256SUMS.txt --clobber --repo "${{ github.repository }}"
           else
-            gh release create "${TAG_NAME}" 3012-Unsigned.ipa 3012-vscode-sync.vsix SHA256SUMS.txt \
+            gh release create "${TAG_NAME}" NexusKing-Unsigned.ipa nexusking-vscode-sync.vsix SHA256SUMS.txt \
               --repo "${{ github.repository }}" \
-              --title "3012 v${APP_VERSION} (Build #${{ github.run_number }})" \
+              --title "NexusKing v${APP_VERSION} (Build #${{ github.run_number }})" \
               --notes-file RELEASE_NOTES.md \
               --latest
           fi

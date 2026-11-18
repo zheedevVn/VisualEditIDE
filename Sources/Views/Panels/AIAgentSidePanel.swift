@@ -642,7 +642,7 @@ public struct AIAgentSidePanel: View {
             HStack(spacing: 4) {
                 Image(systemName: msg.role == .user ? "person" : "cpu")
                     .font(.system(size: 9.5, weight: .semibold))
-                Text(msg.role == .user ? "Bạn" : "3012 Agent")
+                Text(msg.role == .user ? "Bạn" : "NexusKing Agent")
                     .font(.system(size: 10, weight: .bold))
                 if let model = msg.modelLabel, msg.role == .assistant {
                     Text(model)

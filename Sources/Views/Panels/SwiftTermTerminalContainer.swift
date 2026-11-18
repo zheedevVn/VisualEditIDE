@@ -112,7 +112,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
         private var activeCommandTask: Task<Void, Never>? = nil
         private var sessionEnv: [String: String] = [
             "OS": "iOS_NonJB_Sandbox",
-            "SHELL": "3012-Workstation-Shell",
+            "SHELL": "NexusKing-Workstation-Shell",
             "TERM": "xterm-256color",
             "HOME": "Documents/Workspace",
             "PATH": "/usr/local/bin:/usr/bin:/bin"
@@ -155,7 +155,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 if nowSSH {
                     terminalView?.feed(text: "\r\n\u{001B}[1;32m[SSH] Connected to Remote PTY (\(parent.sshService.connectedProfile?.host ?? "VPS"))\u{001B}[0m\r\n")
                 } else {
-                    terminalView?.feed(text: "\r\n\u{001B}[1;33m[LOCAL] Switched back to 3012 Full Workstation Shell\u{001B}[0m\r\n")
+                    terminalView?.feed(text: "\r\n\u{001B}[1;33m[LOCAL] Switched back to NexusKing Full Workstation Shell\u{001B}[0m\r\n")
                     printLocalPrompt()
                 }
             }
@@ -175,12 +175,12 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
         private func feedWelcomeBanner(remote: Bool) {
             guard let tv = terminalView else { return }
             if remote {
-                tv.feed(text: "\u{001B}[1;36m3012 Xterm-256Color Terminal — Remote SSH PTY Active\u{001B}[0m\r\n")
+                tv.feed(text: "\u{001B}[1;36mNexusKing Xterm-256Color Terminal — Remote SSH PTY Active\u{001B}[0m\r\n")
             } else {
                 let keepTag = parent.daemonService.isKeepAliveActive
                     ? "\u{001B}[1;32m24/7 Keep-Alive ON\u{001B}[0m"
                     : "\u{001B}[33mKeep-Alive OFF\u{001B}[0m"
-                tv.feed(text: "\u{001B}[1;36m3012 Workstation Terminal v3.7\u{001B}[0m (\(keepTag) • Full Sandbox R/W)\r\n")
+                tv.feed(text: "\u{001B}[1;36mNexusKing Workstation Terminal v3.7\u{001B}[0m (\(keepTag) • Full Sandbox R/W)\r\n")
                 tv.feed(text: "Supports Windows + Linux CLI, \u{001B}[1;35mclaude\u{001B}[0m / \u{001B}[1;35mopencode\u{001B}[0m, \u{001B}[36mcode <file>\u{001B}[0m, \u{001B}[36mgit\u{001B}[0m, \u{001B}[36mg++/py/node\u{001B}[0m, \u{001B}[36mzip\u{001B}[0m. Type \u{001B}[1;33mhelp\u{001B}[0m.\r\n")
             }
         }
@@ -194,7 +194,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
             if let repl = activeREPL {
                 terminalView?.feed(text: "\u{001B}[1;35m\(repl)\u{001B}[0m:\u{001B}[1;34m\(dirName)\u{001B}[0m> ")
             } else {
-                terminalView?.feed(text: "\u{001B}[1;32m3012\u{001B}[0m:\u{001B}[1;34m\(dirName)\u{001B}[0m$ ")
+                terminalView?.feed(text: "\u{001B}[1;32mNexusKing\u{001B}[0m:\u{001B}[1;34m\(dirName)\u{001B}[0m$ ")
             }
         }
 
@@ -606,7 +606,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
             switch cmd {
             case "help", "/?", "man":
                 emit("""
-                \u{001B}[1;36m3012 Workstation Terminal — Windows + Linux + AI Coding CLI (Full Sandbox R/W)\u{001B}[0m
+                \u{001B}[1;36mNexusKing Workstation Terminal — Windows + Linux + AI Coding CLI (Full Sandbox R/W)\u{001B}[0m
 
                 \u{001B}[1;35mAI Coding CLI (Full Read/Write Workspace Access):\u{001B}[0m
                   claude "<prompt>"       Run Claude Code CLI directly on project files
@@ -614,10 +614,10 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                   claude / opencode       Enter interactive AI CLI mode (REPL)
                   claude auth <API_KEY>   Save key to iOS Keychain (or use 'models', 'model <id>')
 
-                \u{001B}[1;32mOpen & Edit Files in 3012 IDE:\u{001B}[0m
-                  code <file>             Open (or create & open) file in 3012 Code Editor
+                \u{001B}[1;32mOpen & Edit Files in NexusKing IDE:\u{001B}[0m
+                  code <file>             Open (or create & open) file in NexusKing Code Editor
                   open / notepad <file>   Aliases for 'code <file>' (code . refreshes tree)
-                  files / realpath        Show iOS Files.app path ("On My iPhone > 3012 > Workspace")
+                  files / realpath        Show iOS Files.app path ("On My iPhone > NexusKing > Workspace")
 
                 \u{001B}[1;33mWindows CMD & Linux File Commands:\u{001B}[0m
                   dir / ls [-la]          List directory contents (supports &&, ;, >, >>)
@@ -664,7 +664,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 if targetName == "." {
                     parent.workspace.reloadTree()
                     let count = parent.workspace.flattenFiles(in: parent.workspace.fileTree).count
-                    emit("\u{001B}[32m[WORKSPACE]\u{001B}[0m Refreshed Workspace (\(count) files). Path: On My iPhone > 3012 > Workspace\n")
+                    emit("\u{001B}[32m[WORKSPACE]\u{001B}[0m Refreshed Workspace (\(count) files). Path: On My iPhone > NexusKing > Workspace\n")
                     return
                 }
                 let targetURL = resolvePath(targetName, cwd: cwd)
@@ -676,7 +676,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 }
                 parent.workspace.reloadTree()
                 parent.workspace.openFile(at: targetURL)
-                emit("\u{001B}[1;32m[OPENED]\u{001B}[0m \(parent.workspace.relativePath(for: targetURL)) in 3012 Code Editor.\n")
+                emit("\u{001B}[1;32m[OPENED]\u{001B}[0m \(parent.workspace.relativePath(for: targetURL)) in NexusKing Code Editor.\n")
 
             // MARK: Screen & Directory Info
             case "clear", "cls":
@@ -688,7 +688,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
             case "files", "realpath":
                 let rel = parent.workspace.relativePath(for: cwd)
                 let label = (cwd.standardizedFileURL == parent.workspace.rootURL.standardizedFileURL) ? "" : "/\(rel)"
-                emit("Files.app : On My iPhone > 3012 > Workspace\(label)\n")
+                emit("Files.app : On My iPhone > NexusKing > Workspace\(label)\n")
                 emit("Sandbox   : \(cwd.path)\n")
                 emit("Rights    : Read / Write / Create / Delete / Execute JS & Bots (Full App Container)\n")
 
@@ -701,7 +701,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 )) ?? []
                 let fmt = DateFormatter()
                 fmt.dateFormat = "yyyy-MM-dd  HH:mm"
-                emit(" Directory of On My iPhone\\3012\\\(workspaceRelativeLabel(targetDir))\n\n")
+                emit(" Directory of On My iPhone\\NexusKing\\\(workspaceRelativeLabel(targetDir))\n\n")
                 var fileCount = 0
                 var dirCount = 0
                 var totalBytes = 0
@@ -824,7 +824,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 let attrs = try? fm.attributesOfItem(atPath: target.path)
                 let size = (attrs?[.size] as? NSNumber)?.intValue ?? 0
                 let mod = (attrs?[.modificationDate] as? Date).map { "\($0)" } ?? "-"
-                emit("  File: \(target.lastPathComponent)\n  Path: \(target.path)\n  Size: \(size) bytes\n  Mod : \(mod)\n  Perm: Read/Write (3012 Sandbox Full Access)\n")
+                emit("  File: \(target.lastPathComponent)\n  Path: \(target.path)\n  Size: \(size) bytes\n  Mod : \(mod)\n  Perm: Read/Write (NexusKing Sandbox Full Access)\n")
 
             case "mkdir", "md":
                 guard !args.isEmpty else { emit("usage: \(cmd) <dir>\n"); return }
@@ -931,7 +931,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 guard let q = args.last(where: { !$0.hasPrefix("-") }) else { emit("usage: \(cmd) <name>\n"); return }
                 let builtins = ["claude", "opencode", "code", "open", "dir", "ls", "cd", "cls", "clear", "git", "gh", "gcc", "g++", "clang", "python", "node", "swift", "npm", "zip", "unzip", "wget", "curl", "ping"]
                 if (cmd == "which" || cmd == "where") && builtins.contains(q.lowercased()) {
-                    emit("/usr/local/bin/\(q.lowercased()) (3012 Workstation Built-in)\n")
+                    emit("/usr/local/bin/\(q.lowercased()) (NexusKing Workstation Built-in)\n")
                 } else {
                     let allFiles = parent.workspace.flattenFiles(in: parent.workspace.fileTree)
                     let hits = allFiles.filter { $0.lastPathComponent.localizedCaseInsensitiveContains(q) }
@@ -976,7 +976,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
 
             case "python", "python3", "py", "gcc", "g++", "clang", "swift", "go", "rustc", "javac", "php", "ruby", "lua", "run":
                 if args.contains("--version") || args.contains("-v") || args.contains("-V") {
-                    emit("\(cmd) (3012 Zero-Config Toolchain + On-Device Sandbox Runtime)\n")
+                    emit("\(cmd) (NexusKing Zero-Config Toolchain + On-Device Sandbox Runtime)\n")
                     return
                 }
                 guard let fileArg = args.first(where: { !$0.hasPrefix("-") && !$0.hasSuffix(".out") && !$0.hasSuffix(".exe") }) else {
@@ -1057,7 +1057,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                         emit("\u{001B}[31mnpm ERR!\u{001B}[0m Missing entry script: \(targetScript)\n")
                     }
                 } else {
-                    emit("3012 npm compatibility wrapper v1.0 — try 'npm init -y', 'npm start', or 'npm run <script>'\n")
+                    emit("NexusKing npm compatibility wrapper v1.0 — try 'npm init -y', 'npm start', or 'npm run <script>'\n")
                 }
 
             // MARK: Git CLI
@@ -1212,7 +1212,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 let net = parent.daemonService.networkOnline ? "Connected" : "Offline"
                 let ssh = parent.sshService.isConnected ? (parent.sshService.connectedProfile?.host ?? "Connected") : "Disconnected"
                 emit("""
-                3012 Network Adapter Status:
+                NexusKing Network Adapter Status:
                   Internet / Wi-Fi / 5G : \(net)
                   Local Live Server     : http://127.0.0.1:5500 (loopback)
                   Remote SSH PTY        : \(ssh)
@@ -1225,8 +1225,8 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 let model = UIDevice.current.model
                 emit("""
                 Host OS      : iOS \(sysVer) (\(model) • Non-Jailbreak Secure Container)
-                Shell Engine : 3012 Full Workstation Terminal v3.7 (Windows + Linux + AI CLI)
-                Workspace    : On My iPhone > 3012 > Workspace
+                Shell Engine : NexusKing Full Workstation Terminal v3.7 (Windows + Linux + AI CLI)
+                Workspace    : On My iPhone > NexusKing > Workspace
                 Sandbox Path : \(parent.workspace.rootURL.path)
                 Battery      : \(parent.daemonService.batteryPercentage)% (\(parent.daemonService.isCharging ? "Charging" : "Battery"))
                 Active Jobs  : \(parent.daemonService.runningJobsCount) running
@@ -1234,7 +1234,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 """)
 
             case "whoami", "hostname":
-                emit(cmd == "whoami" ? "3012-mobile-dev (Full Workspace Rights)\n" : "iphone-3012.local\n")
+                emit(cmd == "whoami" ? "NexusKing-mobile-dev (Full Workspace Rights)\n" : "iphone-nexusking.local\n")
 
             case "date", "time":
                 emit("\(Date())\n")
@@ -1309,7 +1309,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
 
             switch sub {
             case "new", "init", "create":
-                let name = tail.first(where: { !$0.hasPrefix("-") }) ?? "App3012"
+                let name = tail.first(where: { !$0.hasPrefix("-") }) ?? "NexusKing"
                 let flags = tail.filter { $0.hasPrefix("-") }
                 let bundleArg = tail.dropFirst().first(where: { !$0.hasPrefix("-") }) ?? "com.dev.\(name.lowercased())"
                 let kind: XtoolTemplateKind = flags.contains("--widget")
@@ -1372,7 +1372,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
 
             default:
                 emit("""
-                3012 xtool Integration CLI:
+                NexusKing xtool Integration CLI:
                   xtool new <Name> [bundleID] [--widget | --modmenu]   Create SwiftUI / Widget / Host project
                   xtool sync                                           Sync Package.swift <-> xtool.yml
                   xtool inject <App.ipa> <Mod.dylib>                   Patch 64-bit Mach-O & export IPA
@@ -1428,12 +1428,12 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 }
             case "init":
                 await parent.gitService.refreshStatus(workspaceRoot: root, sshService: nil)
-                emit("Initialized local 3012 Git repository tracking in \(root.lastPathComponent)\n")
+                emit("Initialized local NexusKing Git repository tracking in \(root.lastPathComponent)\n")
             case "add":
                 await parent.gitService.refreshStatus(workspaceRoot: root, sshService: nil)
                 emit("Staged changes in workspace (\(parent.gitService.changedFiles.count) modified/untracked files).\n")
             case "commit":
-                var message = "Update from 3012 Terminal"
+                var message = "Update from NexusKing Terminal"
                 if let mIdx = args.firstIndex(where: { $0 == "-m" || $0 == "-am" }), mIdx + 1 < args.count {
                     message = args[mIdx + 1]
                 }
@@ -1574,7 +1574,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                     emit("\u{001B}[31m\(parent.gitService.statusBanner)\u{001B}[0m\n")
                 }
             default:
-                emit("3012 Git CLI: status, init, add, commit -m \"...\", log, diff [file], branch [-a|<name>], checkout [-b] <branch>, switch, remote [-v|add origin|set-url origin], pull, push [-f], clone [-b <branch>] <repo>\n")
+                emit("NexusKing Git CLI: status, init, add, commit -m \"...\", log, diff [file], branch [-a|<name>], checkout [-b] <branch>, switch, remote [-v|add origin|set-url origin], pull, push [-f], clone [-b <branch>] <repo>\n")
             }
         }
 
@@ -1626,7 +1626,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                         case .failed(let err):
                             emit("\u{001B}[31m\(err)\u{001B}[0m\n")
                         default:
-                            emit("Open the GitHub panel in 3012 to finish Device Flow sign-in, or run: gh auth login <pat_token>\n")
+                            emit("Open the GitHub panel in NexusKing to finish Device Flow sign-in, or run: gh auth login <pat_token>\n")
                         }
                     }
                 case "switch":
@@ -1757,7 +1757,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
 
             case "pr":
                 if sub == "create" {
-                    var title = "Update from 3012 IDE"
+                    var title = "Update from NexusKing IDE"
                     var body = ""
                     var base = "main"
                     if let tIdx = rest.firstIndex(where: { $0 == "-t" || $0 == "--title" }), tIdx + 1 < rest.count {
@@ -1779,7 +1779,7 @@ public struct SwiftTermTerminalContainer: UIViewRepresentable {
                 }
 
             default:
-                emit("3012 GitHub CLI (gh): gh auth <status|login|switch|logout> | gh repo <list|clone|create> | gh pr create\n")
+                emit("NexusKing GitHub CLI (gh): gh auth <status|login|switch|logout> | gh repo <list|clone|create> | gh pr create\n")
             }
         }
 

@@ -117,9 +117,9 @@ public final class GitHubAccountService: ObservableObject {
     }
 
     private let defaultOAuthClientID = "178c6fc778ccc68e1d6a"
-    private let accountsKey = "3012.github.accounts"
-    private let activeAccountKey = "3012.github.activeAccountID"
-    private let customClientIDKey = "3012.github.oauthClientID"
+    private let accountsKey = "NexusKing.github.accounts"
+    private let activeAccountKey = "NexusKing.github.activeAccountID"
+    private let customClientIDKey = "NexusKing.github.oauthClientID"
     private let legacyPATKey = "git.github.pat"
     private let isoFormatter: ISO8601DateFormatter = {
         let fmt = ISO8601DateFormatter()
@@ -211,7 +211,7 @@ public final class GitHubAccountService: ObservableObject {
         var req = URLRequest(url: url)
         req.httpMethod = method
         req.timeoutInterval = 30
-        req.setValue("3012-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
+        req.setValue("NexusKing-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
         req.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         req.setValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
         let cleanToken = token.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -262,7 +262,7 @@ public final class GitHubAccountService: ObservableObject {
             var req = URLRequest(url: codeURL)
             req.httpMethod = "POST"
             req.timeoutInterval = 30
-            req.setValue("3012-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
+            req.setValue("NexusKing-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
             req.setValue("application/json", forHTTPHeaderField: "Accept")
             req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             req.httpBody = self.formEncode([
@@ -324,7 +324,7 @@ public final class GitHubAccountService: ObservableObject {
                     var pollReq = URLRequest(url: tokenURL)
                     pollReq.httpMethod = "POST"
                     pollReq.timeoutInterval = 30
-                    pollReq.setValue("3012-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
+                    pollReq.setValue("NexusKing-Mobile-IDE/5.2", forHTTPHeaderField: "User-Agent")
                     pollReq.setValue("application/json", forHTTPHeaderField: "Accept")
                     pollReq.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                     pollReq.httpBody = self.formEncode([
@@ -599,9 +599,9 @@ public final class GitHubAccountService: ObservableObject {
         }
     }
 
-    // MARK: - Deep Link (`3012sync://github-auth`)
+    // MARK: - Deep Link (`nexusking://github-auth`)
     public func handleIncomingURL(_ url: URL) -> Bool {
-        guard url.scheme?.lowercased() == "3012sync",
+        guard url.scheme?.lowercased() == "nexusking",
               url.host?.lowercased() == "github-auth" else {
             return false
         }

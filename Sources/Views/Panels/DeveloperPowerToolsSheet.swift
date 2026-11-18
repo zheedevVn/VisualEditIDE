@@ -42,7 +42,7 @@ public struct DeveloperPowerToolsSheet: View {
     @State private var httpMethod: String = "GET"
     @State private var requestURL: String = "https://httpbin.org/get"
     @State private var requestHeadersText: String = "Content-Type: application/json"
-    @State private var requestBodyText: String = "{\n  \"app\": \"3012\"\n}"
+    @State private var requestBodyText: String = "{\n  \"app\": \"NexusKing\"\n}"
     @State private var responseStatusBadge: String = ""
     @State private var responseLatencyMs: Int = 0
     @State private var responseBody: String = ""
@@ -813,13 +813,13 @@ public struct DeveloperPowerToolsSheet: View {
     }
 
     private func loadClipboardHistory() {
-        clipNotes = UserDefaults.standard.stringArray(forKey: "3012.clipVault") ?? []
+        clipNotes = UserDefaults.standard.stringArray(forKey: "NexusKing.clipVault") ?? []
     }
 
     private func persistClipboardHistory() {
         if clipNotes.count > 30 {
             clipNotes = Array(clipNotes.prefix(30))
         }
-        UserDefaults.standard.set(clipNotes, forKey: "3012.clipVault")
+        UserDefaults.standard.set(clipNotes, forKey: "NexusKing.clipVault")
     }
 }

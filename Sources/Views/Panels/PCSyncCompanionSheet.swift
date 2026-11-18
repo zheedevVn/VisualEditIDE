@@ -44,12 +44,12 @@ public struct PCSyncCompanionSheet: View {
 
     private var windowsPowerShellCLICommand: String {
         let info = effectiveSyncBaseAndKey
-        return "curl.exe -fsSL \(info.base)/sync.mjs -o \"$env:TEMP\\3012-sync.mjs\"; node \"$env:TEMP\\3012-sync.mjs\" --key \(info.key)"
+        return "curl.exe -fsSL \(info.base)/sync.mjs -o \"$env:TEMP\\nexusking-sync.mjs\"; node \"$env:TEMP\\nexusking-sync.mjs\" --key \(info.key)"
     }
 
     private var unixBashCLICommand: String {
         let info = effectiveSyncBaseAndKey
-        return "curl -fsSL \(info.base)/sync.mjs -o /tmp/3012-sync.mjs && node /tmp/3012-sync.mjs --key \(info.key)"
+        return "curl -fsSL \(info.base)/sync.mjs -o /tmp/nexusking-sync.mjs && node /tmp/nexusking-sync.mjs --key \(info.key)"
     }
 
     private var activeCLICommand: String {
@@ -237,7 +237,7 @@ public struct PCSyncCompanionSheet: View {
                 }
 
                 HStack(spacing: 8) {
-                    TextField("3012-XXXX-...", text: $pcSync.permanentSyncKey)
+                    TextField("NexusKing-XXXX-...", text: $pcSync.permanentSyncKey)
                         .font(.system(.caption, design: .monospaced))
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
@@ -295,8 +295,8 @@ public struct PCSyncCompanionSheet: View {
                 Label(preferences.tr("Cách 1: Extension VS Code (.vsix)", "Option 1: VS Code Extension (.vsix)"), systemImage: "laptopcomputer")
                     .font(.subheadline.bold())
                 Text(preferences.tr(
-                    "Cài file 3012-vscode-sync.vsix (có sẵn trong GitHub Releases) vào VS Code trên PC, dán Permanent Sync Key hoặc bấm \"Show PIN 6 số\" ở thanh trạng thái.",
-                    "Install 3012-vscode-sync.vsix (included in GitHub Releases) in PC VS Code, paste your Permanent Sync Key or click \"Show 6-digit PIN\" in the status bar."
+                    "Cài file nexusking-vscode-sync.vsix (có sẵn trong GitHub Releases) vào VS Code trên PC, dán Permanent Sync Key hoặc bấm \"Show PIN 6 số\" ở thanh trạng thái.",
+                    "Install nexusking-vscode-sync.vsix (included in GitHub Releases) in PC VS Code, paste your Permanent Sync Key or click \"Show 6-digit PIN\" in the status bar."
                 ))
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -363,12 +363,12 @@ public struct PCSyncCompanionSheet: View {
             .padding(.vertical, 2)
 
             VStack(alignment: .leading, spacing: 6) {
-                Text(preferences.tr("Dán link ghép đôi (3012sync://pair?...)", "Paste Pairing URL (3012sync://pair?...)"))
+                Text(preferences.tr("Dán link ghép đôi (nexusking://pair?...)", "Paste Pairing URL (nexusking://pair?...)"))
                     .font(.caption.bold())
                     .foregroundColor(.secondary)
 
                 HStack(spacing: 8) {
-                    TextField("3012sync://pair?...", text: $pairingInput)
+                    TextField("nexusking://pair?...", text: $pairingInput)
                         .font(.system(.caption, design: .monospaced))
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)

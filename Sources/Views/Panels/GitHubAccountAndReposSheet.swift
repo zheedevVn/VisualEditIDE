@@ -145,7 +145,7 @@ public struct GitHubAccountAndReposSheet: View {
                     let sanitized = workspace.workspaceDisplayName
                         .replacingOccurrences(of: " ", with: "-")
                         .trimmingCharacters(in: CharacterSet(charactersIn: "."))
-                    publishRepoName = sanitized.isEmpty ? "my-3012-project" : sanitized
+                    publishRepoName = sanitized.isEmpty ? "my-NexusKing-project" : sanitized
                 }
                 if githubAuth.isSignedIn && githubAuth.repositories.isEmpty && !githubAuth.isLoadingRepos {
                     Task { @MainActor () -> Void in
@@ -421,7 +421,7 @@ public struct GitHubAccountAndReposSheet: View {
                     .disabled(githubAuth.isAuthenticating || patInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
                     IDEActionButton(prominence: .secondary, tint: .blue, fullWidth: true, compact: true) {
-                        if let createTokenURL = URL(string: "https://github.com/settings/tokens/new?description=3012%20Mobile%20IDE&scopes=repo,read:org,user:email,workflow,gist") {
+                        if let createTokenURL = URL(string: "https://github.com/settings/tokens/new?description=NexusKing%20Mobile%20IDE&scopes=repo,read:org,user:email,workflow,gist") {
                             safariTarget = GitHubSafariURLItem(url: createTokenURL)
                         }
                     } label: {

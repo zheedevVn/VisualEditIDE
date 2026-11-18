@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <img src="Resources/Brand/3012-banner.svg" width="680" alt="3012 — Native Code Editor &amp; Remote Workstation for iOS" />
+    <img src="Resources/Brand/NexusKing-banner.svg" width="680" alt="NexusKing — Native Code Editor &amp; Remote Workstation for iOS" />
   </p>
   <p><strong>Editor de Código Nativo, Estación de Desarrollo Remoto e IDE Agéntico para iOS y iPadOS</strong></p>
 
@@ -15,14 +15,14 @@
   </p>
 
   <p>
-    <a href="https://github.com/userlethekhoi/3012/actions/workflows/build-ipa.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/userlethekhoi/3012/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/actions/workflows/build-ipa.yml">
+      <img src="https://img.shields.io/github/actions/workflow/status/zheedevVN/VisualEditIDE/build-ipa.yml?branch=main&style=flat-square&label=CI%20Build" alt="CI Build Status" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest">
-      <img src="https://img.shields.io/github/v/release/userlethekhoi/3012?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest">
+      <img src="https://img.shields.io/github/v/release/zheedevVN/VisualEditIDE?style=flat-square&label=Latest%20Release&color=2563eb" alt="Latest Release" />
     </a>
-    <a href="https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa">
-      <img src="https://img.shields.io/badge/Download-3012--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa">
+      <img src="https://img.shields.io/badge/Download-NexusKing--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
@@ -36,7 +36,7 @@
 
 ## Descripción General
 
-**3012** (`com.dev.app3012`) es un entorno de desarrollo integrado (IDE) 100% nativo para **iOS 15.0+** e **iPadOS 15.0+**, construido directamente con `SwiftUI` y `UIKit` para ofrecer el flujo de trabajo de **VS Code** y **Cursor** en dispositivos móviles sin WebView ni Electron.
+**NexusKing** (`com.nexusking.app`) es un entorno de desarrollo integrado (IDE) 100% nativo para **iOS 15.0+** e **iPadOS 15.0+**, construido directamente con `SwiftUI` y `UIKit` para ofrecer el flujo de trabajo de **VS Code** y **Cursor** en dispositivos móviles sin WebView ni Electron.
 
 El núcleo de edición utiliza `Runestone` junto con **48 analizadores sintácticos `Tree-sitter` en C/C++ compilados estáticamente** para un desplazamiento a 120Hz ProMotion. Incluye de serie un Live Server local en `localhost:5500`, **daemon en segundo plano 24/7 en el dispositivo para bots de Telegram y scripts**, compilador de **Theos Tweak** (`.deb`/`.dylib`), **xtool Studio** (empaquetado `.ipa` con SwiftPM e inyección de `.dylib` en Mach-O), terminal `SwiftTerm` (`xterm-256color`), cliente **SSH/SFTP** con `Citadel` y un **Coding Agent** con revisión de Diff en línea.
 
@@ -44,19 +44,19 @@ El núcleo de edición utiliza `Runestone` junto con **48 analizadores sintácti
 
 ## Descarga e Instalación
 
-Cada actualización en la rama `main` se compila automáticamente en GitHub Actions (`macos-15` / Xcode 16+) y se publica como **`3012-Unsigned.ipa`** en **Releases** (con firma ad-hoc compatible directamente con **TrollStore en iOS 15/16+** y herramientas de firma `.p12`).
+Cada actualización en la rama `main` se compila automáticamente en GitHub Actions (`macos-15` / Xcode 16+) y se publica como **`NexusKing-Unsigned.ipa`** en **Releases** (con firma ad-hoc compatible directamente con **TrollStore en iOS 15/16+** y herramientas de firma `.p12`).
 
-- **Descarga directa (Última versión):** [**3012-Unsigned.ipa (Latest Release)**](https://github.com/userlethekhoi/3012/releases/latest/download/3012-Unsigned.ipa)
-- **Todas las versiones y sumas SHA-256:** [GitHub Releases](https://github.com/userlethekhoi/3012/releases)
+- **Descarga directa (Última versión):** [**NexusKing-Unsigned.ipa (Latest Release)**](https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/NexusKing-Unsigned.ipa)
+- **Todas las versiones y sumas SHA-256:** [GitHub Releases](https://github.com/zheedevVN/VisualEditIDE/releases)
 
 ### Guía de instalación (TrollStore / `.p12` / Sideload)
 
 | Herramienta | Requisitos | Pasos |
 | :--- | :--- | :--- |
-| **TrollStore** | iOS 15.0+ – 17.0 compatible con CoreTrust | Abre `3012-Unsigned.ipa` directamente en TrollStore para instalar de forma permanente sin renovar firma. |
-| **Feather / ESign / GBox** | Certificado personal `.p12` + `.mobileprovision` | Importa tu certificado en la app de firma, selecciona `3012-Unsigned.ipa` y pulsa **Sign & Install**. |
-| **AltStore / SideStore** | Apple ID personal (Gratuito o de pago) | Abre `3012-Unsigned.ipa` desde **My Apps (+)** para firmar y programar renovaciones automáticas. |
-| **Sideloadly (macOS / Windows)** | Apple ID o certificado de desarrollador | Arrastra `3012-Unsigned.ipa` a Sideloadly e instala por USB o Wi-Fi. |
+| **TrollStore** | iOS 15.0+ – 17.0 compatible con CoreTrust | Abre `NexusKing-Unsigned.ipa` directamente en TrollStore para instalar de forma permanente sin renovar firma. |
+| **Feather / ESign / GBox** | Certificado personal `.p12` + `.mobileprovision` | Importa tu certificado en la app de firma, selecciona `NexusKing-Unsigned.ipa` y pulsa **Sign & Install**. |
+| **AltStore / SideStore** | Apple ID personal (Gratuito o de pago) | Abre `NexusKing-Unsigned.ipa` desde **My Apps (+)** para firmar y programar renovaciones automáticas. |
+| **Sideloadly (macOS / Windows)** | Apple ID o certificado de desarrollador | Arrastra `NexusKing-Unsigned.ipa` a Sideloadly e instala por USB o Wi-Fi. |
 
 ---
 
@@ -141,7 +141,7 @@ flowchart TB
 
 ## Privacidad
 
-- **Sin telemetría:** 3012 no incluye SDKs de analítica, rastreadores ni publicidad, y no opera servidores proxy intermediarios.
+- **Sin telemetría:** NexusKing no incluye SDKs de analítica, rastreadores ni publicidad, y no opera servidores proxy intermediarios.
 - **Credenciales locales:** las claves API, contraseñas VPS, claves SSH y tokens de GitHub permanecen en el dispositivo dentro de **iOS Keychain** (o almacenamiento aislado en sandbox).
 
 ---
@@ -169,14 +169,14 @@ flowchart TB
 La configuración de compilación y dependencias SPM se definen en [`project.yml`](project.yml) para **XcodeGen**.
 
 ```bash
-git clone https://github.com/userlethekhoi/3012.git
-cd 3012
+git clone https://github.com/zheedevVN/VisualEditIDE.git
+cd NexusKing
 xcodegen generate
-xcodebuild -resolvePackageDependencies -project App3012.xcodeproj -scheme App3012
+xcodebuild -resolvePackageDependencies -project NexusKing.xcodeproj -scheme NexusKing
 
 xcodebuild build \
-  -project App3012.xcodeproj \
-  -scheme App3012 \
+  -project NexusKing.xcodeproj \
+  -scheme NexusKing \
   -configuration Release \
   -sdk iphoneos \
   -derivedDataPath build \
@@ -187,15 +187,15 @@ xcodebuild build \
   AD_HOC_CODE_SIGNING_ALLOWED=YES
 
 mkdir -p Payload
-cp -R build/Build/Products/Release-iphoneos/3012.app Payload/
-codesign --force --deep --sign - --timestamp=none Payload/3012.app
-zip -qry 3012-Unsigned.ipa Payload
+cp -R build/Build/Products/Release-iphoneos/NexusKing.app Payload/
+codesign --force --deep --sign - --timestamp=none Payload/NexusKing.app
+zip -qry NexusKing-Unsigned.ipa Payload
 ```
 
 ---
 
 ## Derechos de Autor y Licencia (GNU AGPLv3)
 
-**Copyright (c) 2026 Le The Khoi (GitHub: [@userlethekhoi](https://github.com/userlethekhoi) • Telegram: [@coder_009](https://t.me/coder_009)).**
+**Copyright (c) 2026 NexusKing (GitHub: [@zheedevVN](https://github.com/zheedevVN) • Telegram: [@zheevipv1](https://t.me/zheevipv1) • Email: [antigravity.ops@gmail.com](mailto:antigravity.ops@gmail.com)).**
 
-El código fuente, la arquitectura y los recursos de marca de **3012** se distribuyen bajo la licencia [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE). Todo fork, modificación, redistribución de binarios (`.ipa`) o uso en red como servicio (Sección 13 de AGPL-3.0) debe conservar los avisos de copyright originales y el archivo [`LICENSE`](LICENSE), y **publicar íntegramente el código fuente correspondiente bajo la misma licencia `AGPL-3.0`**.
+El código fuente, la arquitectura y los recursos de marca de **NexusKing** se distribuyen bajo la licencia [**GNU Affero General Public License v3.0 (AGPL-3.0)**](LICENSE). Todo fork, modificación, redistribución de binarios (`.ipa`) o uso en red como servicio (Sección 13 de AGPL-3.0) debe conservar los avisos de copyright originales y el archivo [`LICENSE`](LICENSE), y **publicar íntegramente el código fuente correspondiente bajo la misma licencia `AGPL-3.0`**.
