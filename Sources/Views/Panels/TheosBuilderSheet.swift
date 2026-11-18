@@ -72,7 +72,7 @@ public struct TheosBuilderSheet: View {
                             HStack {
                                 ProgressView().padding(.trailing, 4)
                                 Text(preferences.tr("Đang biên dịch — Bấm để huỷ", "Compiling — Tap to Cancel"))
-                                    .fontWeight(.semibold)
+                                    .font(.body.weight(.semibold))
                             }
                         }
                     } else {

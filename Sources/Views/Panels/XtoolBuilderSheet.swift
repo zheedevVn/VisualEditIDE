@@ -75,7 +75,7 @@ public struct XtoolBuilderSheet: View {
                             HStack {
                                 ProgressView().padding(.trailing, 4)
                                 Text(preferences.tr("Đang chạy xtool — Bấm để huỷ", "Running xtool — Tap to Cancel"))
-                                    .fontWeight(.semibold)
+                                    .font(.body.weight(.semibold))
                             }
                         }
                     } else {

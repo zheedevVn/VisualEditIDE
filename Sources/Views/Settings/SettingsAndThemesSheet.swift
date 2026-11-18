@@ -774,7 +774,7 @@ public struct SettingsAndThemesSheet: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(preferences.tr("Đóng", "Done", zh: "关闭", ja: "閉じる", ko: "닫기", ru: "Готово", es: "Cerrar")) { dismiss() }
-                        .fontWeight(.semibold)
+                        .font(.body.weight(.semibold))
                 }
             }
             .sheet(isPresented: $showThemeStudio) {
@@ -795,7 +795,11 @@ public struct SettingsAndThemesSheet: View {
     private func iconBadge(name: String, color: Color) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 7, style: .continuous)
-                .fill(color.gradient)
+                .fill(LinearGradient(
+                    colors: [color, color.opacity(0.8)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
                 .frame(width: 28, height: 28)
             Image(systemName: name)
                 .font(.system(size: 13.5, weight: .semibold))
