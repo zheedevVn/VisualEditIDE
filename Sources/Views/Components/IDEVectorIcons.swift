@@ -246,58 +246,57 @@ public struct IDECodeMarkVector: View {
 
             // 1. Left Active Editor Gutter Rail (Terminal Emerald)
             let railWidth: CGFloat = (size < 28 ? 36 : 28) * u
-            let railRect = CGRect(x: 176 * u, y: 190 * u, width: railWidth, height: 644 * u)
+            let railRect = CGRect(x: 140 * u, y: 240 * u, width: railWidth, height: 544 * u)
             let railPath = RoundedRectangle(cornerRadius: railWidth * 0.5, style: .continuous).path(in: railRect)
             drawCtx.fill(railPath, with: .color(primaryColor))
 
-            // 2. Programmer's Slashed Zero Diagonal (drawn beneath the '0' stadium ring)
-            var zeroSlash = Path()
-            zeroSlash.move(to: pt(618, 418))
-            zeroSlash.addLine(to: pt(770, 266))
+            // 2. V-Monogram Ribbon of Visual IDE
+            let vStrokeWidth = (size < 28 ? 96 : 84) * u
+            var leftWing = Path()
+            leftWing.move(to: pt(230, 240))
+            leftWing.addLine(to: pt(512, 800))
             drawCtx.stroke(
-                zeroSlash,
-                with: .color(slashColor),
-                style: StrokeStyle(lineWidth: (size < 28 ? 44 : 38) * u, lineCap: .round)
+                leftWing,
+                with: .color(Color(red: 2 / 255, green: 132 / 255, blue: 199 / 255)),
+                style: StrokeStyle(lineWidth: vStrokeWidth, lineCap: .round, lineJoin: .round)
             )
 
-            // 3. Bespoke Monospace Numerals: 3 0 / 1 2
-            let inkColor = showTileBackground
-                ? Color(red: 241 / 255, green: 245 / 255, blue: 249 / 255)
-                : secondaryColor
-            let numeralStroke = StrokeStyle(
-                lineWidth: (size < 28 ? 60 : 52) * u,
+            var rightWing = Path()
+            rightWing.move(to: pt(794, 240))
+            rightWing.addLine(to: pt(512, 800))
+            drawCtx.stroke(
+                rightWing,
+                with: .color(slashColor),
+                style: StrokeStyle(lineWidth: vStrokeWidth, lineCap: .round, lineJoin: .round)
+            )
+
+            // Overlap Vertex Joint
+            let vertexRect = CGRect(x: (512 - 42) * u, y: (800 - 42) * u, width: 84 * u, height: 84 * u)
+            drawCtx.fill(Circle().path(in: vertexRect), with: .color(slashColor))
+
+            // 3. Inner Code Core: < / > Bracket Glyph
+            let codeStroke = StrokeStyle(
+                lineWidth: (size < 28 ? 50 : 42) * u,
                 lineCap: .round,
                 lineJoin: .round
             )
 
-            var numerals = Path()
-            // Digit '3'
-            numerals.move(to: pt(304, 216))
-            numerals.addLine(to: pt(484, 216))
-            numerals.addLine(to: pt(378, 326))
-            numerals.addLine(to: pt(418, 326))
-            numerals.addCurve(to: pt(394, 468), control1: pt(498, 326), control2: pt(502, 468))
-            numerals.addCurve(to: pt(296, 426), control1: pt(338, 468), control2: pt(308, 450))
+            var leftChevron = Path()
+            leftChevron.move(to: pt(420, 380))
+            leftChevron.addLine(to: pt(330, 460))
+            leftChevron.addLine(to: pt(420, 540))
+            drawCtx.stroke(leftChevron, with: .color(Color(red: 56 / 255, green: 189 / 255, blue: 248 / 255)), style: codeStroke)
 
-            // Digit '0' stadium ring
-            let zeroRect = CGRect(x: 602 * u, y: 216 * u, width: 184 * u, height: 252 * u)
-            numerals.addPath(RoundedRectangle(cornerRadius: 92 * u, style: .circular).path(in: zeroRect))
+            var slashLine = Path()
+            slashLine.move(to: pt(540, 360))
+            slashLine.addLine(to: pt(484, 560))
+            drawCtx.stroke(slashLine, with: .color(Color(red: 16 / 255, green: 185 / 255, blue: 129 / 255)), style: codeStroke)
 
-            // Digit '1'
-            numerals.move(to: pt(326, 612))
-            numerals.addLine(to: pt(396, 556))
-            numerals.addLine(to: pt(396, 808))
-            numerals.move(to: pt(312, 808))
-            numerals.addLine(to: pt(480, 808))
-
-            // Digit '2'
-            numerals.move(to: pt(604, 620))
-            numerals.addCurve(to: pt(696, 556), control1: pt(614, 556), control2: pt(664, 556))
-            numerals.addCurve(to: pt(752, 676), control1: pt(772, 556), control2: pt(800, 616))
-            numerals.addLine(to: pt(602, 808))
-            numerals.addLine(to: pt(790, 808))
-
-            drawCtx.stroke(numerals, with: .color(inkColor), style: numeralStroke)
+            var rightChevron = Path()
+            rightChevron.move(to: pt(604, 380))
+            rightChevron.addLine(to: pt(694, 460))
+            rightChevron.addLine(to: pt(604, 540))
+            drawCtx.stroke(rightChevron, with: .color(Color(red: 52 / 255, green: 211 / 255, blue: 153 / 255)), style: codeStroke)
 
             // 4. Machined Inner Rim Border
             if showTileBackground {
