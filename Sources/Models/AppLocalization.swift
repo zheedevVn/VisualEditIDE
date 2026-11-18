@@ -13,6 +13,8 @@ public enum IDEAuthorInfo {
     public static let githubHandle = "@zheedevVN"
     public static let githubRepoName = "zheedevVN/VisualEditIDE"
     public static let githubRepoURL = URL(string: "https://github.com/zheedevVN/VisualEditIDE")!
+    public static let cloudDomain = "idevisual.vercel.app"
+    public static let cloudURL = URL(string: "https://idevisual.vercel.app")!
     public static let licenseName = "GNU AGPLv3"
 }
 

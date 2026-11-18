@@ -1,0 +1,10 @@
+{
+  "name": "idevisual",
+  "version": "5.8.0",
+  "description": "Visual IDE Cloud - 24/7 Web Workstation by NexusKing",
+  "author": "NexusKing <antigravity.ops@gmail.com>",
+  "homepage": "https://idevisual.vercel.app",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}

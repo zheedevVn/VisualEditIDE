@@ -23,6 +23,8 @@
     </a>
     <a href="https://github.com/zheedevVN/VisualEditIDE/releases/latest/download/VisualIDE-Unsigned.ipa">
       <img src="https://img.shields.io/badge/Download-VisualIDE--Unsigned.ipa-10b981?style=flat-square" alt="Download Unsigned IPA" />
+    <a href="https://idevisual.vercel.app">
+      <img src="https://img.shields.io/badge/Web%20Cloud%2024%2F7-idevisual.vercel.app-38bdf8?style=flat-square&logo=vercel" alt="Visual IDE Cloud 24/7" />
     </a>
     <img src="https://img.shields.io/badge/Platform-iOS%2015.0%2B%20%7C%20iPadOS%2015.0%2B-1e293b?style=flat-square" alt="Platform" />
     <img src="https://img.shields.io/badge/Swift-5.10-f05138?style=flat-square" alt="Swift 5.10" />
